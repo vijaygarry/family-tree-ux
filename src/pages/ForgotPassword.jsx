@@ -28,7 +28,15 @@ const ForgotPassword = () => {
       }
       setShowRequestOTPForm(false);
     } catch (err) {
-      setError("Failed to request reset link.");
+      if (
+        err.response &&
+        err.response.data &&
+        err.response.data.operationMessage
+      ) {
+        setError(err.response.data.operationMessage);
+      } else {
+        setError("Failed to generate OTP.");
+      }
     }
   };
 
@@ -130,6 +138,11 @@ const ForgotPassword = () => {
             background: "#f5f5f5",
           }}
         />
+      </div>
+      <div className="alert alert-info" style={{ fontSize: '1rem', background: '#e8f4fd', color: '#0c5460', border: '1px solid #b6e0fe' }}>
+        Please check your email for the OTP<br />
+        If you don’t see the email in your inbox, be sure to check your spam or junk folder.<br />
+        The email will be sent from <strong>rajput.chhipa25@gmail.com</strong>.
       </div>
       <div style={{ marginBottom: 16 }}>
         <label>One Time Password (OTP)</label>

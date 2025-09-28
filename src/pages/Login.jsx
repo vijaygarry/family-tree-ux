@@ -85,7 +85,7 @@ const Login = () => {
         <div className="text-end my-2 fw-semibold">
           <a href="/forgotpassword" style={{ color:"#A42502",textDecoration:"none" }}>Forgot Password?</a>
         </div>
-        <button
+        <button type="button"
           onClick={() => (window.location.href = "/signup")}
           className="btn btn-secondary w-100 mt-3 fw-bold" style={{ background: "transparent", borderColor:"#A42502" ,color:"#A42502" }}
         >

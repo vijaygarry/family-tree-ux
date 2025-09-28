@@ -137,6 +137,11 @@ const SignUp = () => {
           }}
         />
       </div>
+      <div className="alert alert-info" style={{ fontSize: '1rem', background: '#e8f4fd', color: '#0c5460', border: '1px solid #b6e0fe' }}>
+        Please check your email for the OTP.<br />
+        If you don’t see the email in your inbox, be sure to check your spam or junk folder.<br />
+        The email will be sent from <strong>rajput.chhipa25@gmail.com</strong>.
+      </div>
       <div style={{ marginBottom: 16 }}>
         <label>One Time Password (OTP)</label>
         <input
