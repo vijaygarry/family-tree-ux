@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import api from "../api/axiosInstance";
 import ERROR_MESSAGES from "../constants/messages";
 import FamilyTree from "../components/FamilyTree";
-import MemberListTable from "../components/MemberListTable";
+import { MemberListTable } from "../components/MemberListTable";
 import ImageUploadCropModal from "../components/ImageUploadCropModal";
 
 

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import api from "../api/axiosInstance";
 import { getFormattedPhoneDisplay } from "../utils/phoneUtils";
 import "./TreeNode.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ERROR_MESSAGES from "../constants/messages";
 import FamilyTree from "../components/FamilyTree";
-import MemberListTable from "../components/MemberListTable";
+import { MemberListTable, RelationshipTable, SpouseTable } from "../components/MemberListTable";
 import { genderOptions, maritalStatusOptions, monthOptions, dayOptions } from "../constants/DropdownConstants";
 import ImageUploadCropModal from "../components/ImageUploadCropModal";
 
@@ -456,22 +457,10 @@ const MemberProfile = () => {
       >
       {editMode ? memberInformationEditForm : memberReadOnlyView}
       </div>
-      {/* Tree View */}
-      <h5 className="mb-3">Family Tree</h5>
-        <div
-          className="tree-container"
-          style={{
-            width: "100%",
-            minHeight: "600px",
-            overflow: "auto",
-            padding: "10px",
-          }}
-        >
-          <FamilyTree familyTreeRoot={memberData.familyRoot} />
-        </div>
-      <div className="mb-4">
-        <MemberListTable membersList={memberData?.memberList} />
-      </div>
+      <RelationshipTable membersList={memberData?.parents} relationshipHeading="Parents" />
+      <SpouseTable spouse={memberData?.spouse} />
+      <RelationshipTable membersList={memberData?.children} relationshipHeading="Children" />
+      <RelationshipTable membersList={memberData?.siblings} relationshipHeading="Siblings" />
     </div>
   );
 };
