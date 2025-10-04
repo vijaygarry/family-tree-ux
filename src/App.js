@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import FamilyDetails from "./pages/FamilyDetails";
 import FamilySearch from "./pages/FamilySearch";
+import AddFamily from "./pages/AddFamily";
 import ChangePassword from "./pages/ChangePassword";
 import MemberProfile from "./pages/MemberProfile";
 import EventListPage from "./pages/EventListPage";
@@ -101,6 +102,16 @@ const App = () => (
         <PrivateRoute>
           <MainLayout>
             <FamilyDetails />
+          </MainLayout>
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/addfamily"
+      element={
+        <PrivateRoute>
+          <MainLayout>
+            <AddFamily />
           </MainLayout>
         </PrivateRoute>
       }

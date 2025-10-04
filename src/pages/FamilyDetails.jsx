@@ -105,8 +105,8 @@ const FamilyDetails = () => {
   };
 
   const validateForm = () => {
-    if (!form.familyName.trim()) return "Family Name is required.";
-    if (!form.gotra.trim()) return "Gotra is required.";
+    if (!form.familyName?.trim()) return "Family Name is required.";
+    if (!form.gotra?.trim()) return "Gotra is required.";
     if (!form.familyAddress?.addressLine1?.trim()) return "Address Line 1 is required.";
     if (!form.familyAddress?.city?.trim()) return "City is required.";
     if (!form.familyAddress?.state?.trim()) return "State is required.";

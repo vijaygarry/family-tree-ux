@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import api from "../api/axiosInstance";
 import { getFormattedPhoneDisplay } from "../utils/phoneUtils";
 import "./TreeNode.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ERROR_MESSAGES from "../constants/messages";
-import FamilyTree from "../components/FamilyTree";
-import { MemberListTable, RelationshipTable, SpouseTable } from "../components/MemberListTable";
+import { RelationshipTable, SpouseTable } from "../components/MemberListTable";
 import { genderOptions, maritalStatusOptions, monthOptions, dayOptions } from "../constants/DropdownConstants";
 import ImageUploadCropModal from "../components/ImageUploadCropModal";
 
