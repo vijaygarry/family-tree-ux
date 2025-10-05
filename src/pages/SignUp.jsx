@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import api from "../api/axiosInstance";
 
 const SignUp = () => {
@@ -6,7 +6,6 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const [showRequestOtpForm, setShowRequestOtpForm] = useState(true);
   const [otp, setOtp] = useState("");
-  const [logonName, setLogonName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [signUpSuccess, setSignUpSuccess] = useState("");
@@ -24,7 +23,6 @@ const SignUp = () => {
         emailId: email,
       });
       setRequestId(response?.data?.requestId || "");
-      setLogonName(response?.data?.logonName || "");
       setShowRequestOtpForm(false);
     } catch (err) {
       if (
@@ -54,7 +52,6 @@ const SignUp = () => {
     try {
       await api.post("/session/signUp", {
         emailId: email,
-        logonName: logonName,
         otp,
         password,
         requestId,
@@ -63,7 +60,6 @@ const SignUp = () => {
       // Success: clear fields and show login link
       setOtp("");
       setPassword("");
-      setLogonName("");
       setConfirmPassword("");
       setSignUpSuccess(
         "Password reset successfully, please login using new password.",
@@ -159,22 +155,6 @@ const SignUp = () => {
         />
       </div>
       <div style={{ marginBottom: 16 }}>
-        <label>Logon Name</label>
-        <input
-          type="text"
-          value={logonName}
-          onChange={(e) => setLogonName(e.target.value)}
-          style={{
-            width: "100%",
-            padding: 8,
-            marginTop: 4,
-            borderRadius: 4,
-            border: "1px solid #ccc",
-          }}
-          required
-        />
-      </div>
-      <div style={{ marginBottom: 16 }}>
         <label>Password</label>
         <input
           type="password"
@@ -248,6 +228,7 @@ const SignUp = () => {
       </div>
     </div>
   );
+
   return (
     <div
       className="signup-container"
