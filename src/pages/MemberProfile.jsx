@@ -60,8 +60,13 @@ const MemberProfile = () => {
     if (!form.firstName?.trim()) return "First Name is required.";
     if (!form.gender?.trim()) return "Gender is required.";
     if (!form.maritalStatus?.trim()) return "Marital Status is required.";
-    if (!form.birthMonth?.trim() || !form.birthYear?.trim()) return "Complete Birth Date is required.";
-    if (!form.phone?.trim()) return "Phone is required.";
+    if (!form.birthMonth?.trim()) return "Birth month is required.";
+    if (!form.birthYear) return "Birth year is required.";
+    if (!form.memberAddress?.addressLine1?.trim()) return "Address Line 1 is required.";
+    if (!form.memberAddress?.city?.trim()) return "City is required.";
+    if (!form.memberAddress?.state?.trim()) return "State is required.";
+    if (!form.memberAddress?.postalCode?.trim()) return "Postal Code is required.";
+    if (!form.memberAddress?.country?.trim()) return "Country is required.";
     return "";
   };
 
@@ -88,30 +93,35 @@ const MemberProfile = () => {
     setEditSuccess("");
     try {
       const formData = new FormData();
-      formData.append("memberId", 1);
-      formData.append("image", croppedImageBlob, "family-image.jpg");
+      formData.append("memberId", memberProfile.memberId);
+      formData.append("image", croppedImageBlob, "member-image.jpg");
       const response = await api.post(
-        "/family/uploadMemberImage",
+        "/family/updateMemberImage",
         formData, {
           headers: { "Content-Type": "multipart/form-data" },
       });
 
-      if (response.data && response.data.imagePath) {
+      if (response.data && response.data.uploadedImagePath) {
         setMemberData((prev) => ({
           ...prev,
           memberProfile: {
             ...prev.memberProfile,
-            memberProfileImage: response.data.imagePath,
+            profileImage: response.data.uploadedImagePath,
           },
         }));
         setEditSuccess("Member image updated successfully.");
+        setShowImageEdit(false);
       } else {
         setEditError("Image upload failed. Please try again.");
       }
     } catch (err) {
-      setEditError("Image upload failed. Please try again.");
+      if (err.response?.data?.operationMessage) {
+        // API returned an error in payload
+        setError(err.response?.data?.operationMessage);
+      } else {
+        setError(ERROR_MESSAGES.DEFAULT);
+      }
     }
-    setShowImageEdit(false);
   };
 
   if (error) return <div className="text-danger p-4">{error}</div>;
@@ -129,126 +139,133 @@ const MemberProfile = () => {
       <div className="card mb-5 p-4 bg-body-secondary border-0"> 
       <div className="row">
         <div className="col-sm-4">
-          <span className="fw-semibold me-2">First Name:</span>
+          <span className="fw-semibold me-2">First Name: <span className="text-danger">*</span></span>
           <input name="firstName" value={form.firstName || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="First Name" required />
         </div>
         <div className="col-sm-4">
-          <span className="fw-semibold me-2">First Name (Hindi)</span>
+          <span className="fw-semibold me-2">First Name (Hindi): </span>
           <input name="firstNameInHindi" value={form.firstNameInHindi || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="First Name (Hindi)" />
         </div>
         <div className="col-sm-4">
-          <span className="fw-semibold me-2">Maiden Last Name</span>
+          <span className="fw-semibold me-2">Maiden Last Name: </span>
           <input name="maidenLastName" value={form.maidenLastName || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="Maiden Last Name" />
         </div>
-      </div>
-      <div className="row">
         <div className="col-sm-4">
-          <span className="fw-semibold me-2">Nick Name</span>
+          <span className="fw-semibold me-2">Nick Name: </span>
           <input name="nickName" value={form.nickName || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="" />
         </div>
         <div className="col-sm-4">
-          <span className="fw-semibold me-2">Nick Name (Hindi)</span>
+          <span className="fw-semibold me-2">Nick Name (Hindi): </span>
           <input name="nickNameInHindi" value={form.nickNameInHindi || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="" />
         </div>
-        <div className="col-md-4">
-          <span className="fw-semibold me-2">Phone</span>
+        <div className="col-sm-4">
+          <span className="fw-semibold me-2">Phone: </span>
           <input name="phone" value={form.phone || ''} onChange={handleFormChange} className="form-control d-inline w-auto" required placeholder="Phone" />
         </div>
-      </div>
-
-      <div className="row">
-        <div className="col-md-4">
-          <span className="fw-semibold me-2">Gender</span>
+        <div className="col-sm-4">
+          <span className="fw-semibold me-2">Gender: <span className="text-danger">*</span></span>
           <select name="gender" value={form.gender || ''} onChange={handleFormChange} className="form-select" required placeholder="Gender">
             {genderOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
           </select>
         </div>
-        <div className="col-md-4">
-          <span className="fw-semibold me-2">Marital Status</span>
+        <div className="col-sm-4">
+          <span className="fw-semibold me-2">Marital Status: <span className="text-danger">*</span></span>
           <select name="maritalStatus" value={form.maritalStatus || ''} onChange={handleFormChange} className="form-select" required placeholder="Marital Status">
             {maritalStatusOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
           </select>
         </div>
-        <div className="col-md-4">
-          <span className="fw-semibold me-2">Wedding Date</span>
+        <div className="col-sm-4">
+          <span className="fw-semibold me-2">Wedding Date: </span>
           <input name="weddingDate" type="date" value={form.weddingDate || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="Wedding Date" />
         </div>
-      </div>
-
-      <div className="row">
-        <div className="col-md-4">
-          <span className="fw-semibold me-2">Birth Day</span>
+      
+        <div className="col-sm-4">
+          <span className="fw-semibold me-2">Birth Day: </span>
           <select name="birthDay" value={form.birthDay || ''} onChange={handleFormChange} className="form-select" placeholder="Birth Day">
             {dayOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
           </select>
         </div>
-        <div className="col-md-4">
-          <span className="fw-semibold me-2">Birth Month</span>
+        <div className="col-sm-4">
+          <span className="fw-semibold me-2">Birth Month: <span className="text-danger">*</span></span>
           <select name="birthMonth" value={form.birthMonth || ''} onChange={handleFormChange} className="form-select" required placeholder="Birth Month">
             {monthOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
           </select>
         </div>
-        <div className="col-md-4">
-          <span className="fw-semibold me-2">Birth Year</span>
+        <div className="col-sm-4">
+          <span className="fw-semibold me-2">Birth Year: <span className="text-danger">*</span></span>
           <input name="birthYear" type="number" min="1900" max={new Date().getFullYear()} value={form.birthYear || ''} onChange={handleFormChange} className="form-control d-inline w-auto" required placeholder="Birth Year" />
         </div>
       </div>
 
       <div className="row">
-        <div className="col-md-4">
-          <span className="fw-semibold me-2">Email</span>
+        <div className="col-sm-4">
+          <span className="fw-semibold me-2">Email: </span>
           <input name="email" type="email" value={form.email || ''} onChange={handleFormChange} className="form-control d-inline w-auto" disabled={!!memberProfile.email} placeholder="Email" />
         </div>
       </div>
       <div className="row">
-        <div className="col-md-4">
-          <span className="fw-semibold me-2">Education Details</span>
+        <div className="col-sm-4">
+          <span className="fw-semibold me-2">Education Details: </span>
           <input name="educationDetails" value={form.educationDetails || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="Education Details" />
         </div>
-        <div className="col-md-4">
-          <span className="fw-semibold me-2">Occupation</span>
+        <div className="col-sm-4">
+          <span className="fw-semibold me-2">Occupation: </span>
           <input name="occupation" value={form.occupation || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="Occupation" />
         </div>
       </div>
+
       <div className="d-flex">
         <span className="fw-semibold me-2">Member Address:</span>
         <div className="row">
           <div className="col-sm-4">
-            <span className="fw-semibold me-2">Address Line 1</span>
-            <input name="memberAddress.addressLine1" value={form.memberAddress?.addressLine1 || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Address Line 1" />
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">Address Line 2</span>
-            <input name="memberAddress.addressLine2" value={form.memberAddress?.addressLine2 || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Address Line 2" />
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">Address Line 3</span>
-            <input name="memberAddress.addressLine3" value={form.memberAddress?.addressLine3 || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Address Line 3" />
+            <input type="checkbox" id="addressSameAsFamily"
+              checked={form.addressSameAsFamily || false}
+              onChange={e => setForm(prev => ({ ...prev, addressSameAsFamily: e.target.checked }))}
+              className="mb-1" placeholder="Same as family address"
+            />
+            <label htmlFor="sameAsFamilyAddress" className="fw-semibold ms-2">Member's address is same as family address</label>
           </div>
         </div>
-        <div className="row">
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">District</span>
-            <input name="memberAddress.district" value={form.memberAddress?.district || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="District" />
+        {!form.addressSameAsFamily && (
+          <div className="d-flex">
+            <div className="row">
+              <div className="col-sm-4">
+                <span className="fw-semibold me-2">Address Line 1: <span className="text-danger">*</span></span>
+                <input name="memberAddress.addressLine1" value={form.memberAddress?.addressLine1 || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Address Line 1" />
+              </div>
+              <div className="col-sm-4">
+                <span className="fw-semibold me-2">Address Line 2: </span>
+                <input name="memberAddress.addressLine2" value={form.memberAddress?.addressLine2 || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Address Line 2" />
+              </div>
+              <div className="col-sm-4">
+                <span className="fw-semibold me-2">Address Line 3: </span>
+                <input name="memberAddress.addressLine3" value={form.memberAddress?.addressLine3 || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Address Line 3" />
+              </div>
+              <div className="col-sm-4">
+                <span className="fw-semibold me-2">District: </span>
+                <input name="memberAddress.district" value={form.memberAddress?.district || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="District" />
+              </div>
+              <div className="col-sm-4">
+                <span className="fw-semibold me-2">City: <span className="text-danger">*</span></span>
+                <input name="memberAddress.city" value={form.memberAddress?.city || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="City" />
+              </div>
+              <div className="col-sm-4">
+                <span className="fw-semibold me-2">State: <span className="text-danger">*</span></span>
+                <input name="memberAddress.state" value={form.memberAddress?.state || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="State" />
+              </div>
+              <div className="col-sm-4">
+                <span className="fw-semibold me-2">Postal Code: <span className="text-danger">*</span></span>
+                <input name="memberAddress.postalCode" value={form.memberAddress?.postalCode || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Postal Code" />
+              </div>
+              <div className="col-sm-4">
+                <span className="fw-semibold me-2">Country: <span className="text-danger">*</span></span>
+                <input name="memberAddress.country" value={form.memberAddress?.country || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Country" />
+              </div>
+            </div>
           </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">City</span>
-            <input name="memberAddress.city" value={form.memberAddress?.city || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="City" />
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">State</span>
-            <input name="memberAddress.state" value={form.memberAddress?.state || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="State" />
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">Postal Code</span>
-            <input name="memberAddress.postalCode" value={form.memberAddress?.postalCode || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Postal Code" />
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">Country</span>
-            <input name="memberAddress.country" value={form.memberAddress?.country || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Country" />
-          </div>
-        </div>
+        )}
       </div>
+      
 
       {editError && <div className="alert alert-danger py-1 my-2 col-12">{editError}</div>}
       {editSuccess && <div className="alert alert-success py-1 my-2 col-12">{editSuccess}</div>}
