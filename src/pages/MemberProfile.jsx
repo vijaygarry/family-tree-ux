@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api/axiosInstance";
 import { getFormattedPhoneDisplay } from "../utils/phoneUtils";
+import { formatDate, getDateInYYYYMMDD, getDateInISO8601 } from "../utils/formatUtils";
 import "./TreeNode.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ERROR_MESSAGES from "../constants/messages";
 import { RelationshipTable, SpouseTable } from "../components/MemberListTable";
 import { genderOptions, maritalStatusOptions, monthOptions, dayOptions } from "../constants/DropdownConstants";
 import ImageUploadCropModal from "../components/ImageUploadCropModal";
+import { SuccessBanner, FailureBanner } from "../components/AlertBanners";
+
 
 const MemberProfile = () => {
   const { id } = useParams(); // from route: /member/:id
@@ -28,6 +31,7 @@ const MemberProfile = () => {
         setForm({
           ...res.data?.memberProfile,
           memberAddress: {...res.data?.memberProfile?.memberAddress} || {},
+          weddingDate: getDateInYYYYMMDD(res.data?.memberProfile?.weddingDate) || '',
         });
         setError("");
       } catch (err) {
@@ -49,6 +53,7 @@ const MemberProfile = () => {
     setEditMode(false);
     setEditError("");
     setForm({ ...memberProfile });
+    setEditSuccess("");
   };
 
   const handleFormChange = (e) => {
@@ -73,18 +78,31 @@ const MemberProfile = () => {
   const handleSave = async (e) => {
     e.preventDefault();
     setEditError("");
+    setEditSuccess("");
     const validationMsg = validateForm();
     if (validationMsg) {
       setEditError(validationMsg);
       return;
     }
+
     try {
-      await api.post("/family/updatememberprofile", { ...form, memberId: memberProfile.memberId });
-      setEditMode(false);
+      const formattedWeddingDate = form.weddingDate ? getDateInISO8601(form.weddingDate) : null;
+      const response = await api.post("/family/updateMemberProfile", { ...form, memberId: memberProfile.memberId, weddingDate: formattedWeddingDate });
+      
       setMemberData((prev) => ({ ...prev, memberProfile: { ...form } }));
-      setEditSuccess("Family member details updated successfully.");
+      if (response?.data?.operationMessage) {
+        setEditSuccess(response?.data?.operationMessage);
+      } else {
+        setEditSuccess("Member profile updated successfully.");
+      }
+      setEditMode(false);
     } catch (err) {
-      setEditError("Failed to update member details.");
+      if (err.response?.data?.operationMessage) {
+        // API returned an error in payload
+        setEditError(err.response?.data?.operationMessage);
+      } else {
+        setEditError(ERROR_MESSAGES.DEFAULT);
+      }
     }
   };
 
@@ -136,6 +154,7 @@ const MemberProfile = () => {
       <div className="row">
       <h5 className="mb-3 float-start">Edit {memberProfile.firstName} {memberProfile.lastName}'s Profile</h5>
       </div>
+      {editError && <FailureBanner message={editError} />}
       <div className="card mb-5 p-4 bg-body-secondary border-0"> 
       <div className="row">
         <div className="col-sm-4">
@@ -265,10 +284,6 @@ const MemberProfile = () => {
           </div>
         )}
       </div>
-      
-
-      {editError && <div className="alert alert-danger py-1 my-2 col-12">{editError}</div>}
-      {editSuccess && <div className="alert alert-success py-1 my-2 col-12">{editSuccess}</div>}
       <div className="mt-3 text-end">
         <button className="btn btn-primary fw-bold me-2" type="submit">Save</button>
         <button className="btn btn-outline-primary btn-sm" type="button" onClick={handleCancelEdit}>Cancel</button>
@@ -291,6 +306,7 @@ const MemberProfile = () => {
         </button>
       )}
       <div className="clearfix"></div>
+      {editSuccess && <SuccessBanner message={editSuccess} />}
       <div className="card mb-5 p-4 bg-body-secondary border-0">
         <div className="row">
           <div className="col-sm-4">
@@ -345,7 +361,7 @@ const MemberProfile = () => {
             </div>
             <div className="mb-2">
               <span className="fw-semibold me-2">Marital Status :</span>
-              <span className="text-secondary">{memberProfile.maritalStatus} {memberProfile.weddingDate && ` married on ${memberProfile.weddingDate}`}</span>
+              <span className="text-secondary">{memberProfile.maritalStatus} {memberProfile.weddingDate && ` married on ${formatDate(memberProfile.weddingDate)}`}</span>
             </div>
             <div className="mb-2">
               <span className="fw-semibold me-2">Birth Date :</span>
