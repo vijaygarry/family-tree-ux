@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api/axiosInstance";
 import { getFormattedPhoneDisplay } from "../utils/phoneUtils";
-import { formatDate, getDateInYYYYMMDD, getDateInISO8601 } from "../utils/formatUtils";
+import { formatISODateToddMMMyyyy } from "../utils/formatUtils";
 import "./TreeNode.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ERROR_MESSAGES from "../constants/messages";
@@ -31,7 +31,6 @@ const MemberProfile = () => {
         setForm({
           ...res.data?.memberProfile,
           memberAddress: {...res.data?.memberProfile?.memberAddress} || {},
-          weddingDate: getDateInYYYYMMDD(res.data?.memberProfile?.weddingDate) || '',
         });
         setError("");
       } catch (err) {
@@ -97,8 +96,7 @@ const MemberProfile = () => {
     }
 
     try {
-      const formattedWeddingDate = form.weddingDate ? getDateInISO8601(form.weddingDate) : null;
-      const response = await api.post("/family/updateMemberProfile", { ...form, memberId: memberProfile.memberId, weddingDate: formattedWeddingDate });
+      const response = await api.post("/family/updateMemberProfile", { ...form, memberId: memberProfile.memberId });
       
       setMemberData((prev) => ({ ...prev, memberProfile: { ...form } }));
       if (response?.data?.operationMessage) {
@@ -372,7 +370,7 @@ const MemberProfile = () => {
             </div>
             <div className="mb-2">
               <span className="fw-semibold me-2">Marital Status :</span>
-              <span className="text-secondary">{memberProfile.maritalStatus} {memberProfile.weddingDate && ` married on ${formatDate(memberProfile.weddingDate)}`}</span>
+              <span className="text-secondary">{memberProfile.maritalStatus} {memberProfile.weddingDate && ` since ${formatISODateToddMMMyyyy(memberProfile.weddingDate)}`}</span>
             </div>
             <div className="mb-2">
               <span className="fw-semibold me-2">Birth Date :</span>

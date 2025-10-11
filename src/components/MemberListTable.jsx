@@ -1,5 +1,6 @@
 import { getFormattedPhoneDisplay } from "../utils/phoneUtils";
 import { Link } from "react-router-dom";
+import { formatISODateToddMMMyyyy } from "../utils/formatUtils";
 
 export const MemberListTable = ({ membersList, familyNameInHindi }) => {
   if (!membersList) return null;
@@ -40,7 +41,7 @@ export const MemberListTable = ({ membersList, familyNameInHindi }) => {
                 </td>
                 <td data-label="Marital Status">
                   {member.maritalStatus} <br />
-                  {member.weddingDate && ` (${member.weddingDate})`}
+                  {member.weddingDate && formatISODateToddMMMyyyy(member.weddingDate)}
                 </td>
                 <td data-label="Phone">
                   {getFormattedPhoneDisplay(
