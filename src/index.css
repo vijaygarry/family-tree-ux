@@ -232,7 +232,7 @@ button.btn.btn-secondary {
     height: 65px;
   }
 
-  header button {
+  header button.navbar-toggler {
     background: #a42108 !important;
     color: #fff !important;
     border-radius: 6px !important;
@@ -248,9 +248,10 @@ button.btn.btn-secondary {
     display: block !important;
   }
 
-  .navbar-nav .dropdown-menu a.dropdown-item {
-    font-weight: 600 !important;
-  }
+     .navbar-nav .dropdown-menu a.dropdown-item , header button.dropdown-item {
+        font-weight: 600 !important;
+        padding: 12px 50px;
+    }
 
   .container.p-4.bg-white.rounded.mt-4 {
     padding: 7px !important;
@@ -296,6 +297,9 @@ button.btn.btn-secondary {
   ul.nav.nav-tabs button {
     padding: 7px 10px;
     font-size: 14px;
+  }
+   table.family-members td::before {
+    color: #fff;
   }
 
 }

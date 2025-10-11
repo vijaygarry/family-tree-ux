@@ -52,13 +52,22 @@ const MemberProfile = () => {
   const handleCancelEdit = () => {
     setEditMode(false);
     setEditError("");
-    setForm({ ...memberProfile });
     setEditSuccess("");
   };
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    if (name.startsWith('memberAddress.')) {
+      setForm((prev) => ({
+        ...prev,
+        memberAddress: {
+          ...prev.memberAddress,
+          [name.replace('memberAddress.', '')]: value,
+        },
+      }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const validateForm = () => {
@@ -67,11 +76,13 @@ const MemberProfile = () => {
     if (!form.maritalStatus?.trim()) return "Marital Status is required.";
     if (!form.birthMonth?.trim()) return "Birth month is required.";
     if (!form.birthYear) return "Birth year is required.";
-    if (!form.memberAddress?.addressLine1?.trim()) return "Address Line 1 is required.";
-    if (!form.memberAddress?.city?.trim()) return "City is required.";
-    if (!form.memberAddress?.state?.trim()) return "State is required.";
-    if (!form.memberAddress?.postalCode?.trim()) return "Postal Code is required.";
-    if (!form.memberAddress?.country?.trim()) return "Country is required.";
+    if (!form.addressSameAsFamily) {
+      if (!form.memberAddress?.addressLine1?.trim()) return "Address Line 1 is required.";
+      if (!form.memberAddress?.city?.trim()) return "City is required.";
+      if (!form.memberAddress?.state?.trim()) return "State is required.";
+      if (!form.memberAddress?.postalCode?.trim()) return "Postal Code is required.";
+      if (!form.memberAddress?.country?.trim()) return "Country is required.";
+    }
     return "";
   };
 
@@ -242,7 +253,7 @@ const MemberProfile = () => {
               onChange={e => setForm(prev => ({ ...prev, addressSameAsFamily: e.target.checked }))}
               className="mb-1" placeholder="Same as family address"
             />
-            <label htmlFor="sameAsFamilyAddress" className="fw-semibold ms-2">Member's address is same as family address</label>
+            <label className="fw-semibold ms-2">Member's address is same as family address</label>
           </div>
         </div>
         {!form.addressSameAsFamily && (

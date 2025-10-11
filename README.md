@@ -69,6 +69,7 @@ npm install react-bootstrap
 npm install react-router-dom
 npm install react-icons
 npm install --save-dev prettier
+npm install date-fns
 # npm install dayjs
 npm install react-dropzone react-easy-crop
 npm start
