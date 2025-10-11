@@ -75,8 +75,24 @@ const Header = () => {
               </NavLink>
             </li>
 
+            <li className="nav-item">
+              <NavLink to="/family" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+                My Family
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/searchfamily" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+                Search Family
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/myProfile" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+                My Profile
+              </NavLink>
+            </li>
+
             {/* Family Dropdown */}
-            <li className="nav-item dropdown">
+            {/* <li className="nav-item dropdown">
               <span
                 className="nav-link dropdown-toggle"
                 role="button"
@@ -90,9 +106,8 @@ const Header = () => {
                 <li><Link className="dropdown-item" to="/searchfamily">Search Family</Link></li>
                 <li><Link className="dropdown-item" to="/addfamily">Add Family</Link></li>
               </ul>
-            </li>
-
-            <li className="nav-item">
+            </li> */}
+            {/* <li className="nav-item">
               <NavLink to="/events" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
                 Events
               </NavLink>
@@ -102,7 +117,7 @@ const Header = () => {
               <NavLink to="/accounts" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
                 Accounts
               </NavLink>
-            </li>
+            </li> */}
 
             {/* User Dropdown */}
             <li className="nav-item dropdown">
@@ -125,10 +140,11 @@ const Header = () => {
                 />
               </a>
               <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                <li><Link className="dropdown-item" to="/myProfile">My Profile</Link></li>
                 <li><Link className="dropdown-item" to="/changepassword">Change Password</Link></li>
                 <li><hr className="dropdown-divider" /></li>
-                <li><button className="dropdown-item" onClick={handleLogout}>Logout</button></li>
+                <li>
+                  <button className="dropdown-item" onClick={handleLogout}>Logout</button>
+                </li>
               </ul>
             </li>
             <li className="nav-item">
