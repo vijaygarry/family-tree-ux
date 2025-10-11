@@ -342,6 +342,9 @@ const MemberProfile = () => {
               <ImageUploadCropModal
                 onClose={() => setShowImageEdit(false)}
                 onSave={handleImageSave}
+                modalHeading={`Update ${memberProfile.firstName}'s Profile Image`}
+                imageWidth={600}
+                imageHeight={600}
               />
             )}
           </div>

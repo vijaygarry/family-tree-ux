@@ -248,7 +248,7 @@ const FamilyDetails = () => {
                   }}
                 />
                 { familyDetails.canUpdateFamilyDetails && (
-                <button
+                <button type="button"
                   className="btn btn-outline-primary btn-sm mt-2"
                   onClick={() => setShowImageEdit(true)}
                   style={{  }}
@@ -262,6 +262,9 @@ const FamilyDetails = () => {
               <ImageUploadCropModal
                 onClose={() => setShowImageEdit(false)}
                 onSave={handleImageSave}
+                modalHeading={`Update ${familyDetails.familyName} Family Image`}
+                imageWidth={600}
+                imageHeight={500}
               />
             )}
           </div>

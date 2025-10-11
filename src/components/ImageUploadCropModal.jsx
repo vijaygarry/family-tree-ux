@@ -2,23 +2,20 @@ import React, { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
 import { useDropzone } from "react-dropzone";
 
-const cropWidth = 600;
-const cropHeight = 400;
-
-function getCroppedImg(imageSrc, crop) {
+function getCroppedImg(imageSrc, crop, imageWidth, imageHeight) {
     return new Promise((resolve, reject) => {
         const image = new window.Image();
         image.src = imageSrc;
         image.onload = () => {
             const canvas = document.createElement('canvas');
-            canvas.width = cropWidth;
-            canvas.height = cropHeight;
+            canvas.width = imageWidth;
+            canvas.height = imageHeight;
             const ctx = canvas.getContext('2d');
             // Draw the cropped area of the image onto the canvas
             ctx.drawImage(
                 image,
                 crop.x, crop.y, crop.width, crop.height, // source crop
-                0, 0, cropWidth, cropHeight              // destination size
+                0, 0, imageWidth, imageHeight              // destination size
             );
             canvas.toBlob((blob) => {
                 if (blob) {
@@ -34,7 +31,7 @@ function getCroppedImg(imageSrc, crop) {
     });
 }
 
-const ImageUploadCropModal = ({ onClose, onSave }) => {
+const ImageUploadCropModal = ({ modalHeading, onClose, onSave, imageWidth, imageHeight }) => {
     const [imageSrc, setImageSrc] = useState(null);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
@@ -52,7 +49,7 @@ const ImageUploadCropModal = ({ onClose, onSave }) => {
     }, []);
 
     const handleSave = async () => {
-        const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
+        const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels, imageWidth, imageHeight);
         onSave(croppedImage);
         onClose();
     };
@@ -62,7 +59,7 @@ const ImageUploadCropModal = ({ onClose, onSave }) => {
             <div className="modal-dialog modal-lg">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Edit Family Image</h5>
+                        <h5 className="modal-title">{modalHeading}</h5>
                         <button type="button" className="btn-close" onClick={onClose}></button>
                     </div>
                     <div className="modal-body">
@@ -72,12 +69,12 @@ const ImageUploadCropModal = ({ onClose, onSave }) => {
                                 <p>Drag & drop image here, or click to browse</p>
                             </div>
                         ) : (
-                            <div style={{ position: "relative", width: "100%", height: 400 }}>
+                            <div style={{ position: "relative", width: "100%", height: 600 }}>
                                 <Cropper
                                     image={imageSrc}
                                     crop={crop}
                                     zoom={zoom}
-                                    aspect={cropWidth / cropHeight}
+                                    aspect={imageWidth / imageHeight}
                                     onCropChange={setCrop}
                                     onZoomChange={setZoom}
                                     onCropComplete={onCropComplete}
