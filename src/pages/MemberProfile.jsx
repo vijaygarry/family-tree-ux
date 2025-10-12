@@ -190,7 +190,7 @@ const MemberProfile = () => {
         </div>
         <div className="col-sm-4">
           <span className="fw-semibold me-2">Phone: </span>
-          <input name="phone" value={form.phone || ''} onChange={handleFormChange} className="form-control d-inline w-auto" required placeholder="Phone" />
+          <input name="phone" value={form.phone || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="Phone" />
         </div>
         <div className="col-sm-4">
           <span className="fw-semibold me-2">Gender: <span className="text-danger">*</span></span>

@@ -44,7 +44,28 @@ const HomePage = () => {
           </div>
         </div>
       </div> */}
-      
+      <div className="my-5">
+        <div className="row">
+          <div className="col-sm-4 d-flex justify-content-center">
+            <button type="button"
+              onClick={() => (window.location.href = "/family")}
+              className="btn btn-primary fw-bold"
+            > My Family</button>
+          </div>
+          <div className="col-sm-4 d-flex justify-content-center">
+            <button type="button"
+              onClick={() => (window.location.href = "/myProfile")}
+              className="btn btn-primary fw-bold"
+            > My Profile</button>
+          </div>
+          <div className="col-sm-4 d-flex justify-content-center">
+            <button type="button"
+              onClick={() => (window.location.href = "/searchfamily")}
+              className="btn btn-primary fw-bold"
+            > Search Family</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

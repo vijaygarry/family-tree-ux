@@ -81,15 +81,16 @@ const Header = () => {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/searchfamily" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
-                Search Family
-              </NavLink>
-            </li>
-            <li className="nav-item">
               <NavLink to="/myProfile" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
                 My Profile
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink to="/searchfamily" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+                Search Family
+              </NavLink>
+            </li>
+            
 
             {/* Family Dropdown */}
             {/* <li className="nav-item dropdown">
