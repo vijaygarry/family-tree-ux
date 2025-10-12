@@ -31,7 +31,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="my-5">
+      {/* <div className="my-5">
         <div className="row">
           <div className="col-sm-4">
             <img src="/brand1.jpg" alt="" className="w-100" />
@@ -43,7 +43,7 @@ const HomePage = () => {
             <img src="/brand3.jpg" alt="" className="w-100" />
           </div>
         </div>
-      </div>
+      </div> */}
       
     </div>
   );

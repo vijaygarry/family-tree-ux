@@ -54,14 +54,14 @@ const Login = () => {
   return (
     <div className="container my-5 p-4 bg-white rounded" style={{ maxWidth: "500px" }}>
     <div className="text-center mb-4">
-      <img src="/log-in-img.svg" alt="Logo" className="mb-3" />
+      <img src="/log-in-img.png" alt="Logo" height="300px" className="mb-3"/>
       <h3 className="mb-3 fw-bold">Sign in to your Account</h3>
       </div>
       {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleLogin}>
         <div className="mb-3">
           <label htmlFor="loginName" className="form-label fw-semibold">
-            Login Name <span style={{ color: "red" }}>*</span>
+            Email Id <span style={{ color: "red" }}>*</span>
           </label>
           <input
             type="text"

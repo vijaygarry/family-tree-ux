@@ -10,6 +10,10 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [signUpSuccess, setSignUpSuccess] = useState("");
   const [requestId, setRequestId] = useState("");
+  const [acknowledgeTerms, setAcknowledgeTerms] = useState(false);
+  const [acknowledgePrivacy, setAcknowledgePrivacy] = useState(false);
+
+  const isConditionsAcknowledgeByUser = acknowledgeTerms && acknowledgePrivacy;
 
   const requestOtp = async (e) => {
     e.preventDefault();
@@ -139,7 +143,7 @@ const SignUp = () => {
         The email will be sent from <strong>rajputchhipasamaj@gmail.com</strong>.
       </div>
       <div style={{ marginBottom: 16 }}>
-        <label>One Time Password (OTP)</label>
+        <label>One Time Password (OTP) <span style={{ color: "red" }}>*</span></label>
         <input
           type="text"
           value={otp}
@@ -155,7 +159,7 @@ const SignUp = () => {
         />
       </div>
       <div style={{ marginBottom: 16 }}>
-        <label>Password</label>
+        <label>Password <span style={{ color: "red" }}>*</span></label>
         <input
           type="password"
           value={password}
@@ -171,7 +175,7 @@ const SignUp = () => {
         />
       </div>
       <div style={{ marginBottom: 16 }}>
-        <label>Confirm Password</label>
+        <label>Confirm Password <span style={{ color: "red" }}>*</span></label>
         <input
           type="password"
           value={confirmPassword}
@@ -186,19 +190,45 @@ const SignUp = () => {
           required
         />
       </div>
+      <div className="mb-3 form-check">
+        <input
+          type="checkbox"
+          id="terms"
+          className="form-check-input"
+          checked={acknowledgeTerms}
+          onChange={(e) => setAcknowledgeTerms(e.target.checked)}
+        />
+        <label htmlFor="terms" className="form-check-label small">
+          <span style={{ color: "red" }}>*</span> I have read and agree to the <a href="#">Terms and Conditions</a>.
+        </label>
+      </div>
+      <div className="mb-3 form-check">
+        <input
+          type="checkbox"
+          id="privacy"
+          className="form-check-input"
+          checked={acknowledgePrivacy}
+          onChange={(e) => setAcknowledgePrivacy(e.target.checked)}
+        />
+        <label htmlFor="privacy" className="form-check-label small">
+          <span style={{ color: "red" }}>*</span> I have read and acknowledge the <a href="#">Privacy Policy</a>.
+        </label>
+      </div>
       {error && (
         <div style={{ color: "red", marginBottom: 8 }}>{error}</div>
       )}
       <button
         type="submit"
+        disabled={!isConditionsAcknowledgeByUser}
         style={{
           width: "100%",
           padding: 10,
-          background: "#A42502",
+          background: isConditionsAcknowledgeByUser ? "#A42502" : "#ccc",
           color: "#fff",
           border: "none",
           borderRadius: 4,
           fontWeight: "bold",
+          cursor: isConditionsAcknowledgeByUser ? "pointer" : "not-allowed",
         }}
       >
         Sign Up

@@ -33,6 +33,8 @@ const MemberProfile = () => {
           memberAddress: {...res.data?.memberProfile?.memberAddress} || {},
         });
         setError("");
+        // Scroll to top whenever profile changes
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (err) {
         console.error("Failed to fetch member data", err);
         if (err.response?.data?.operationMessage) {
@@ -349,12 +351,10 @@ const MemberProfile = () => {
             )}
           </div>
           <div className="col-sm-4">
-            {/* <div className="d-flex justify-content-between align-items-center">
-            <h4 className="card-title mb-3 pb-2 fw-bold">
+            <div className="mb-2">
               <span className="fw-bold me-2">Member Name:</span>
-              <span className="text-black">{memberProfile.firstName} {memberProfile.firstNameInHindi && ` (${memberProfile.firstNameInHindi}) `} {memberProfile.lastName}</span>
-            </h4>
-          </div> */}
+              <span className="text-secondary">{memberProfile.firstName} {memberProfile.firstNameInHindi && ` (${memberProfile.firstNameInHindi}) `} {memberProfile.lastName}</span>
+          </div>
             {memberProfile.maidenLastName && (
               <div className="mb-2">
                 <span className="fw-semibold me-2">Maiden Last Name :</span>
@@ -408,69 +408,71 @@ const MemberProfile = () => {
             )}
           </div>
           <div className="col-sm-4">
-
-            {memberProfile.memberAddress && (
-              <div className="d-flex  mt-5">
-                <span className="fw-semibold me-2">Member Address:</span>
-                <address className="mb-0">
-                  {memberProfile.memberAddress?.addressLine1}
-                  <br />
-                  {memberProfile.memberAddress?.addressLine2 && (
-                    <>
-                      {memberProfile.memberAddress.addressLine2}
-                      <br />
-                    </>
-                  )}
-                  {memberProfile.memberAddress?.addressLine3 && (
-                    <>
-                      {memberProfile.memberAddress.addressLine3}
-                      <br />
-                    </>
-                  )}
-                  {memberProfile.memberAddress?.district && (
-                    <>
-                      {" "}
-                      District: {memberProfile.memberAddress.district}
-                      <br />
-                    </>
-                  )}
-                  {memberProfile.memberAddress?.city}, {memberProfile.memberAddress?.state} -{" "}
-                  {memberProfile.memberAddress?.postalCode.trim()}
-                  <br />
-                  {memberProfile.memberAddress?.country}
-                </address>
-              </div>
-            )} { /*End of Member Address */}
+            <div className="d-flex  mt-5">
+              <span className="fw-semibold me-2">Member Address:</span>
+              {memberProfile.addressSameAsFamily ? (
+                <span>Member address is the same as family address </span>
+              ) : (
+              <address className="mb-0">
+                {memberProfile.memberAddress?.addressLine1}
+                <br />
+                {memberProfile.memberAddress?.addressLine2 && (
+                  <>
+                    {memberProfile.memberAddress.addressLine2}
+                    <br />
+                  </>
+                )}
+                {memberProfile.memberAddress?.addressLine3 && (
+                  <>
+                    {memberProfile.memberAddress.addressLine3}
+                    <br />
+                  </>
+                )}
+                {memberProfile.memberAddress?.district && (
+                  <>
+                    {" "}
+                    District: {memberProfile.memberAddress.district}
+                    <br />
+                  </>
+                )}
+                {memberProfile.memberAddress?.city}, {memberProfile.memberAddress?.state} -{" "}
+                {memberProfile.memberAddress?.postalCode.trim()}
+                <br />
+                {memberProfile.memberAddress?.country}
+              </address>
+              )}
+            </div>
+            
             {/* TODO: Currently backend system does not return family addrress, so member is used as filler*/}
-            {memberProfile.memberAddress && (
+            {memberProfile.familyAddress && (
               <div className="d-flex  mt-5">
                 <span className="fw-semibold me-2">Family Address:</span>
                 <address className="mb-0">
-                  {memberProfile.memberAddress?.addressLine1}
+                  {memberProfile.familyAddress?.addressLine1}
                   <br />
-                  {memberProfile.memberAddress?.addressLine2 && (
+                  {memberProfile.familyAddress?.addressLine2 && (
                     <>
-                      {memberProfile.memberAddress.addressLine2}
+                      {memberProfile.familyAddress.addressLine2}
                       <br />
                     </>
                   )}
-                  {memberProfile.memberAddress?.addressLine3 && (
+                  {memberProfile.familyAddress?.addressLine3 && (
                     <>
-                      {memberProfile.memberAddress.addressLine3}
+                      {memberProfile.familyAddress.addressLine3}
                       <br />
                     </>
                   )}
-                  {memberProfile.memberAddress?.district && (
+                  {memberProfile.familyAddress?.district && (
                     <>
                       {" "}
-                      District: {memberProfile.memberAddress.district}
+                      District: {memberProfile.familyAddress.district}
                       <br />
                     </>
                   )}
-                  {memberProfile.memberAddress?.city}, {memberProfile.memberAddress?.state} -{" "}
-                  {memberProfile.memberAddress?.postalCode.trim()}
+                  {memberProfile.familyAddress?.city}, {memberProfile.familyAddress?.state} -{" "}
+                  {memberProfile.familyAddress?.postalCode.trim()}
                   <br />
-                  {memberProfile.memberAddress?.country}
+                  {memberProfile.familyAddress?.country}
                 </address>
               </div>
             )} { /*End of Member Family Address */}
