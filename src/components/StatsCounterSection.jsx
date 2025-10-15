@@ -2,9 +2,9 @@ import React from "react";
 import AnimatedCounter from "./AnimatedCounter";
 
 const stats = [
-  { value: 4, label: "Number of registered families" },
+  { value: 5, label: "Number of registered families" },
   { value: 24, label: "Number of registered Members" },
-  { value: 2, label: "Registered Users" },
+  { value: 4, label: "Registered Users" },
   { value: 13, label: "Number of Males" },
   { value: 11, label: "Number of Females" },
   { value: 3, label: "Kids (Under 20)" },
