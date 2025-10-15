@@ -46,13 +46,13 @@ const HomePage = () => {
       </div> */}
       <div className="my-5">
         <div className="row">
-          <div className="col-sm-4 d-flex justify-content-center">
+          <div className="col-sm-4 d-flex justify-content-center mb-3">
             <button type="button"
               onClick={() => (window.location.href = "/family")}
               className="btn btn-primary fw-bold"
             > My Family</button>
           </div>
-          <div className="col-sm-4 d-flex justify-content-center">
+          <div className="col-sm-4 d-flex justify-content-center mb-3">
             <button type="button"
               onClick={() => (window.location.href = "/myProfile")}
               className="btn btn-primary fw-bold"

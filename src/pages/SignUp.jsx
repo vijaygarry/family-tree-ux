@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../api/axiosInstance";
+import { SUPPORT_EMAIL } from "../constants/contact";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -140,7 +141,7 @@ const SignUp = () => {
       <div className="alert alert-info" style={{ fontSize: '1rem', background: '#e8f4fd', color: '#0c5460', border: '1px solid #b6e0fe' }}>
         Please check your email for the OTP.<br />
         If you don’t see the email in your inbox, be sure to check your spam or junk folder.<br />
-        The email will be sent from <strong>rajputchhipasamaj@gmail.com</strong>.
+  The email will be sent from <strong>{SUPPORT_EMAIL}</strong>.
       </div>
       <div style={{ marginBottom: 16 }}>
         <label>One Time Password (OTP) <span style={{ color: "red" }}>*</span></label>

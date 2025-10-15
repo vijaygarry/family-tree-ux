@@ -60,9 +60,11 @@ const App = () => (
     <Route
       path="/helpWithMenu"
       element={
-        <MainLayout>
-          <HelpPage />
-        </MainLayout>
+        <PrivateRoute>
+          <MainLayout>
+            <HelpPage />
+          </MainLayout>
+        </PrivateRoute>
       }
     />
     {/* Protected routes with layout */}

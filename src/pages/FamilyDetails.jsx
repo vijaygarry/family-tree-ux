@@ -342,26 +342,33 @@ const FamilyDetails = () => {
       >
         {editMode ? familyInformationEditForm : showFamilyDetails}
       </div>
-      {/* Tree View */}
-      <div className="mb-4">
-        <h5 className="mb-3">Family Tree</h5>
-        <div
-          className="tree-container"
-          style={{
-            width: "100%",
-            minHeight: "600px",
-            overflow: "auto",
-            padding: "10px",
-          }}
-        >
-          <FamilyTree familyTreeRoot={family.familyRoot} />
-        </div>
 
-        <div className="mb-5">
-          {/* This div added just to add space before below table.*/}
-        </div>
-        {/* Members List */}
-        <MemberListTable membersList={family?.memberList} familyNameInHindi={family?.familyDetails?.familyNameInHindi} />
+      <div className="mb-4">
+        {/* Tree View */}
+        {family.familyRoot && (
+          <div>
+            <h5 className="mb-3">Family Tree</h5>
+            <div
+              className="tree-container"
+              style={{
+                width: "100%",
+                minHeight: "600px",
+                overflow: "auto",
+                padding: "10px",
+              }}
+            >
+              <FamilyTree familyTreeRoot={family.familyRoot} />
+            </div>
+            <div className="mb-5">
+              {/* This div added just to add space before table.*/}
+            </div>
+          </div>
+        )}
+        {family?.memberList && family.memberList.length > 0 ? (
+          <MemberListTable membersList={family?.memberList} familyNameInHindi={family?.familyDetails?.familyNameInHindi} />
+        ) : (
+          <div className="alert alert-danger">Family members not added </div>
+        )}
       </div>
     </div>
   );
