@@ -17,6 +17,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import SignUp from "./pages/SignUp";
 import HelpPage from "./pages/HelpPage";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import AddMember from "./pages/AddMember";
 
 //import UserDetails from "./pages/UserDetails";
 
@@ -154,6 +155,16 @@ const App = () => (
         <PrivateRoute>
           <MainLayout>
             <EventListPage />
+          </MainLayout>
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/addMember"
+      element={
+        <PrivateRoute>
+          <MainLayout>
+            <AddMember />
           </MainLayout>
         </PrivateRoute>
       }

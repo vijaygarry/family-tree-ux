@@ -89,7 +89,7 @@ const HelpPage = () => {
     },
     {
       id: "5",
-      question: "How I can register/sinup or get online access for this application",
+      question: "How I can register/sign up or get online access for this application",
       answer: (
         <div style={{ backgroundColor: "#E8E8E8", padding: "12px", borderRadius: 6 }}>
           <p>

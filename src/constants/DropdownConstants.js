@@ -32,3 +32,14 @@ export const dayOptions = [
   { value: '', label: 'Select Day' },
   ...Array.from({ length: 31 }, (_, i) => ({ value: String(i + 1), label: String(i + 1) }))
 ];
+
+
+export const relationshipTypeOptions = [
+  { value: '', label: 'Select Relationship' },
+  { value: 'Father', label: 'Father' },
+  { value: 'Mother', label: 'Mother' },
+  { value: 'Son', label: 'Son' },
+  { value: 'Daughter', label: 'Daughter' },
+  { value: 'Husband', label: 'Husband' },
+  { value: 'Wife', label: 'Wife' },
+];

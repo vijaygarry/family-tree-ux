@@ -174,7 +174,7 @@ const MemberProfile = () => {
         </div>
         <div className="col-sm-4">
           <span className="fw-semibold me-2">First Name (Hindi): </span>
-          <input name="firstNameInHindi" value={form.firstNameInHindi || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="First Name (Hindi)" />
+          <input name="firstNameInHindi" value={form.firstNameInHindi || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="First Name in Hindi" />
         </div>
         <div className="col-sm-4">
           <span className="fw-semibold me-2">Maiden Last Name: </span>
@@ -182,11 +182,11 @@ const MemberProfile = () => {
         </div>
         <div className="col-sm-4">
           <span className="fw-semibold me-2">Nick Name: </span>
-          <input name="nickName" value={form.nickName || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="" />
+          <input name="nickName" value={form.nickName || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="Nick Name" />
         </div>
         <div className="col-sm-4">
           <span className="fw-semibold me-2">Nick Name (Hindi): </span>
-          <input name="nickNameInHindi" value={form.nickNameInHindi || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="" />
+          <input name="nickNameInHindi" value={form.nickNameInHindi || ''} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="Nick Name in Hindi" />
         </div>
         <div className="col-sm-4">
           <span className="fw-semibold me-2">Phone: </span>
