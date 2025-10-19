@@ -13,7 +13,9 @@ function EventDetailModal({ show, eventId, onClose }) {
     const fetchEvent = async () => {
       try {
         const res = await api.post("/family/getEvents", {});
-        const found = res.data.events.find((e) => e.eventId.toString() === eventId.toString());
+        const found = res.data.events.find(
+          (e) => e.eventId.toString() === eventId.toString(),
+        );
         setEvent(found);
         setLoading(false);
       } catch (err) {
@@ -40,10 +42,18 @@ function EventDetailModal({ show, eventId, onClose }) {
         ) : (
           <>
             <p>{event?.description}</p>
-            <p><strong>Date:</strong> {event?.eventDate}</p>
-            <p><strong>Time:</strong> {event?.eventTime}</p>
-            <p><strong>Organizer:</strong> {event?.eventOrganizer}</p>
-            <p><strong>Notes:</strong> {event?.notes}</p>
+            <p>
+              <strong>Date:</strong> {event?.eventDate}
+            </p>
+            <p>
+              <strong>Time:</strong> {event?.eventTime}
+            </p>
+            <p>
+              <strong>Organizer:</strong> {event?.eventOrganizer}
+            </p>
+            <p>
+              <strong>Notes:</strong> {event?.notes}
+            </p>
             <p>
               <strong>Address:</strong>{" "}
               {`${event?.eventPlace?.addressLine1 || ""}, ${event?.eventPlace?.city || ""}, ${event?.eventPlace?.state || ""} ${event?.eventPlace?.postalCode || ""}`}
@@ -66,14 +76,20 @@ function EventDetailModal({ show, eventId, onClose }) {
               images={allImages}
               currentIndex={modalIndex || 0}
               onClose={() => setModalIndex(null)}
-              onNext={() => setModalIndex((prev) => Math.min(prev + 1, allImages.length - 1))}
+              onNext={() =>
+                setModalIndex((prev) =>
+                  Math.min(prev + 1, allImages.length - 1),
+                )
+              }
               onPrev={() => setModalIndex((prev) => Math.max(prev - 1, 0))}
             />
           </>
         )}
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onClose}>Close</Button>
+        <Button variant="secondary" onClick={onClose}>
+          Close
+        </Button>
       </Modal.Footer>
     </Modal>
   );

@@ -1,11 +1,11 @@
 /* Show dropdown on hover */
 .nav-item.dropdown:hover .dropdown-menu {
-    display: block;
-    margin-top: 0;
-    padding: 0;
-border: 1px solid #a32721;
-    border-top: 8px solid #a32721;
-    right: 0;
+  display: block;
+  margin-top: 0;
+  padding: 0;
+  border: 1px solid #a32721;
+  border-top: 8px solid #a32721;
+  right: 0;
 }
 
 /* Optional: Ensure smooth behavior */
@@ -15,17 +15,16 @@ border: 1px solid #a32721;
 
 /* Make navbar link text darker */
 .navbar-dark .navbar-nav .nav-link {
-    color: #A42502;
-    font-weight: 600;
-    padding: 10px 30px;
-    border-radius: 5px;
+  color: #a42502;
+  font-weight: 600;
+  padding: 10px 30px;
+  border-radius: 5px;
 }
 
 .navbar-dark .navbar-nav .nav-link:hover {
   color: #ffffff; /* Pure white on hover */
-  background: #A42502;
+  background: #a42502;
 }
-
 
 /* New CSS */
 

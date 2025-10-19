@@ -10,7 +10,6 @@ import FamilyTree from "../components/FamilyTree";
 import { MemberListTable } from "../components/MemberListTable";
 import ImageUploadCropModal from "../components/ImageUploadCropModal";
 
-
 const FamilyDetails = () => {
   const [family, setFamily] = useState(null);
   const [error, setError] = useState(null);
@@ -31,12 +30,14 @@ const FamilyDetails = () => {
         );
         setFamily(response.data);
         setForm({
-          familyName: response.data.familyDetails.familyName || '',
-          familyNameInHindi: response.data.familyDetails.familyNameInHindi || '',
-          gotra: response.data.familyDetails.gotra || '',
-          email: response.data.familyDetails.email || '',
-          phone: response.data.familyDetails.phone || '',
-          phoneWhatsappRegistered: response.data.familyDetails.phoneWhatsappRegistered || false,
+          familyName: response.data.familyDetails.familyName || "",
+          familyNameInHindi:
+            response.data.familyDetails.familyNameInHindi || "",
+          gotra: response.data.familyDetails.gotra || "",
+          email: response.data.familyDetails.email || "",
+          phone: response.data.familyDetails.phone || "",
+          phoneWhatsappRegistered:
+            response.data.familyDetails.phoneWhatsappRegistered || false,
           familyAddress: { ...response.data.familyDetails.familyAddress } || {},
         });
         setEditMode(false);
@@ -61,12 +62,12 @@ const FamilyDetails = () => {
   };
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    if (name.startsWith('familyAddress.')) {
+    if (name.startsWith("familyAddress.")) {
       setForm((prev) => ({
         ...prev,
         familyAddress: {
           ...prev.familyAddress,
-          [name.replace('familyAddress.', '')]: value,
+          [name.replace("familyAddress.", "")]: value,
         },
       }));
     } else {
@@ -81,10 +82,8 @@ const FamilyDetails = () => {
       const formData = new FormData();
       formData.append("familyId", family.familyDetails.familyId);
       formData.append("image", croppedImageBlob, "familyImage.jpeg");
-      const response = await api.post(
-        "/family/updateFamilyImage",
-        formData, {
-          headers: { "Content-Type": "multipart/form-data" },
+      const response = await api.post("/family/updateFamilyImage", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
       if (response.data && response.data.uploadedImagePath) {
         setFamily((prev) => ({
@@ -107,10 +106,12 @@ const FamilyDetails = () => {
   const validateForm = () => {
     if (!form.familyName?.trim()) return "Family Name is required.";
     if (!form.gotra?.trim()) return "Gotra is required.";
-    if (!form.familyAddress?.addressLine1?.trim()) return "Address Line 1 is required.";
+    if (!form.familyAddress?.addressLine1?.trim())
+      return "Address Line 1 is required.";
     if (!form.familyAddress?.city?.trim()) return "City is required.";
     if (!form.familyAddress?.state?.trim()) return "State is required.";
-    if (!form.familyAddress?.postalCode?.trim()) return "Postal Code is required.";
+    if (!form.familyAddress?.postalCode?.trim())
+      return "Postal Code is required.";
     if (!form.familyAddress?.country?.trim()) return "Country is required.";
     return "";
   };
@@ -126,11 +127,11 @@ const FamilyDetails = () => {
     }
     try {
       const payload = { ...form, familyId: family.familyDetails.familyId };
-      const response = await api.post('/family/updateFamilyDetails', payload);
+      const response = await api.post("/family/updateFamilyDetails", payload);
       if (response.data) {
         setFamily((prev) => ({
           ...prev,
-          ...response.data
+          ...response.data,
         }));
         setEditMode(false);
       }
@@ -148,66 +149,165 @@ const FamilyDetails = () => {
   const familyInformationEditForm = (
     <form onSubmit={handleSave}>
       <div className="row">
-      <h5 className="mb-3 float-start">Edit {form.familyName} Family Details</h5>
+        <h5 className="mb-3 float-start">
+          Edit {form.familyName} Family Details
+        </h5>
       </div>
-      <div className="card mb-5 p-4 bg-body-secondary border-0"> 
-      <div className="row">
-        <div className="col-sm-4">
-          <span className="fw-semibold me-2">Family Name:</span>
-          <input name="familyName" value={form.familyName} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="Family Name" />
-        </div>
-        <div className="col-sm-4">
-          <span className="fw-semibold me-2">Family Name (Hindi):</span>
-          <input name="familyNameInHindi" value={form.familyNameInHindi} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="Family Name (Hindi)" />
-        </div>
-        <div className="col-sm-4">
-          <span className="fw-semibold me-2">Gotra:</span>
-          <input name="gotra" value={form.gotra} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="Gotra" />
-        </div>
-        <div className="col-sm-4">
-          <span className="fw-semibold me-2">Email:</span>
-          <input name="email" value={form.email} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="Email" />
-        </div>
-        <div className="col-sm-4">
-          <span className="fw-semibold me-2">Phone:</span>
-          <input name="phone" value={form.phone} onChange={handleFormChange} className="form-control d-inline w-auto" placeholder="Phone" />
-        </div>
-      </div>
-      <div className="d-flex">
-        <span className="fw-semibold me-2">Address:</span>
+      <div className="card mb-5 p-4 bg-body-secondary border-0">
         <div className="row">
           <div className="col-sm-4">
-          Address Line 1: <input name="familyAddress.addressLine1" value={form.familyAddress?.addressLine1 || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Address Line 1" />
+            <span className="fw-semibold me-2">Family Name:</span>
+            <input
+              name="familyName"
+              value={form.familyName}
+              onChange={handleFormChange}
+              className="form-control d-inline w-auto"
+              placeholder="Family Name"
+            />
           </div>
           <div className="col-sm-4">
-          Address Line 2: <input name="familyAddress.addressLine2" value={form.familyAddress?.addressLine2 || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Address Line 2" />
+            <span className="fw-semibold me-2">Family Name (Hindi):</span>
+            <input
+              name="familyNameInHindi"
+              value={form.familyNameInHindi}
+              onChange={handleFormChange}
+              className="form-control d-inline w-auto"
+              placeholder="Family Name (Hindi)"
+            />
           </div>
           <div className="col-sm-4">
-          Address Line 3: <input name="familyAddress.addressLine3" value={form.familyAddress?.addressLine3 || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Address Line 3" />
+            <span className="fw-semibold me-2">Gotra:</span>
+            <input
+              name="gotra"
+              value={form.gotra}
+              onChange={handleFormChange}
+              className="form-control d-inline w-auto"
+              placeholder="Gotra"
+            />
           </div>
           <div className="col-sm-4">
-          District: <input name="familyAddress.district" value={form.familyAddress?.district || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="District" />
+            <span className="fw-semibold me-2">Email:</span>
+            <input
+              name="email"
+              value={form.email}
+              onChange={handleFormChange}
+              className="form-control d-inline w-auto"
+              placeholder="Email"
+            />
           </div>
           <div className="col-sm-4">
-          City: <input name="familyAddress.city" value={form.familyAddress?.city || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="City" />
-          </div>
-          <div className="col-sm-4">
-          State: <input name="familyAddress.state" value={form.familyAddress?.state || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="State" />
-          </div>
-          <div className="col-sm-4">
-          Postal Code: <input name="familyAddress.postalCode" value={form.familyAddress?.postalCode || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Postal Code" />
-          </div>
-          <div className="col-sm-4">
-          Country: <input name="familyAddress.country" value={form.familyAddress?.country || ''} onChange={handleFormChange} className="form-control mb-1" placeholder="Country" />
+            <span className="fw-semibold me-2">Phone:</span>
+            <input
+              name="phone"
+              value={form.phone}
+              onChange={handleFormChange}
+              className="form-control d-inline w-auto"
+              placeholder="Phone"
+            />
           </div>
         </div>
-      </div>
-      {editError && <div className="alert alert-danger py-1 my-2">{editError}</div>}
-      {editSuccess && <div className="alert alert-success py-1 my-2">{editSuccess}</div>}
-      <div className="mt-3 text-end">
-        <button className="btn btn-primary fw-bold me-2" type="submit">Save</button>
-        <button className="btn btn-outline-primary btn-sm" onClick={handleCancelEdit}>Cancel</button>
-      </div>
+        <div className="d-flex">
+          <span className="fw-semibold me-2">Address:</span>
+          <div className="row">
+            <div className="col-sm-4">
+              Address Line 1:{" "}
+              <input
+                name="familyAddress.addressLine1"
+                value={form.familyAddress?.addressLine1 || ""}
+                onChange={handleFormChange}
+                className="form-control mb-1"
+                placeholder="Address Line 1"
+              />
+            </div>
+            <div className="col-sm-4">
+              Address Line 2:{" "}
+              <input
+                name="familyAddress.addressLine2"
+                value={form.familyAddress?.addressLine2 || ""}
+                onChange={handleFormChange}
+                className="form-control mb-1"
+                placeholder="Address Line 2"
+              />
+            </div>
+            <div className="col-sm-4">
+              Address Line 3:{" "}
+              <input
+                name="familyAddress.addressLine3"
+                value={form.familyAddress?.addressLine3 || ""}
+                onChange={handleFormChange}
+                className="form-control mb-1"
+                placeholder="Address Line 3"
+              />
+            </div>
+            <div className="col-sm-4">
+              District:{" "}
+              <input
+                name="familyAddress.district"
+                value={form.familyAddress?.district || ""}
+                onChange={handleFormChange}
+                className="form-control mb-1"
+                placeholder="District"
+              />
+            </div>
+            <div className="col-sm-4">
+              City:{" "}
+              <input
+                name="familyAddress.city"
+                value={form.familyAddress?.city || ""}
+                onChange={handleFormChange}
+                className="form-control mb-1"
+                placeholder="City"
+              />
+            </div>
+            <div className="col-sm-4">
+              State:{" "}
+              <input
+                name="familyAddress.state"
+                value={form.familyAddress?.state || ""}
+                onChange={handleFormChange}
+                className="form-control mb-1"
+                placeholder="State"
+              />
+            </div>
+            <div className="col-sm-4">
+              Postal Code:{" "}
+              <input
+                name="familyAddress.postalCode"
+                value={form.familyAddress?.postalCode || ""}
+                onChange={handleFormChange}
+                className="form-control mb-1"
+                placeholder="Postal Code"
+              />
+            </div>
+            <div className="col-sm-4">
+              Country:{" "}
+              <input
+                name="familyAddress.country"
+                value={form.familyAddress?.country || ""}
+                onChange={handleFormChange}
+                className="form-control mb-1"
+                placeholder="Country"
+              />
+            </div>
+          </div>
+        </div>
+        {editError && (
+          <div className="alert alert-danger py-1 my-2">{editError}</div>
+        )}
+        {editSuccess && (
+          <div className="alert alert-success py-1 my-2">{editSuccess}</div>
+        )}
+        <div className="mt-3 text-end">
+          <button className="btn btn-primary fw-bold me-2" type="submit">
+            Save
+          </button>
+          <button
+            className="btn btn-outline-primary btn-sm"
+            onClick={handleCancelEdit}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </form>
   );
@@ -216,19 +316,18 @@ const FamilyDetails = () => {
   if (!family) return <div>Loading family tree...</div>;
   const familyDetails = family?.familyDetails;
 
-
   const showFamilyDetails = (
     <div className="container p-4 bg-white rounded mt-4">
       {/* Family Info Section */}
       <h5 className="mb-3 float-start">Family Information</h5>
-      { familyDetails.canUpdateFamilyDetails && (
-      <button
-        className="btn btn-primary fw-bold float-end"
-        onClick={handleEditClick}
-        title="Edit Family Details"
-      >
-        <i className="bi bi-pencil-square"></i> Edit
-      </button>
+      {familyDetails.canUpdateFamilyDetails && (
+        <button
+          className="btn btn-primary fw-bold float-end"
+          onClick={handleEditClick}
+          title="Edit Family Details"
+        >
+          <i className="bi bi-pencil-square"></i> Edit
+        </button>
       )}
       <div className="clearfix"></div>
       <div className="card mb-5 p-4 bg-body-secondary border-0">
@@ -247,14 +346,15 @@ const FamilyDetails = () => {
                     borderRadius: "8px",
                   }}
                 />
-                { familyDetails.canUpdateFamilyDetails && (
-                <button type="button"
-                  className="btn btn-outline-primary btn-sm mt-2"
-                  onClick={() => setShowImageEdit(true)}
-                  style={{  }}
-                >
-                  <i className="bi bi-pencil-square"></i> Edit Image
-                </button>
+                {familyDetails.canUpdateFamilyDetails && (
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary btn-sm mt-2"
+                    onClick={() => setShowImageEdit(true)}
+                    style={{}}
+                  >
+                    <i className="bi bi-pencil-square"></i> Edit Image
+                  </button>
                 )}
               </div>
             )}
@@ -272,12 +372,18 @@ const FamilyDetails = () => {
             <div className="d-flex justify-content-between align-items-center">
               <h4 className="card-title mb-3 pb-2 fw-bold">
                 <span className="fw-bold me-2">Family Name:</span>
-                <span className="text-black">{familyDetails.familyName} {familyDetails.familyNameInHindi && ` (${familyDetails.familyNameInHindi})`} </span>
+                <span className="text-black">
+                  {familyDetails.familyName}{" "}
+                  {familyDetails.familyNameInHindi &&
+                    ` (${familyDetails.familyNameInHindi})`}{" "}
+                </span>
               </h4>
             </div>
             <div className="mb-2">
               <span className="fw-bold me-2">Head Of Family:</span>
-              <span className="text-black">{familyDetails.headOfFamilyName}</span>
+              <span className="text-black">
+                {familyDetails.headOfFamilyName}
+              </span>
             </div>
             <div className="mb-2">
               <span className="fw-bold me-2">Gotra:</span>
@@ -322,7 +428,8 @@ const FamilyDetails = () => {
                     <br />
                   </>
                 )}
-                {familyDetails.familyAddress?.city}, {familyDetails.familyAddress?.state} -{" "}
+                {familyDetails.familyAddress?.city},{" "}
+                {familyDetails.familyAddress?.state} -{" "}
                 {familyDetails.familyAddress?.postalCode.trim()}
                 <br />
                 {familyDetails.familyAddress?.country}
@@ -365,7 +472,10 @@ const FamilyDetails = () => {
           </div>
         )}
         {family?.memberList && family.memberList.length > 0 ? (
-          <MemberListTable membersList={family?.memberList} familyNameInHindi={family?.familyDetails?.familyNameInHindi} />
+          <MemberListTable
+            membersList={family?.memberList}
+            familyNameInHindi={family?.familyDetails?.familyNameInHindi}
+          />
         ) : (
           <div className="alert alert-danger">Family members not added </div>
         )}

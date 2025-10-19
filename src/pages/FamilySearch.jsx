@@ -63,7 +63,11 @@ const FamilySearch = () => {
       </form>
 
       {error && <div className="alert alert-danger">{error}</div>}
-      {hasSearched && results.families == null && <div className="alert alert-danger">No family found for selected search criteria</div>}
+      {hasSearched && results.families == null && (
+        <div className="alert alert-danger">
+          No family found for selected search criteria
+        </div>
+      )}
       {results.families?.length > 0 && (
         <table className="table table-bordered mt-4">
           <thead>
@@ -82,8 +86,15 @@ const FamilySearch = () => {
                 style={{ cursor: "pointer" }}
                 onClick={() => handleRowClick(family.familyId)}
               >
-                <td>{family.headOfFamilyFirstName} {family.headOfFamilyFirstNameInHindi && ` (${family.headOfFamilyFirstNameInHindi})`}</td>
-                <td>{family.familyName} {family.familyNameInHindi && ` (${family.familyNameInHindi})`}</td>
+                <td>
+                  {family.headOfFamilyFirstName}{" "}
+                  {family.headOfFamilyFirstNameInHindi &&
+                    ` (${family.headOfFamilyFirstNameInHindi})`}
+                </td>
+                <td>
+                  {family.familyName}{" "}
+                  {family.familyNameInHindi && ` (${family.familyNameInHindi})`}
+                </td>
                 <td>{family.gotra}</td>
                 <td>{family.phone}</td>
                 <td>{family.region}</td>

@@ -9,7 +9,8 @@ export const AuthProvider = ({ children }) => {
 
   // On app load, verify session
   useEffect(() => {
-    api.get("/session/whoAmI") // change to your backend "who am I" endpoint
+    api
+      .get("/session/whoAmI") // change to your backend "who am I" endpoint
       .then((res) => {
         setUser(res.data);
       })

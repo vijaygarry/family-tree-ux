@@ -1,45 +1,47 @@
 export const genderOptions = [
-  { value: '', label: 'Select Gender' },
-  { value: 'Male', label: 'Male' },
-  { value: 'Female', label: 'Female' },
+  { value: "", label: "Select Gender" },
+  { value: "Male", label: "Male" },
+  { value: "Female", label: "Female" },
 ];
 
 export const maritalStatusOptions = [
-  { value: '', label: 'Select Marital Status' },
-  { value: 'Single', label: 'Single' },
-  { value: 'Married', label: 'Married' },
-  { value: 'Divorced', label: 'Divorced' },
-  { value: 'Widowed', label: 'Widowed' },
+  { value: "", label: "Select Marital Status" },
+  { value: "Single", label: "Single" },
+  { value: "Married", label: "Married" },
+  { value: "Divorced", label: "Divorced" },
+  { value: "Widowed", label: "Widowed" },
 ];
 
 export const monthOptions = [
-  { value: '', label: 'Select Month' },
-  { value: 'Jan', label: 'January' },
-  { value: 'Feb', label: 'February' },
-  { value: 'Mar', label: 'March' },
-  { value: 'Apr', label: 'April' },
-  { value: 'May', label: 'May' },
-  { value: 'Jun', label: 'June' },
-  { value: 'Jul', label: 'July' },
-  { value: 'Aug', label: 'August' },
-  { value: 'Sep', label: 'September' },
-  { value: 'Oct', label: 'October' },
-  { value: 'Nov', label: 'November' },
-  { value: 'Dec', label: 'December' },
+  { value: "", label: "Select Month" },
+  { value: "Jan", label: "January" },
+  { value: "Feb", label: "February" },
+  { value: "Mar", label: "March" },
+  { value: "Apr", label: "April" },
+  { value: "May", label: "May" },
+  { value: "Jun", label: "June" },
+  { value: "Jul", label: "July" },
+  { value: "Aug", label: "August" },
+  { value: "Sep", label: "September" },
+  { value: "Oct", label: "October" },
+  { value: "Nov", label: "November" },
+  { value: "Dec", label: "December" },
 ];
 
 export const dayOptions = [
-  { value: '', label: 'Select Day' },
-  ...Array.from({ length: 31 }, (_, i) => ({ value: String(i + 1), label: String(i + 1) }))
+  { value: "", label: "Select Day" },
+  ...Array.from({ length: 31 }, (_, i) => ({
+    value: String(i + 1),
+    label: String(i + 1),
+  })),
 ];
 
-
 export const relationshipTypeOptions = [
-  { value: '', label: 'Select Relationship' },
-  { value: 'Father', label: 'Father' },
-  { value: 'Mother', label: 'Mother' },
-  { value: 'Son', label: 'Son' },
-  { value: 'Daughter', label: 'Daughter' },
-  { value: 'Husband', label: 'Husband' },
-  { value: 'Wife', label: 'Wife' },
+  { value: "", label: "Select Relationship" },
+  { value: "Father", label: "Father" },
+  { value: "Mother", label: "Mother" },
+  { value: "Son", label: "Son" },
+  { value: "Daughter", label: "Daughter" },
+  { value: "Husband", label: "Husband" },
+  { value: "Wife", label: "Wife" },
 ];

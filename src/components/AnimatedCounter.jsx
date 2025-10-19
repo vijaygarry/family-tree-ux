@@ -6,14 +6,14 @@ function easeOutQuad(t) {
 
 export default function AnimatedCounter({
   target = 100,
-  duration = 1500,        // ms
-  startOnView = true,     // start when visible
-  once = true,            // animate only once when visible
+  duration = 1500, // ms
+  startOnView = true, // start when visible
+  once = true, // animate only once when visible
   prefix = "",
   suffix = "",
   decimals = 0,
   className = "",
-  formatter,              // custom formatter function(number) => string
+  formatter, // custom formatter function(number) => string
 }) {
   const [value, setValue] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -64,7 +64,7 @@ export default function AnimatedCounter({
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     io.observe(el);

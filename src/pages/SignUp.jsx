@@ -138,13 +138,26 @@ const SignUp = () => {
           }}
         />
       </div>
-      <div className="alert alert-info" style={{ fontSize: '1rem', background: '#e8f4fd', color: '#0c5460', border: '1px solid #b6e0fe' }}>
-        Please check your email for the OTP.<br />
-        If you don’t see the email in your inbox, be sure to check your spam or junk folder.<br />
-  The email will be sent from <strong>{SUPPORT_EMAIL}</strong>.
+      <div
+        className="alert alert-info"
+        style={{
+          fontSize: "1rem",
+          background: "#e8f4fd",
+          color: "#0c5460",
+          border: "1px solid #b6e0fe",
+        }}
+      >
+        Please check your email for the OTP.
+        <br />
+        If you don’t see the email in your inbox, be sure to check your spam or
+        junk folder.
+        <br />
+        The email will be sent from <strong>{SUPPORT_EMAIL}</strong>.
       </div>
       <div style={{ marginBottom: 16 }}>
-        <label>One Time Password (OTP) <span style={{ color: "red" }}>*</span></label>
+        <label>
+          One Time Password (OTP) <span style={{ color: "red" }}>*</span>
+        </label>
         <input
           type="text"
           value={otp}
@@ -160,7 +173,9 @@ const SignUp = () => {
         />
       </div>
       <div style={{ marginBottom: 16 }}>
-        <label>Password <span style={{ color: "red" }}>*</span></label>
+        <label>
+          Password <span style={{ color: "red" }}>*</span>
+        </label>
         <input
           type="password"
           value={password}
@@ -176,7 +191,9 @@ const SignUp = () => {
         />
       </div>
       <div style={{ marginBottom: 16 }}>
-        <label>Confirm Password <span style={{ color: "red" }}>*</span></label>
+        <label>
+          Confirm Password <span style={{ color: "red" }}>*</span>
+        </label>
         <input
           type="password"
           value={confirmPassword}
@@ -200,7 +217,8 @@ const SignUp = () => {
           onChange={(e) => setAcknowledgeTerms(e.target.checked)}
         />
         <label htmlFor="terms" className="form-check-label small">
-          <span style={{ color: "red" }}>*</span> I have read and agree to the <a href="#">Terms and Conditions</a>.
+          <span style={{ color: "red" }}>*</span> I have read and agree to the{" "}
+          <a href="#">Terms and Conditions</a>.
         </label>
       </div>
       <div className="mb-3 form-check">
@@ -212,12 +230,11 @@ const SignUp = () => {
           onChange={(e) => setAcknowledgePrivacy(e.target.checked)}
         />
         <label htmlFor="privacy" className="form-check-label small">
-          <span style={{ color: "red" }}>*</span> I have read and acknowledge the <a href="#">Privacy Policy</a>.
+          <span style={{ color: "red" }}>*</span> I have read and acknowledge
+          the <a href="#">Privacy Policy</a>.
         </label>
       </div>
-      {error && (
-        <div style={{ color: "red", marginBottom: 8 }}>{error}</div>
-      )}
+      {error && <div style={{ color: "red", marginBottom: 8 }}>{error}</div>}
       <button
         type="submit"
         disabled={!isConditionsAcknowledgeByUser}

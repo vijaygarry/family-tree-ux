@@ -41,12 +41,13 @@ export const MemberListTable = ({ membersList, familyNameInHindi }) => {
                 </td>
                 <td data-label="Marital Status">
                   {member.maritalStatus} <br />
-                  {member.weddingDate && formatISODateToddMMMyyyy(member.weddingDate)}
+                  {member.weddingDate &&
+                    formatISODateToddMMMyyyy(member.weddingDate)}
                 </td>
                 <td data-label="Phone">
                   {getFormattedPhoneDisplay(
                     member.phone,
-                    member.phoneWhatsappRegistered
+                    member.phoneWhatsappRegistered,
                   )}
                 </td>
                 <td data-label="Education">{member.educationDetails}</td>
@@ -65,7 +66,7 @@ export const RelationshipTable = ({ membersList, relationshipHeading }) => {
 
   return (
     <div className="mb-4 mt-0">
-      <h5>{ relationshipHeading } </h5>
+      <h5>{relationshipHeading} </h5>
       <div className="table-responsive">
         <table className="table table-bordered table-striped family-members">
           <thead className="table-light">
@@ -112,21 +113,19 @@ export const SpouseTable = ({ spouse }) => {
             </tr>
           </thead>
           <tbody>
-            
-              <tr key={spouse.memberId}>
-                <td data-label="Name">
-                  <Link
-                    to={`/member/${spouse.memberId}`}
-                    className="text-decoration-none"
-                  >
-                    {spouse.firstName} {spouse.lastName} <br />
-                    {spouse.firstNameInHindi && `${spouse.firstNameInHindi}`}
-                    {/* {familyNameInHindi && ` ${familyNameInHindi}`} */}
-                  </Link>
-                </td>
-                <td data-label="Relationship">{spouse.familyRelationship}</td>
-              </tr>
-            
+            <tr key={spouse.memberId}>
+              <td data-label="Name">
+                <Link
+                  to={`/member/${spouse.memberId}`}
+                  className="text-decoration-none"
+                >
+                  {spouse.firstName} {spouse.lastName} <br />
+                  {spouse.firstNameInHindi && `${spouse.firstNameInHindi}`}
+                  {/* {familyNameInHindi && ` ${familyNameInHindi}`} */}
+                </Link>
+              </td>
+              <td data-label="Relationship">{spouse.familyRelationship}</td>
+            </tr>
           </tbody>
         </table>
       </div>

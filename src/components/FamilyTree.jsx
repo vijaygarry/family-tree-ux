@@ -13,12 +13,16 @@ const MemberCard = ({ member }) => {
   } else if (member.gender === "Female") {
     bgColor = "#FFC2E1";
   }
-  
+
   return (
     <Link to={`/member/${member.memberId}`} className="text-decoration-none">
       <div
         className={`member-card d-flex align-items-center p-2 ${member.selectedNode ? "root-node" : ""}`}
-        style={{ minWidth: "180px", borderRadius: "8px", backgroundColor: bgColor }}
+        style={{
+          minWidth: "180px",
+          borderRadius: "8px",
+          backgroundColor: bgColor,
+        }}
       >
         {member.profileImageThumbnail && (
           <img

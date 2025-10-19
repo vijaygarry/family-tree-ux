@@ -8,8 +8,8 @@ const stats = [
   { value: 13, label: "Number of Males" },
   { value: 11, label: "Number of Females" },
   { value: 3, label: "Kids (Under 20)" },
-  { value: 0,  label: "Single Girls (Above 20)" },
-  { value: 2,  label: "Single Boys (Above 20)" },
+  { value: 0, label: "Single Girls (Above 20)" },
+  { value: 2, label: "Single Boys (Above 20)" },
 ];
 
 export default function StatsCounterSection() {
@@ -39,11 +39,13 @@ export default function StatsCounterSection() {
               duration={1500}
               startOnView={true}
               once={true}
-              suffix=""         // e.g., "+" if you want "579+"
+              suffix="" // e.g., "+" if you want "579+"
               decimals={0}
             />
           </div>
-          <div style={{ marginTop: 8, color: "#000", fontWeight:600 }}>{s.label}</div>
+          <div style={{ marginTop: 8, color: "#000", fontWeight: 600 }}>
+            {s.label}
+          </div>
         </div>
       ))}
     </div>

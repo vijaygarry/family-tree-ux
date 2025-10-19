@@ -52,10 +52,13 @@ const Login = () => {
   };
 
   return (
-    <div className="container my-5 p-4 bg-white rounded" style={{ maxWidth: "500px" }}>
-    <div className="text-center mb-4">
-      <img src="/log-in-img.png" alt="Logo" height="300px" className="mb-3"/>
-      <h3 className="mb-3 fw-bold">Sign in to your Account</h3>
+    <div
+      className="container my-5 p-4 bg-white rounded"
+      style={{ maxWidth: "500px" }}
+    >
+      <div className="text-center mb-4">
+        <img src="/log-in-img.png" alt="Logo" height="300px" className="mb-3" />
+        <h3 className="mb-3 fw-bold">Sign in to your Account</h3>
       </div>
       {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleLogin}>
@@ -65,7 +68,8 @@ const Login = () => {
           </label>
           <input
             type="text"
-            className="form-control" style={{ minHeight: "45px" }}
+            className="form-control"
+            style={{ minHeight: "45px" }}
             onChange={(e) => setLoginName(e.target.value)}
           />
         </div>
@@ -75,19 +79,36 @@ const Login = () => {
           </label>
           <input
             type="password"
-            className="form-control" style={{ minHeight: "45px" }}
+            className="form-control"
+            style={{ minHeight: "45px" }}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div className="form-text text-danger">* This field is required</div>
-        <button className="btn btn-primary w-100 fw-bold" style={{ background: "#A42502", borderColor:"#A42502" }}>Login</button>
+        <button
+          className="btn btn-primary w-100 fw-bold"
+          style={{ background: "#A42502", borderColor: "#A42502" }}
+        >
+          Login
+        </button>
         <div className="text-end my-2 fw-semibold">
-          <a href="/forgotpassword" style={{ color:"#A42502",textDecoration:"none" }}>Forgot Password?</a>
+          <a
+            href="/forgotpassword"
+            style={{ color: "#A42502", textDecoration: "none" }}
+          >
+            Forgot Password?
+          </a>
         </div>
-        <button type="button"
+        <button
+          type="button"
           onClick={() => (window.location.href = "/signup")}
-          className="btn btn-secondary w-100 mt-3 fw-bold" style={{ background: "transparent", borderColor:"#A42502" ,color:"#A42502" }}
+          className="btn btn-secondary w-100 mt-3 fw-bold"
+          style={{
+            background: "transparent",
+            borderColor: "#A42502",
+            color: "#A42502",
+          }}
         >
           Sign-up
         </button>

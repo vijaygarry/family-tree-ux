@@ -1,11 +1,7 @@
 import axios from "axios";
 
 // List of pages to ignore 401 redirect
-const IGNORE_401_PAGES = new Set([
-  "/login",
-  "/forgotpassword",
-  "/signup"
-]);
+const IGNORE_401_PAGES = new Set(["/login", "/forgotpassword", "/signup"]);
 
 // For prod remove the proxy in package.json. For local development enable proxy in package.json
 // "proxy": "http://rajputchhipa.com", -- For remote API server
@@ -27,14 +23,14 @@ api.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !hasRedirectedToLogin &&
-      ![...IGNORE_401_PAGES].some(page => currentPath.includes(page))
+      ![...IGNORE_401_PAGES].some((page) => currentPath.includes(page))
     ) {
       hasRedirectedToLogin = true;
       const redirectPath = currentPath + window.location.search;
       window.location.href = `/login?redirectTo=${encodeURIComponent(redirectPath)}`;
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

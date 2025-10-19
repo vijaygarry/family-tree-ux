@@ -32,7 +32,9 @@ const Header = () => {
     const bsCollapse = new Collapse(menuToggle, { toggle: false });
 
     // Get all nav links and dropdown items
-    const navLinks = document.querySelectorAll(".navbar-nav .nav-link, .dropdown-item");
+    const navLinks = document.querySelectorAll(
+      ".navbar-nav .nav-link, .dropdown-item",
+    );
 
     // Add click listener to close menu
     navLinks.forEach((link) => {
@@ -50,10 +52,17 @@ const Header = () => {
   }, []);
 
   return (
-    <header className={`bg-white text-black shadow-sm sticky-sm-top header ${scrolled ? "header-scrolled" : ""}`}>
+    <header
+      className={`bg-white text-black shadow-sm sticky-sm-top header ${scrolled ? "header-scrolled" : ""}`}
+    >
       <nav className="navbar navbar-expand-lg navbar-dark container">
         <Link className="navbar-brand d-flex align-items-center" to="/">
-          <img src="/logo.svg" alt="Logo" height={60} className={`logo ${scrolled ? "logo-small" : ""}`} />
+          <img
+            src="/logo.svg"
+            alt="Logo"
+            height={60}
+            className={`logo ${scrolled ? "logo-small" : ""}`}
+          />
         </Link>
 
         {/* Mobile Toggle Button */}
@@ -70,27 +79,46 @@ const Header = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <NavLink to="/" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  "nav-link" + (isActive ? " active" : "")
+                }
+              >
                 Home
               </NavLink>
             </li>
 
             <li className="nav-item">
-              <NavLink to="/family" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+              <NavLink
+                to="/family"
+                className={({ isActive }) =>
+                  "nav-link" + (isActive ? " active" : "")
+                }
+              >
                 My Family
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/myProfile" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+              <NavLink
+                to="/myProfile"
+                className={({ isActive }) =>
+                  "nav-link" + (isActive ? " active" : "")
+                }
+              >
                 My Profile
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/searchfamily" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+              <NavLink
+                to="/searchfamily"
+                className={({ isActive }) =>
+                  "nav-link" + (isActive ? " active" : "")
+                }
+              >
                 Search Family
               </NavLink>
             </li>
-            
 
             {/* Family Dropdown */}
             {/* <li className="nav-item dropdown">
@@ -130,7 +158,9 @@ const Header = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <span className="me-2">{user.firstName} {user.lastName}</span>
+                <span className="me-2">
+                  {user.firstName} {user.lastName}
+                </span>
                 <img
                   src={user.profileImageThumbnail}
                   alt="User Avatar"
@@ -140,16 +170,32 @@ const Header = () => {
                   onError={(e) => (e.currentTarget.src = fallbackAvatar)}
                 />
               </a>
-              <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                <li><Link className="dropdown-item" to="/changepassword">Change Password</Link></li>
-                <li><hr className="dropdown-divider" /></li>
+              <ul
+                className="dropdown-menu dropdown-menu-end"
+                aria-labelledby="userDropdown"
+              >
                 <li>
-                  <button className="dropdown-item" onClick={handleLogout}>Logout</button>
+                  <Link className="dropdown-item" to="/changepassword">
+                    Change Password
+                  </Link>
+                </li>
+                <li>
+                  <hr className="dropdown-divider" />
+                </li>
+                <li>
+                  <button className="dropdown-item" onClick={handleLogout}>
+                    Logout
+                  </button>
                 </li>
               </ul>
             </li>
             <li className="nav-item">
-              <NavLink to="/helpWithMenu" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+              <NavLink
+                to="/helpWithMenu"
+                className={({ isActive }) =>
+                  "nav-link" + (isActive ? " active" : "")
+                }
+              >
                 Help
               </NavLink>
             </li>

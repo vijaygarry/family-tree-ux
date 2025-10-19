@@ -20,12 +20,22 @@ const HeaderWithoutMenu = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <NavLink to="/login" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  "nav-link" + (isActive ? " active" : "")
+                }
+              >
                 Login
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/helpWithoutMenu" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+              <NavLink
+                to="/helpWithoutMenu"
+                className={({ isActive }) =>
+                  "nav-link" + (isActive ? " active" : "")
+                }
+              >
                 Help
               </NavLink>
             </li>

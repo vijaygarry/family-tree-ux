@@ -134,33 +134,30 @@ const AccountsPage = () => {
           <h3 className="font-semibold text-lg mb-4">Account Details</h3>
           <div className="row">
             <div className="col-sm-4">
- <p>
-            <strong>Account:</strong> {accountDetails.accountName}
-          </p>
-          <p>
-            <strong>Balance:</strong> ₹{accountDetails.currentBalance}
-          </p>
+              <p>
+                <strong>Account:</strong> {accountDetails.accountName}
+              </p>
+              <p>
+                <strong>Balance:</strong> ₹{accountDetails.currentBalance}
+              </p>
             </div>
             <div className="col-sm-4">
-        <p>
-            <strong>Manager:</strong> {accountDetails.accountManager}
-          </p>
-          <p>
-            <strong>Bank:</strong> {accountDetails.bankName}
-          </p>
+              <p>
+                <strong>Manager:</strong> {accountDetails.accountManager}
+              </p>
+              <p>
+                <strong>Bank:</strong> {accountDetails.bankName}
+              </p>
             </div>
             <div className="col-sm-4">
-         <p>
-            <strong>Bank Account ID:</strong> {accountDetails.bankAccountId}
-          </p>
-          <p>
-            <strong>Type:</strong> {accountDetails.bankAccountType}
-          </p>
+              <p>
+                <strong>Bank Account ID:</strong> {accountDetails.bankAccountId}
+              </p>
+              <p>
+                <strong>Type:</strong> {accountDetails.bankAccountType}
+              </p>
             </div>
           </div>
-         
-  
- 
         </div>
       )}
 
