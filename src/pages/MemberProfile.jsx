@@ -15,6 +15,8 @@ import {
 } from "../constants/DropdownConstants";
 import ImageUploadCropModal from "../components/ImageUploadCropModal";
 import { SuccessBanner, FailureBanner } from "../components/AlertBanners";
+import { countryOptions, indiaStates } from "../constants/addressOptions";
+import AutoSuggest from "../components/AutoSuggest";
 
 const MemberProfile = () => {
   const { id } = useParams(); // from route: /member/:id
@@ -461,12 +463,14 @@ const MemberProfile = () => {
                   <span className="fw-semibold me-2">
                     State: <span className="text-danger">*</span>
                   </span>
-                  <input
+                  <AutoSuggest
                     name="memberAddress.state"
                     value={form.memberAddress?.state || ""}
                     onChange={handleFormChange}
-                    className="form-control mb-1"
+                    suggestions={indiaStates}
                     placeholder="State"
+                    ariaLabel="State"
+                    className="form-control mb-1"
                   />
                 </div>
                 <div className="col-sm-4">
@@ -485,12 +489,14 @@ const MemberProfile = () => {
                   <span className="fw-semibold me-2">
                     Country: <span className="text-danger">*</span>
                   </span>
-                  <input
+                  <AutoSuggest
                     name="memberAddress.country"
                     value={form.memberAddress?.country || ""}
                     onChange={handleFormChange}
-                    className="form-control mb-1"
+                    suggestions={countryOptions}
                     placeholder="Country"
+                    ariaLabel="Country"
+                    className="form-control mb-1"
                   />
                 </div>
               </div>

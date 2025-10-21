@@ -9,6 +9,8 @@ import ERROR_MESSAGES from "../constants/messages";
 import FamilyTree from "../components/FamilyTree";
 import { MemberListTable } from "../components/MemberListTable";
 import ImageUploadCropModal from "../components/ImageUploadCropModal";
+import { countryOptions, indiaStates } from "../constants/addressOptions";
+import AutoSuggest from "../components/AutoSuggest";
 
 const FamilyDetails = () => {
   const [family, setFamily] = useState(null);
@@ -210,7 +212,9 @@ const FamilyDetails = () => {
           <span className="fw-semibold me-2">Address:</span>
           <div className="row">
             <div className="col-sm-4">
-              Address Line 1:{" "}
+              <span className="fw-semibold me-2">
+                Address Line 1: <span className="text-danger">*</span>
+              </span>
               <input
                 name="familyAddress.addressLine1"
                 value={form.familyAddress?.addressLine1 || ""}
@@ -220,7 +224,7 @@ const FamilyDetails = () => {
               />
             </div>
             <div className="col-sm-4">
-              Address Line 2:{" "}
+              <span className="fw-semibold me-2">Address Line 2:</span>
               <input
                 name="familyAddress.addressLine2"
                 value={form.familyAddress?.addressLine2 || ""}
@@ -230,7 +234,7 @@ const FamilyDetails = () => {
               />
             </div>
             <div className="col-sm-4">
-              Address Line 3:{" "}
+              <span className="fw-semibold me-2">Address Line 3:</span>
               <input
                 name="familyAddress.addressLine3"
                 value={form.familyAddress?.addressLine3 || ""}
@@ -240,7 +244,7 @@ const FamilyDetails = () => {
               />
             </div>
             <div className="col-sm-4">
-              District:{" "}
+              <span className="fw-semibold me-2">District:</span>
               <input
                 name="familyAddress.district"
                 value={form.familyAddress?.district || ""}
@@ -250,7 +254,9 @@ const FamilyDetails = () => {
               />
             </div>
             <div className="col-sm-4">
-              City:{" "}
+              <span className="fw-semibold me-2">
+                City: <span className="text-danger">*</span>
+              </span>
               <input
                 name="familyAddress.city"
                 value={form.familyAddress?.city || ""}
@@ -260,17 +266,22 @@ const FamilyDetails = () => {
               />
             </div>
             <div className="col-sm-4">
-              State:{" "}
-              <input
+              <span className="fw-semibold me-2">
+                State: <span className="text-danger">*</span>
+              </span>
+              <AutoSuggest
                 name="familyAddress.state"
                 value={form.familyAddress?.state || ""}
                 onChange={handleFormChange}
-                className="form-control mb-1"
+                suggestions={indiaStates}
                 placeholder="State"
+                ariaLabel="State"
               />
             </div>
             <div className="col-sm-4">
-              Postal Code:{" "}
+              <span className="fw-semibold me-2">
+                Postal Code: <span className="text-danger">*</span>
+              </span>
               <input
                 name="familyAddress.postalCode"
                 value={form.familyAddress?.postalCode || ""}
@@ -280,13 +291,17 @@ const FamilyDetails = () => {
               />
             </div>
             <div className="col-sm-4">
-              Country:{" "}
-              <input
+              <span className="fw-semibold me-2">
+                Country: <span className="text-danger">*</span>
+              </span>
+              <AutoSuggest
                 name="familyAddress.country"
                 value={form.familyAddress?.country || ""}
                 onChange={handleFormChange}
-                className="form-control mb-1"
+                suggestions={countryOptions}
                 placeholder="Country"
+                ariaLabel="Country"
+                className="form-control mb-1"
               />
             </div>
           </div>

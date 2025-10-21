@@ -9,6 +9,8 @@ import {
   dayOptions,
   relationshipTypeOptions,
 } from "../constants/DropdownConstants";
+import { countryOptions, indiaStates } from "../constants/addressOptions";
+import AutoSuggest from "../components/AutoSuggest";
 
 const AddMember = () => {
   const [memberForm, setMemberForm] = useState({});
@@ -474,12 +476,13 @@ const AddMember = () => {
                   <span className="fw-semibold me-2">
                     State: <span className="text-danger">*</span>
                   </span>
-                  <input
+                  <AutoSuggest
                     name="memberAddress.state"
                     value={memberForm.memberAddress?.state || ""}
                     onChange={handleFormChange}
-                    className="form-control mb-1"
+                    suggestions={indiaStates}
                     placeholder="State"
+                    ariaLabel="State"
                   />
                 </div>
                 <div className="col-sm-4">
@@ -498,12 +501,13 @@ const AddMember = () => {
                   <span className="fw-semibold me-2">
                     Country: <span className="text-danger">*</span>
                   </span>
-                  <input
+                  <AutoSuggest
                     name="memberAddress.country"
                     value={memberForm.memberAddress?.country || ""}
                     onChange={handleFormChange}
-                    className="form-control mb-1"
+                    suggestions={countryOptions}
                     placeholder="Country"
+                    ariaLabel="Country"
                   />
                 </div>
               </div>
