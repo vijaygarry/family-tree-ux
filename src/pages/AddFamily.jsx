@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import api from "../api/axiosInstance";
 import ERROR_MESSAGES from "../constants/messages";
+import { countryOptions, indiaStates } from "../constants/addressOptions";
+import AutoSuggest from "../components/AutoSuggest";
 
 const AddFamily = () => {
   const [form, setForm] = useState({});
@@ -147,7 +149,9 @@ const AddFamily = () => {
           <span className="fw-semibold me-2">Address:</span>
           <div className="row">
             <div className="col-sm-4">
-              Address Line 1: <span className="text-danger">*</span>
+              <span className="fw-semibold me-2">
+                Address Line 1: <span className="text-danger">*</span>
+              </span>
               <input
                 name="familyAddress.addressLine1"
                 value={form.familyAddress?.addressLine1 || ""}
@@ -158,7 +162,9 @@ const AddFamily = () => {
               />
             </div>
             <div className="col-sm-4">
-              Address Line 2:{" "}
+              <span className="fw-semibold me-2">
+                Address Line 2: 
+              </span>
               <input
                 name="familyAddress.addressLine2"
                 value={form.familyAddress?.addressLine2 || ""}
@@ -169,7 +175,9 @@ const AddFamily = () => {
               />
             </div>
             <div className="col-sm-4">
-              Address Line 3:{" "}
+              <span className="fw-semibold me-2">
+                Address Line 3: 
+              </span>
               <input
                 name="familyAddress.addressLine3"
                 value={form.familyAddress?.addressLine3 || ""}
@@ -180,7 +188,9 @@ const AddFamily = () => {
               />
             </div>
             <div className="col-sm-4">
-              District:{" "}
+              <span className="fw-semibold me-2">
+                District: 
+              </span>
               <input
                 name="familyAddress.district"
                 value={form.familyAddress?.district || ""}
@@ -191,7 +201,9 @@ const AddFamily = () => {
               />
             </div>
             <div className="col-sm-4">
-              City: <span className="text-danger">*</span>
+              <span className="fw-semibold me-2">
+                City: <span className="text-danger">*</span>
+              </span>
               <input
                 name="familyAddress.city"
                 value={form.familyAddress?.city || ""}
@@ -202,18 +214,24 @@ const AddFamily = () => {
               />
             </div>
             <div className="col-sm-4">
-              State: <span className="text-danger">*</span>
-              <input
-                name="familyAddress.state"
-                value={form.familyAddress?.state || ""}
-                onChange={handleFormChange}
-                className="form-control mb-1"
-                placeholder={createdSuccessfully ? undefined : "State"}
-                disabled={!!createdSuccessfully}
-              />
+              <span className="fw-semibold me-2">
+                State: <span className="text-danger">*</span>
+              </span>
+              <AutoSuggest
+                    name="familyAddress.state"
+                    value={form.familyAddress?.state || ""}
+                    onChange={handleFormChange}
+                    suggestions={indiaStates}
+                    className="form-control mb-1"
+                    placeholder={createdSuccessfully ? undefined : "State"}
+                    disabled={!!createdSuccessfully}
+                    ariaLabel="State"
+                  />
             </div>
             <div className="col-sm-4">
-              Postal Code: <span className="text-danger">*</span>
+              <span className="fw-semibold me-2">
+                Postal Code: <span className="text-danger">*</span>
+              </span>
               <input
                 name="familyAddress.postalCode"
                 value={form.familyAddress?.postalCode || ""}
@@ -224,14 +242,18 @@ const AddFamily = () => {
               />
             </div>
             <div className="col-sm-4">
-              Country: <span className="text-danger">*</span>
-              <input
+              <span className="fw-semibold me-2">
+                Country: <span className="text-danger">*</span>
+              </span>
+              <AutoSuggest
                 name="familyAddress.country"
                 value={form.familyAddress?.country || ""}
                 onChange={handleFormChange}
+                suggestions={countryOptions}
                 className="form-control mb-1"
                 placeholder={createdSuccessfully ? undefined : "Country"}
                 disabled={!!createdSuccessfully}
+                ariaLabel="Country"
               />
             </div>
           </div>

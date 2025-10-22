@@ -18,6 +18,7 @@ const AutoSuggest = ({
   className = "",
   ariaLabel = "",
   maxSuggestions = 8,
+  disabled = false,
 }) => {
   const [inputValue, setInputValue] = useState(value || "");
   const [filtered, setFiltered] = useState([]);
@@ -106,6 +107,7 @@ const AutoSuggest = ({
         placeholder={placeholder}
         aria-label={ariaLabel}
         autoComplete="off"
+        disabled={disabled}
       />
 
       {show && filtered && filtered.length > 0 && (
