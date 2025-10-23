@@ -120,6 +120,19 @@ const Header = () => {
               </NavLink>
             </li>
 
+            {user?.operationAllowed?.includes("ADD_FAMILY") && (
+              <li className="nav-item">
+                <NavLink
+                  to="/addfamily"
+                  className={({ isActive }) =>
+                    "nav-link" + (isActive ? " active" : "")
+                  }
+                >
+                  Add Family
+                </NavLink>
+              </li>
+            )}
+
             {/* Family Dropdown */}
             {/* <li className="nav-item dropdown">
               <span
