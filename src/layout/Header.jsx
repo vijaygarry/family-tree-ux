@@ -236,14 +236,17 @@ const Header = () => {
           <button
             className="navbar-toggler"
             type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#mobileMenu"
-            aria-controls="mobileMenu"
-            onClick={openOffcanvas}
+            onClick={() => {
+              const offcanvasEl = document.getElementById("mobileMenu");
+              if (!offcanvasEl) return;
+              const bsOffcanvas =
+                bootstrap.Offcanvas.getInstance(offcanvasEl) ||
+                new bootstrap.Offcanvas(offcanvasEl);
+              bsOffcanvas.toggle();
+            }}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-
           {/* Offcanvas Menu */}
           <div
             className="offcanvas offcanvas-start text-bg-dark"
