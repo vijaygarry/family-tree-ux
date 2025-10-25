@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Header.css";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import * as bootstrap from "bootstrap";
 import Collapse from "bootstrap/js/dist/collapse"; // ✅ Proper Bootstrap JS import
 
 const Header = () => {
@@ -14,13 +15,50 @@ const Header = () => {
     navigate("/login");
   };
 
+  const handleMobileLogout = async () => {
+    handleLogout();
+    closeOffcanvas();
+  };
+
+  const closeOffcanvas = (id = "mobileMenu") => {
+    const offcanvasEl = document.getElementById(id);
+    if (!offcanvasEl) return;
+    // Get or create offcanvas instance
+    const offcanvas =
+      bootstrap.Offcanvas.getInstance(offcanvasEl) || new bootstrap.Offcanvas(offcanvasEl);
+
+    // Hide the offcanvas normally
+    offcanvas.hide();
+
+    // Listen once for when it's *fully* hidden
+    const handleHidden = () => {
+      // Restore scroll & clean any leftover inline styles
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+      document.body.classList.remove("modal-open", "offcanvas-backdrop");
+      document.querySelector(".offcanvas-backdrop")?.remove();
+      offcanvasEl.removeEventListener("hidden.bs.offcanvas", handleHidden);
+    };
+
+    offcanvasEl.addEventListener("hidden.bs.offcanvas", handleHidden, { once: true });
+  };
+
   const fallbackAvatar = "/default-avatar.png";
 
   // ✅ Header shrink on scroll
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const offcanvasEl = document.getElementById("mobileMenu");
+    if (!offcanvasEl) return;
+
+    const handleHidden = () => {
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+      document.body.classList.remove("modal-open", "offcanvas-backdrop");
+      document.querySelector(".offcanvas-backdrop")?.remove();
+    };
+
+    offcanvasEl.addEventListener("hidden.bs.offcanvas", handleHidden);
+    return () => offcanvasEl.removeEventListener("hidden.bs.offcanvas", handleHidden);
   }, []);
 
   // ✅ Close menu when link clicked
@@ -55,7 +93,8 @@ const Header = () => {
     <header
       className={`bg-white text-black shadow-sm sticky-sm-top header ${scrolled ? "header-scrolled" : ""}`}
     >
-      <nav className="navbar navbar-expand-lg navbar-dark container">
+      {/* Visible only on desktop */}
+      <nav className="navbar navbar-expand-lg navbar-dark container d-none d-md-flex">
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <img
             src="/logo.svg"
@@ -64,17 +103,6 @@ const Header = () => {
             className={`logo ${scrolled ? "logo-small" : ""}`}
           />
         </Link>
-
-        {/* Mobile Toggle Button */}
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span className="navbar-toggler-icon" />
-        </button>
-
         {/* Navbar Links */}
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
@@ -109,16 +137,7 @@ const Header = () => {
                 My Profile
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink
-                to="/searchfamily"
-                className={({ isActive }) =>
-                  "nav-link" + (isActive ? " active" : "")
-                }
-              >
-                Search Family
-              </NavLink>
-            </li>
+
 
             {user?.operationAllowed?.includes("ADD_FAMILY") && (
               <li className="nav-item">
@@ -213,6 +232,137 @@ const Header = () => {
               </NavLink>
             </li>
           </ul>
+        </div>
+      </nav>
+
+      {/* Offcanvas for Mobile */}
+      <nav className="navbar navbar-dark container d-flex d-md-none">
+        <div className="container-fluid">
+          <Link className="navbar-brand d-flex align-items-center" to="/">
+            <img src="/logo.svg" alt="Logo" height={50} />
+          </Link>
+
+          {/* Hamburger toggle for offcanvas */}
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#mobileMenu"
+            aria-controls="mobileMenu"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          {/* Offcanvas Menu */}
+          <div
+            className="offcanvas offcanvas-start text-bg-dark"
+            tabIndex="-1"
+            id="mobileMenu"
+            aria-labelledby="mobileMenuLabel"
+          >
+            {/* Header with avatar + name */}
+            <div className="offcanvas-header align-items-center border-bottom">
+              <div className="d-flex align-items-center">
+                <img
+                  src={user.profileImageThumbnail || "/default-avatar.png"}
+                  alt="User Avatar"
+                  className="rounded-circle me-2"
+                  width="40"
+                  height="40"
+                  onError={(e) => (e.currentTarget.src = "/default-avatar.png")}
+                />
+                <div className="d-flex flex-column">
+                  <h5 className="offcanvas-title" id="mobileMenuLabel">
+                    {user.firstName} {user.lastName}
+                  </h5>
+                  <small className="text-muted">{user.email}</small>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="btn-close btn-close-white"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="offcanvas-body">
+              <ul className="navbar-nav">
+                <li className="nav-item">
+                  <NavLink
+                    to="/"
+                    className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+                    onClick={() => closeOffcanvas()}
+                  >
+                    Home
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    to="/family"
+                    className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+                    onClick={() => closeOffcanvas()}
+                  >
+                    My Family
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    to="/myProfile"
+                    className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+                    onClick={() => closeOffcanvas()}
+                  >
+                    My Profile
+                  </NavLink>
+                </li>
+
+                {user?.operationAllowed?.includes("ADD_FAMILY") && (
+                  <li className="nav-item">
+                    <NavLink
+                      to="/addfamily"
+                      className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+                      onClick={() => closeOffcanvas()}
+                    >
+                      Add Family
+                    </NavLink>
+                  </li>
+                )}
+
+                <li><hr className="dropdown-divider" /></li>
+
+                <li className="nav-item">
+                  <NavLink
+                    to="/changepassword"
+                    className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+                    onClick={() => closeOffcanvas()}
+                  >
+                    Change Password
+                  </NavLink>
+                </li>
+
+                <li className="nav-item">
+                  <button
+                    className="nav-link btn btn-link text-start"
+                    onClick={handleMobileLogout}
+                    style={{ textDecoration: "none" }}
+                  >
+                    Logout
+                  </button>
+                </li>
+
+                <li><hr className="dropdown-divider" /></li>
+
+                <li className="nav-item">
+                  <NavLink
+                    to="/helpWithMenu"
+                    className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+                    onClick={() => closeOffcanvas()}
+                  >
+                    Help
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </nav>
     </header>
