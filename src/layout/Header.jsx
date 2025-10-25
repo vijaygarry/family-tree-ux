@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Header.css";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -9,6 +9,7 @@ const Header = () => {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
+  const offcanvasRef = useRef(null);
 
   const handleLogout = async () => {
     await logout();
@@ -20,27 +21,12 @@ const Header = () => {
     closeOffcanvas();
   };
 
-  const closeOffcanvas = (id = "mobileMenu") => {
-    const offcanvasEl = document.getElementById(id);
-    if (!offcanvasEl) return;
-    // Get or create offcanvas instance
-    const offcanvas =
-      bootstrap.Offcanvas.getInstance(offcanvasEl) || new bootstrap.Offcanvas(offcanvasEl);
+  const openOffcanvas = () => {
+    offcanvasRef.current?.show();
+  };
 
-    // Hide the offcanvas normally
-    offcanvas.hide();
-
-    // Listen once for when it's *fully* hidden
-    const handleHidden = () => {
-      // Restore scroll & clean any leftover inline styles
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
-      document.body.classList.remove("modal-open", "offcanvas-backdrop");
-      document.querySelector(".offcanvas-backdrop")?.remove();
-      offcanvasEl.removeEventListener("hidden.bs.offcanvas", handleHidden);
-    };
-
-    offcanvasEl.addEventListener("hidden.bs.offcanvas", handleHidden, { once: true });
+  const closeOffcanvas = () => {
+    offcanvasRef.current?.hide();
   };
 
   const fallbackAvatar = "/default-avatar.png";
@@ -48,7 +34,9 @@ const Header = () => {
   // ✅ Header shrink on scroll
   useEffect(() => {
     const offcanvasEl = document.getElementById("mobileMenu");
-    if (!offcanvasEl) return;
+    if (offcanvasEl) {
+      offcanvasRef.current = new bootstrap.Offcanvas(offcanvasEl);
+    }
 
     const handleHidden = () => {
       document.body.style.overflow = "";
@@ -57,8 +45,11 @@ const Header = () => {
       document.querySelector(".offcanvas-backdrop")?.remove();
     };
 
-    offcanvasEl.addEventListener("hidden.bs.offcanvas", handleHidden);
-    return () => offcanvasEl.removeEventListener("hidden.bs.offcanvas", handleHidden);
+    offcanvasEl?.addEventListener("hidden.bs.offcanvas", handleHidden);
+
+    return () => {
+      offcanvasEl?.removeEventListener("hidden.bs.offcanvas", handleHidden);
+    };
   }, []);
 
   // ✅ Close menu when link clicked
@@ -137,7 +128,6 @@ const Header = () => {
                 My Profile
               </NavLink>
             </li>
-
 
             {user?.operationAllowed?.includes("ADD_FAMILY") && (
               <li className="nav-item">
@@ -249,6 +239,7 @@ const Header = () => {
             data-bs-toggle="offcanvas"
             data-bs-target="#mobileMenu"
             aria-controls="mobileMenu"
+            onClick={openOffcanvas}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -290,7 +281,9 @@ const Header = () => {
                 <li className="nav-item">
                   <NavLink
                     to="/"
-                    className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+                    className={({ isActive }) =>
+                      "nav-link" + (isActive ? " active" : "")
+                    }
                     onClick={() => closeOffcanvas()}
                   >
                     Home
@@ -299,7 +292,9 @@ const Header = () => {
                 <li className="nav-item">
                   <NavLink
                     to="/family"
-                    className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+                    className={({ isActive }) =>
+                      "nav-link" + (isActive ? " active" : "")
+                    }
                     onClick={() => closeOffcanvas()}
                   >
                     My Family
@@ -308,7 +303,9 @@ const Header = () => {
                 <li className="nav-item">
                   <NavLink
                     to="/myProfile"
-                    className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+                    className={({ isActive }) =>
+                      "nav-link" + (isActive ? " active" : "")
+                    }
                     onClick={() => closeOffcanvas()}
                   >
                     My Profile
@@ -319,7 +316,9 @@ const Header = () => {
                   <li className="nav-item">
                     <NavLink
                       to="/addfamily"
-                      className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+                      className={({ isActive }) =>
+                        "nav-link" + (isActive ? " active" : "")
+                      }
                       onClick={() => closeOffcanvas()}
                     >
                       Add Family
@@ -327,12 +326,16 @@ const Header = () => {
                   </li>
                 )}
 
-                <li><hr className="dropdown-divider" /></li>
+                <li>
+                  <hr className="dropdown-divider" />
+                </li>
 
                 <li className="nav-item">
                   <NavLink
                     to="/changepassword"
-                    className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+                    className={({ isActive }) =>
+                      "nav-link" + (isActive ? " active" : "")
+                    }
                     onClick={() => closeOffcanvas()}
                   >
                     Change Password
@@ -349,12 +352,16 @@ const Header = () => {
                   </button>
                 </li>
 
-                <li><hr className="dropdown-divider" /></li>
+                <li>
+                  <hr className="dropdown-divider" />
+                </li>
 
                 <li className="nav-item">
                   <NavLink
                     to="/helpWithMenu"
-                    className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+                    className={({ isActive }) =>
+                      "nav-link" + (isActive ? " active" : "")
+                    }
                     onClick={() => closeOffcanvas()}
                   >
                     Help
