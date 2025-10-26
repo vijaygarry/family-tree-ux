@@ -128,7 +128,16 @@ const Header = () => {
                 My Profile
               </NavLink>
             </li>
-
+            <li className="nav-item">
+              <NavLink
+                to="/searchfamily"
+                className={({ isActive }) =>
+                  "nav-link" + (isActive ? " active" : "")
+                }
+              >
+                Search Family
+              </NavLink>
+            </li>
             {user?.operationAllowed?.includes("ADD_FAMILY") && (
               <li className="nav-item">
                 <NavLink
@@ -314,7 +323,17 @@ const Header = () => {
                     My Profile
                   </NavLink>
                 </li>
-
+                <li className="nav-item">
+                  <NavLink
+                    to="/searchfamily"
+                    className={({ isActive }) =>
+                      "nav-link" + (isActive ? " active" : "")
+                    }
+                    onClick={() => closeOffcanvas()}
+                  >
+                    Search Family
+                  </NavLink>
+                </li>
                 {user?.operationAllowed?.includes("ADD_FAMILY") && (
                   <li className="nav-item">
                     <NavLink
