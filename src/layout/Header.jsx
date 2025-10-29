@@ -190,10 +190,10 @@ const Header = () => {
                 aria-expanded="false"
               >
                 <span className="me-2">
-                  {user.firstName} {user.lastName}
+                  {user?.firstName} {user?.lastName}
                 </span>
                 <img
-                  src={user.profileImageThumbnail}
+                  src={user?.profileImageThumbnail}
                   alt="User Avatar"
                   className={`rounded-circle me-2 user-avatar ${scrolled ? "avatar-small" : ""}`}
                   width="25"
@@ -267,7 +267,7 @@ const Header = () => {
             <div className="offcanvas-header align-items-center border-bottom">
               <div className="d-flex align-items-center">
                 <img
-                  src={user.profileImageThumbnail || "/default-avatar.png"}
+                  src={user?.profileImageThumbnail || "/default-avatar.png"}
                   alt="User Avatar"
                   className="rounded-circle me-2"
                   width="40"
@@ -276,9 +276,8 @@ const Header = () => {
                 />
                 <div className="d-flex flex-column">
                   <h5 className="offcanvas-title" id="mobileMenuLabel">
-                    {user.firstName} {user.lastName}
+                    {user?.firstName} {user?.lastName}
                   </h5>
-                  <small className="text-muted">{user.email}</small>
                 </div>
               </div>
               <button
