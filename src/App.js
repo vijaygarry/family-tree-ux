@@ -18,6 +18,7 @@ import SignUp from "./pages/SignUp";
 import HelpPage from "./pages/HelpPage";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import AddMember from "./pages/AddMember";
+import ManageRelationship from "./pages/ManageRelationship";
 
 //import UserDetails from "./pages/UserDetails";
 
@@ -79,16 +80,6 @@ const App = () => (
         </PrivateRoute>
       }
     />
-    {/* <Route 
-      path="/homepage" 
-      element={
-        <PrivateRoute>
-          <MainLayout>
-            <HomePage />
-          </MainLayout>
-        </PrivateRoute>
-      }
-    /> */}
     <Route
       path="/family"
       element={
@@ -165,6 +156,16 @@ const App = () => (
         <PrivateRoute>
           <MainLayout>
             <AddMember />
+          </MainLayout>
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/manageRelationship"
+      element={
+        <PrivateRoute>
+          <MainLayout>
+            <ManageRelationship />
           </MainLayout>
         </PrivateRoute>
       }
