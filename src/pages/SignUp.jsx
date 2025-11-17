@@ -3,7 +3,9 @@ import api from "../api/axiosInstance";
 import { SUPPORT_EMAIL } from "../constants/contact";
 
 const SignUp = () => {
+  const [registerMethod, setRegisterMethod] = useState("mobile"); // "email" | "mobile"
   const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
   const [error, setError] = useState("");
   const [showRequestOtpForm, setShowRequestOtpForm] = useState(true);
   const [otp, setOtp] = useState("");
@@ -19,16 +21,34 @@ const SignUp = () => {
   const requestOtp = async (e) => {
     e.preventDefault();
     setError("");
-    if (!email) {
+
+    if (registerMethod === "email" && !email) {
       setError("Email Id is required");
       return;
     }
+    if (registerMethod === "mobile") {
+      if(!mobile) {
+        setError("Mobile number is required");
+        return;
+      }
+      // Remove any non-digit characters just in case
+      const digitsOnly = mobile.replace(/\D/g, "");
+      if (digitsOnly.length < 10) {
+        setError("Please enter a valid mobile number.");
+        return;
+      }
+    }
+
     try {
-      const response = await api.post("/session/requestSignupOtp", {
-        emailId: email,
-      });
+      const payload =
+        registerMethod === "email"
+          ? { emailId: email, otpChannel: "email" }
+          : { mobileNumber: mobile, otpChannel: "mobile" };
+
+      const response = await api.post("/session/requestSignupOtp", payload);
       setRequestId(response?.data?.requestId || "");
       setShowRequestOtpForm(false);
+      setMobile(response?.data?.mobileNumber || mobile)
     } catch (err) {
       if (
         err.response &&
@@ -46,29 +66,36 @@ const SignUp = () => {
     e.preventDefault();
     setError("");
     setSignUpSuccess("");
-    if (!otp || !password || !confirmPassword) {
-      setError("All fields are required.");
+
+    if (!otp) {
+      setError("OTP is required.");
+      return;
+    }
+    if (!password) {
+      setError("Password is required.");
+      return;
+    }
+    if (!confirmPassword) {
+      setError("Confirm you password.");
       return;
     }
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-    try {
-      await api.post("/session/signUp", {
-        emailId: email,
-        otp,
-        password,
-        requestId,
-      });
 
-      // Success: clear fields and show login link
+    try {
+      const payload =
+        registerMethod === "email"
+          ? { emailId: email, otpChannel: "email", otp, password, requestId }
+          : { mobileNumber: mobile, otpChannel: "mobile", otp, password, requestId };
+
+      await api.post("/session/signUp", payload);
+
       setOtp("");
       setPassword("");
       setConfirmPassword("");
-      setSignUpSuccess(
-        "Password reset successfully, please login using new password.",
-      );
+      setSignUpSuccess("Sign Up completed successfully.");
     } catch (err) {
       if (
         err.response &&
@@ -77,32 +104,92 @@ const SignUp = () => {
       ) {
         setError(err.response.data.operationMessage);
       } else {
-        setError("Failed to reset password.");
+        setError("Failed to sign up.");
       }
     }
   };
 
-  // Form for requesting otp
+  // ---------- Request OTP Form ----------
   const requestSignUpOTPForm = (
     <form onSubmit={requestOtp}>
       <div style={{ marginBottom: 16 }}>
-        <label htmlFor="email">Email Id</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={{
-            width: "100%",
-            padding: 8,
-            marginTop: 4,
-            borderRadius: 4,
-            border: "1px solid #ccc",
-          }}
-          required
-        />
+        <label className="fw-bold">How do you want to register?</label>
+        <div style={{ display: "flex", gap: "16px", marginTop: 8 }}>
+          <label>
+            <input
+              type="radio"
+              value="email"
+              checked={registerMethod === "email"}
+              onChange={(e) => setRegisterMethod(e.target.value)}
+            />{" "}
+            Email
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="mobile"
+              checked={registerMethod === "mobile"}
+              onChange={(e) => setRegisterMethod(e.target.value)}
+            />{" "}
+            Mobile
+          </label>
+        </div>
       </div>
+
+      {registerMethod === "email" ? (
+        <div style={{ marginBottom: 16 }}>
+          <label htmlFor="email">Email Id</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter Email Id"
+            style={{
+              width: "100%",
+              padding: 8,
+              marginTop: 4,
+              borderRadius: 4,
+              border: "1px solid #ccc",
+            }}
+            required
+          />
+        </div>
+      ) : (
+          <div style={{ marginBottom: 16 }}>
+            <label htmlFor="mobile">Mobile Number</label>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                marginTop: 4,
+                border: "1px solid #ccc",
+                borderRadius: 4,
+                overflow: "hidden",
+              }}
+            >
+              <input
+                type="tel"
+                id="mobile"
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+                placeholder="Enter mobile number"
+                style={{
+                  flex: 1,
+                  border: "none",
+                  outline: "none",
+                  padding: "8px 10px",
+                  fontSize: "1rem",
+                }}
+                required
+              />
+            </div>
+          </div>
+      )}
+
       {error && <div style={{ color: "red", marginBottom: 8 }}>{error}</div>}
+
       <button
         type="submit"
         style={{
@@ -120,13 +207,14 @@ const SignUp = () => {
     </form>
   );
 
+  // ---------- Sign Up Form ----------
   const signUpForm = (
     <form onSubmit={handleSignUp}>
       <div style={{ marginBottom: 16 }}>
-        <label>Email Id</label>
+        <label>{registerMethod === "email" ? "Email Id" : "Mobile Number"}</label>
         <input
-          type="email"
-          value={email}
+          type={registerMethod === "email" ? "email" : "tel"}
+          value={registerMethod === "email" ? email : mobile}
           readOnly
           style={{
             width: "100%",
@@ -138,6 +226,7 @@ const SignUp = () => {
           }}
         />
       </div>
+
       <div
         className="alert alert-info"
         style={{
@@ -147,13 +236,40 @@ const SignUp = () => {
           border: "1px solid #b6e0fe",
         }}
       >
-        Please check your email for the OTP.
-        <br />
-        If you don’t see the email in your inbox, be sure to check your spam or
-        junk folder.
-        <br />
-        The email will be sent from <strong>{SUPPORT_EMAIL}</strong>.
+        {registerMethod === "email" ? (
+          <small>
+            Please check your email for the OTP.
+            <br />
+            If you don’t see the email in your inbox, check your spam or junk
+            folder.
+            <br />
+            The email will be sent from <strong>{SUPPORT_EMAIL}</strong>.
+          </small>
+        ) : (
+            <small>To get your OTP, send the following message through WhatsApp to <br />
+              <a
+                href="https://wa.me/15714843763?text=Rajput%20Chhipa%20App%20Admin,%20please%20send%20my%20Sign-Up%20OTP."
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Vijay (+1 571-484-3763)
+              </a>
+              <br />
+
+              <a
+                href="https://wa.me/919545727818?text=Rajput%20Chhipa%20App%20Admin,%20please%20send%20my%20Sign-Up%20OTP."
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Nikhil (+91 954-572-7818)
+              </a>
+              <br /><br />
+              "<i>Rajput Chhipa App Admin, please send my Sign-Up OTP.</i>" <br /><br />
+              Admin will provide your OTP to your WhatsApp number directly. <br />
+            </small>
+        )}
       </div>
+
       <div style={{ marginBottom: 16 }}>
         <label>
           One Time Password (OTP) <span style={{ color: "red" }}>*</span>
@@ -172,6 +288,7 @@ const SignUp = () => {
           required
         />
       </div>
+
       <div style={{ marginBottom: 16 }}>
         <label>
           Password <span style={{ color: "red" }}>*</span>
@@ -190,6 +307,7 @@ const SignUp = () => {
           required
         />
       </div>
+
       <div style={{ marginBottom: 16 }}>
         <label>
           Confirm Password <span style={{ color: "red" }}>*</span>
@@ -208,6 +326,7 @@ const SignUp = () => {
           required
         />
       </div>
+
       <div className="mb-3 form-check">
         <input
           type="checkbox"
@@ -217,10 +336,11 @@ const SignUp = () => {
           onChange={(e) => setAcknowledgeTerms(e.target.checked)}
         />
         <label htmlFor="terms" className="form-check-label small">
-          <span style={{ color: "red" }}>*</span> I have read and agree to the{" "}
+          <span style={{ color: "red" }}>*</span> I agree to the{" "}
           <a href="#">Terms and Conditions</a>.
         </label>
       </div>
+
       <div className="mb-3 form-check">
         <input
           type="checkbox"
@@ -230,11 +350,13 @@ const SignUp = () => {
           onChange={(e) => setAcknowledgePrivacy(e.target.checked)}
         />
         <label htmlFor="privacy" className="form-check-label small">
-          <span style={{ color: "red" }}>*</span> I have read and acknowledge
-          the <a href="#">Privacy Policy</a>.
+          <span style={{ color: "red" }}>*</span> I acknowledge the{" "}
+          <a href="#">Privacy Policy</a>.
         </label>
       </div>
+
       {error && <div style={{ color: "red", marginBottom: 8 }}>{error}</div>}
+
       <button
         type="submit"
         disabled={!isConditionsAcknowledgeByUser}
@@ -254,6 +376,7 @@ const SignUp = () => {
     </form>
   );
 
+  // ---------- Success Message ----------
   const signUpSuccessMessage = (
     <div style={{ color: "green", marginBottom: 8, textAlign: "center" }}>
       Sign Up completed successfully, please login using below link.
@@ -290,11 +413,8 @@ const SignUp = () => {
       }}
     >
       <h3 className="mb-4 fw-bold">Sign Up</h3>
-      {signUpSuccess
-        ? signUpSuccessMessage
-        : showRequestOtpForm
-          ? requestSignUpOTPForm
-          : signUpForm}
+      {signUpSuccess ? signUpSuccessMessage
+        : showRequestOtpForm ? requestSignUpOTPForm : signUpForm}
     </div>
   );
 };

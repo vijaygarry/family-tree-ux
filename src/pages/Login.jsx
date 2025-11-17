@@ -64,7 +64,7 @@ const Login = () => {
       <form onSubmit={handleLogin}>
         <div className="mb-3">
           <label htmlFor="loginName" className="form-label fw-semibold">
-            Email Id <span style={{ color: "red" }}>*</span>
+            Email Id or Mobile Number <span style={{ color: "red" }}>*</span>
           </label>
           <input
             type="text"
