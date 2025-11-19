@@ -3,7 +3,8 @@ import api from "../api/axiosInstance";
 import { SUPPORT_EMAIL } from "../constants/contact";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
+  const [loginName, setLoginName] = useState("");
+  const [otpChannel, setOtpChannel] = useState("mobile"); // "email" | "mobile"
   const [error, setError] = useState("");
   const [showRequestOTPForm, setShowRequestOTPForm] = useState(true);
   const [otp, setOtp] = useState("");
@@ -16,16 +17,24 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    if (!email) {
-      setError("Email Id is required");
+    if (!loginName) {
+      setError("Please enter mobile number or email Id.");
       return;
     }
     try {
       const response = await api.post("/session/requestForgotPasswordOTP", {
-        emailId: email,
+        loginName: loginName,
       });
-      if (response && response.data && response.data.requestId) {
-        setRequestId(response.data.requestId);
+      if (response && response.data) {
+        if(response.data.requestId) {
+          setRequestId(response.data.requestId);
+        }
+        if(response.data.otpChannel) {
+          setOtpChannel(response.data.otpChannel);
+        }
+        if(response.data.loginName) {
+          setLoginName(response.data.loginName);
+        }
       }
       setShowRequestOTPForm(false);
     } catch (err) {
@@ -55,11 +64,12 @@ const ForgotPassword = () => {
     }
     try {
       await api.post("/session/resetForgotPassword", {
-        emailId: email,
+        loginName: loginName,
         otp,
         newPassword,
         confirmPassword,
         requestId,
+        otpChannel,
       });
 
       // Success: clear fields and show login link
@@ -86,23 +96,17 @@ const ForgotPassword = () => {
   // Form for requesting reset link
   const requestForgotPwdOTPForm = (
     <form onSubmit={handleSubmit}>
-      <div style={{ marginBottom: 16 }}>
-        <label htmlFor="email">Email Id</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={{
-            width: "100%",
-            padding: 8,
-            marginTop: 4,
-            borderRadius: 4,
-            border: "1px solid #ccc",
-          }}
-          required
-        />
-      </div>
+      <div className="mb-3">
+          <label htmlFor="loginName" className="form-label fw-semibold">
+            Email Id or Mobile Number <span style={{ color: "red" }}>*</span>
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            style={{ minHeight: "45px" }}
+            onChange={(e) => setLoginName(e.target.value)}
+          />
+        </div>
       {error && <div style={{ color: "red", marginBottom: 8 }}>{error}</div>}
       <button
         type="submit"
@@ -116,7 +120,7 @@ const ForgotPassword = () => {
           fontWeight: "bold",
         }}
       >
-        Forgot Password
+        Request Forgot Password OTP
       </button>
     </form>
   );
@@ -125,10 +129,10 @@ const ForgotPassword = () => {
   const forgotPasswordForm = (
     <form onSubmit={handleResetPassword}>
       <div style={{ marginBottom: 16 }}>
-        <label>Email Id</label>
+        <label>{otpChannel === "email" ? "Email Id" : "Mobile Number"}</label>
         <input
-          type="email"
-          value={email}
+          type="text"
+          value={loginName}
           readOnly
           style={{
             width: "100%",
@@ -149,12 +153,38 @@ const ForgotPassword = () => {
           border: "1px solid #b6e0fe",
         }}
       >
-        Please check your email for the OTP
-        <br />
-        If you don’t see the email in your inbox, be sure to check your spam or
-        junk folder.
-        <br />
-        The email will be sent from <strong>{SUPPORT_EMAIL}</strong>.
+        {otpChannel === "email" ? (
+          <small>
+            Please check your email for the OTP.
+            <br />
+            If you don’t see the email in your inbox, check your spam or junk
+            folder.
+            <br />
+            The email will be sent from <strong>{SUPPORT_EMAIL}</strong>.
+          </small>
+        ) : (
+            <small>To get your OTP, send the following message through WhatsApp to <br />
+              <a
+                href="https://wa.me/15714843763?text=Rajput%20Chhipa%20App%20Admin,%20please%20send%20my%20Forget%20Password%20OTP."
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Vijay (+1 571-484-3763)
+              </a>
+              <br />
+
+              <a
+                href="https://wa.me/919545727818?text=Rajput%20Chhipa%20App%20Admin,%20please%20send%20my%20Forget%20Password%20OTP."
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Nikhil (+91 954-572-7818)
+              </a>
+              <br /><br />
+              "<i>Rajput Chhipa App Admin, please send my Forget Password OTP.</i>" <br /><br />
+              Admin will provide your OTP to your WhatsApp number directly. <br />
+            </small>
+        )}
       </div>
       <div style={{ marginBottom: 16 }}>
         <label>One Time Password (OTP)</label>
