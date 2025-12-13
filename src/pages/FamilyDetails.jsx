@@ -356,7 +356,6 @@ const FamilyDetails = () => {
                   alt="Family"
                   style={{
                     width: "100%",
-                    height: "205px",
                     objectFit: "cover",
                     borderRadius: "8px",
                   }}

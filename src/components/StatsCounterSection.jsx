@@ -1,14 +1,14 @@
 import AnimatedCounter from "./AnimatedCounter";
 
 const stats = [
-  { value: 8, label: "Number of registered families" },
-  { value: 49, label: "Number of registered Members" },
-  { value: 8, label: "Registered Users" },
-  { value: 29, label: "Number of Males" },
-  { value: 20, label: "Number of Females" },
-  { value: 9, label: "Kids (Under 20)" },
+  { value: 13, label: "Number of registered families" },
+  { value: 73, label: "Number of registered Members" },
+  { value: 12, label: "Registered Users" },
+  { value: 40, label: "Number of Males" },
+  { value: 33, label: "Number of Females" },
+  { value: 13, label: "Kids (Under 20)" },
   { value: 0, label: "Single Girls (Above 20)" },
-  { value: 5, label: "Single Boys (Above 20)" },
+  { value: 6, label: "Single Boys (Above 20)" },
 ];
 
 export default function StatsCounterSection() {

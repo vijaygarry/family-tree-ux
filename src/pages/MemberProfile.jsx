@@ -661,7 +661,7 @@ const MemberProfile = () => {
             )}
           </div>
           <div className="col-sm-4">
-            <div className="d-flex  mt-5">
+            <div className="d-flex  mb-2">
               <span className="fw-semibold me-2">Member Address:</span>
               {memberProfile.addressSameAsFamily ? (
                 <span>Member address is the same as family address </span>
@@ -696,9 +696,8 @@ const MemberProfile = () => {
                 </address>
               )}
             </div>
-            {/* TODO: Currently backend system does not return family addrress, so member is used as filler*/}
             {memberProfile.familyAddress && (
-              <div className="d-flex  mt-5">
+              <div className="d-flex  mt-4">
                 <span className="fw-semibold me-2">Family Address:</span>
                 <address className="mb-0">
                   {memberProfile.familyAddress?.addressLine1}
@@ -734,7 +733,7 @@ const MemberProfile = () => {
           </div>
           <div
             className="mt-auto d-flex align-items-end"
-            style={{ minHeight: "60px" }}
+            style={{ minHeight: "40px" }}
           >
             <div className="text-end w-100">
               <button

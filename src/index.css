@@ -8,6 +8,22 @@ body {
   background: #e8e8e8;
 }
 
+/* Style nodes that belong to a different family: show dotted connectors and white card */
+li.external-node::before,
+li.external-node::after,
+li.external-node > ul::before,
+li.external-node > ul::after,
+li.external-node .line {
+  border-top-style: dotted !important;
+  border-color: #A42502 !important;
+}
+
+li.external-node .member-card {
+  background: #ffffff !important;
+  border: 2px dotted #A42502 !important;
+  box-shadow: none !important;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -132,6 +148,10 @@ table.table.table-bordered.table-striped.family-members tbody tr:nth-child(odd) 
 .fs-12{
   font-size: 12px;
 }
+
+.fs-10{
+  font-size: 10px;
+}
 button.btn.btn-outline-primary {
     border: 1px solid #a42108;
     color: #a42108;
@@ -254,10 +274,10 @@ button.btn.btn-secondary {
     display: block !important;
   }
 
-     .navbar-nav .dropdown-menu a.dropdown-item , header button.dropdown-item {
-        font-weight: 600 !important;
-        padding: 12px 50px;
-    }
+  .navbar-nav .dropdown-menu a.dropdown-item , header button.dropdown-item {
+    font-weight: 600 !important;
+    padding: 12px 50px;
+  }
 
   .container.p-4.bg-white.rounded.mt-4 {
     padding: 7px !important;
@@ -268,13 +288,6 @@ button.btn.btn-secondary {
   .d-flex.justify-content-center.gap-2 {
     display: block !important;
   } */
-
-  .css-1vs3jbz:first-of-type::after,
-  .css-1vs3jbz:last-of-type::before,
-  .css-1vs3jbz::before,
-  .css-1vs3jbz::after {
-    display: none;
-  }
 
   .tree-container .member-card {
     width: 100% !important;
