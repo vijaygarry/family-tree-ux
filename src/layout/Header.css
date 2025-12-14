@@ -21,6 +21,12 @@
   border-radius: 5px;
 }
 
+@media(max-width:700px) {
+  .nav-link {
+    color: #fff !important;
+  }
+}
+
 .navbar-dark .navbar-nav .nav-link:hover {
   color: #ffffff; /* Pure white on hover */
   background: #a42502;

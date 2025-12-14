@@ -22,38 +22,36 @@ const FamilyDetails = () => {
   const [editSuccess, setEditSuccess] = useState("");
   const { familyId } = useParams();
 
-  useEffect(() => {
-    const fetchFamilyData = async () => {
-      try {
-        const requestBody = familyId ? { familyId: parseInt(familyId) } : {};
-        const response = await api.post(
-          "/family/getfamilydetails",
-          requestBody,
-        );
-        setFamily(response.data);
-        setForm({
-          familyName: response.data.familyDetails.familyName || "",
-          familyNameInHindi:
-            response.data.familyDetails.familyNameInHindi || "",
-          gotra: response.data.familyDetails.gotra || "",
-          email: response.data.familyDetails.email || "",
-          phone: response.data.familyDetails.phone || "",
-          phoneWhatsappRegistered:
-            response.data.familyDetails.phoneWhatsappRegistered || false,
-          familyAddress: { ...response.data.familyDetails.familyAddress } || {},
-        });
-        setEditMode(false);
-      } catch (err) {
-        console.error("Failed to load family data", err);
-        if (err.response?.data?.operationMessage) {
-          // API returned an error in payload
-          setError(err.response?.data?.operationMessage);
-        } else {
-          setError(ERROR_MESSAGES.DEFAULT);
-        }
+  const fetchFamilyData = async () => {
+    try {
+      const requestBody = familyId ? { familyId: parseInt(familyId) } : {};
+      const response = await api.post("/family/getfamilydetails", requestBody);
+      setFamily(response.data);
+      setForm({
+        familyName: response.data.familyDetails.familyName || "",
+        familyNameInHindi: response.data.familyDetails.familyNameInHindi || "",
+        gotra: response.data.familyDetails.gotra || "",
+        email: response.data.familyDetails.email || "",
+        phone: response.data.familyDetails.phone || "",
+        phoneWhatsappRegistered:
+          response.data.familyDetails.phoneWhatsappRegistered || false,
+        familyAddress: { ...response.data.familyDetails.familyAddress } || {},
+      });
+      setEditMode(false);
+    } catch (err) {
+      console.error("Failed to load family data", err);
+      if (err.response?.data?.operationMessage) {
+        // API returned an error in payload
+        setError(err.response?.data?.operationMessage);
+      } else {
+        setError(ERROR_MESSAGES.DEFAULT);
       }
-    };
+    }
+  };
+
+  useEffect(() => {
     fetchFamilyData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [familyId]);
 
   const handleEditClick = () => setEditMode(true);
@@ -491,7 +489,18 @@ const FamilyDetails = () => {
             familyNameInHindi={family?.familyDetails?.familyNameInHindi}
           />
         ) : (
-          <div className="alert alert-danger">Family members not added </div>
+            <div>
+              <div className="alert alert-danger">Family members not added </div>
+              {family?.familyDetails?.canUpdateFamilyDetails && (
+                <button
+                  className="btn btn-primary"
+                  onClick=""
+                  title="Add Head Of Family"
+                >
+                  Add Head Of Family
+                </button>
+              )}              
+            </div>
         )}
       </div>
     </div>
