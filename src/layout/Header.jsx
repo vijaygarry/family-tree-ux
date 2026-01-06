@@ -21,10 +21,6 @@ const Header = () => {
     closeOffcanvas();
   };
 
-  const openOffcanvas = () => {
-    offcanvasRef.current?.show();
-  };
-
   const closeOffcanvas = () => {
     offcanvasRef.current?.hide();
   };
@@ -120,16 +116,6 @@ const Header = () => {
             </li>
             <li className="nav-item">
               <NavLink
-                to="/myProfile"
-                className={({ isActive }) =>
-                  "nav-link" + (isActive ? " active" : "")
-                }
-              >
-                My Profile
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
                 to="/searchfamily"
                 className={({ isActive }) =>
                   "nav-link" + (isActive ? " active" : "")
@@ -138,6 +124,26 @@ const Header = () => {
                 Search Family
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink
+                to="/myProfile"
+                className={({ isActive }) =>
+                  "nav-link" + (isActive ? " active" : "")
+                }
+              >
+                My Profile
+              </NavLink>
+            </li>
+            {/* <li className="nav-item">
+              <NavLink
+                to="/searchMember"
+                className={({ isActive }) =>
+                  "nav-link" + (isActive ? " active" : "")
+                }
+              >
+                Search Member
+              </NavLink>
+            </li> */}
             {user?.operationAllowed?.includes("ADD_FAMILY") && (
               <li className="nav-item">
                 <NavLink
@@ -313,17 +319,6 @@ const Header = () => {
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    to="/myProfile"
-                    className={({ isActive }) =>
-                      "nav-link" + (isActive ? " active" : "")
-                    }
-                    onClick={() => closeOffcanvas()}
-                  >
-                    My Profile
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink
                     to="/searchfamily"
                     className={({ isActive }) =>
                       "nav-link" + (isActive ? " active" : "")
@@ -333,6 +328,28 @@ const Header = () => {
                     Search Family
                   </NavLink>
                 </li>
+                <li className="nav-item">
+                  <NavLink
+                    to="/myProfile"
+                    className={({ isActive }) =>
+                      "nav-link" + (isActive ? " active" : "")
+                    }
+                    onClick={() => closeOffcanvas()}
+                  >
+                    My Profile
+                  </NavLink>
+                </li>
+                {/* <li className="nav-item">
+                  <NavLink
+                    to="/searchMember"
+                    className={({ isActive }) =>
+                      "nav-link" + (isActive ? " active" : "")
+                    }
+                    onClick={() => closeOffcanvas()}
+                  >
+                    Search Member
+                  </NavLink>
+                </li> */}
                 {user?.operationAllowed?.includes("ADD_FAMILY") && (
                   <li className="nav-item">
                     <NavLink

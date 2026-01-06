@@ -32,7 +32,7 @@ const DisplayMemberRow = ({ member }) => {
       <td data-label="Relationship">{member.familyRelationship}</td>
       <td data-label="Birth Date">
         {member.birthDate} <br />
-        {member.age}
+        <p className="m-0 fs-10">{member.age}</p>
       </td>
       <td data-label="Marital Status">
         {member.maritalStatus} <br />
