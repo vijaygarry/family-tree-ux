@@ -201,6 +201,18 @@ button.btn.btn-secondary {
     color: #fff;
 }
 
+/* FAQ classes */
+.faq-content p {
+  margin: 4px 0;
+}
+
+.faq-content ul {
+  margin: 4px 0 6px 18px;
+}
+
+.faq-content h6 {
+  margin: 6px 0;
+}
 
 @media (max-width: 700px) {
   table.family-members {

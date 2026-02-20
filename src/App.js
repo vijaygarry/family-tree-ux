@@ -19,6 +19,7 @@ import HelpPage from "./pages/HelpPage";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import AddMember from "./pages/AddMember";
 import ManageRelationship from "./pages/ManageRelationship";
+import MemberSearch from "./pages/MemberSearch";
 
 //import UserDetails from "./pages/UserDetails";
 
@@ -136,6 +137,16 @@ const App = () => (
         <PrivateRoute>
           <MainLayout>
             <MemberProfile />
+          </MainLayout>
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/searchMember"
+      element={
+        <PrivateRoute>
+          <MainLayout>
+            <MemberSearch />
           </MainLayout>
         </PrivateRoute>
       }

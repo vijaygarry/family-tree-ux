@@ -134,7 +134,7 @@ const Header = () => {
                 My Profile
               </NavLink>
             </li>
-            {/* <li className="nav-item">
+            <li className="nav-item">
               <NavLink
                 to="/searchMember"
                 className={({ isActive }) =>
@@ -143,7 +143,7 @@ const Header = () => {
               >
                 Search Member
               </NavLink>
-            </li> */}
+            </li>
             {user?.operationAllowed?.includes("ADD_FAMILY") && (
               <li className="nav-item">
                 <NavLink
@@ -339,7 +339,7 @@ const Header = () => {
                     My Profile
                   </NavLink>
                 </li>
-                {/* <li className="nav-item">
+                <li className="nav-item">
                   <NavLink
                     to="/searchMember"
                     className={({ isActive }) =>
@@ -349,7 +349,7 @@ const Header = () => {
                   >
                     Search Member
                   </NavLink>
-                </li> */}
+                </li>
                 {user?.operationAllowed?.includes("ADD_FAMILY") && (
                   <li className="nav-item">
                     <NavLink
