@@ -27,7 +27,10 @@ const HelpPage = () => {
             borderRadius: 6,
           }}
         >
-          <p>Watch the introduction video below to learn how to use the application:</p>
+          <p>
+            Watch the introduction video below to learn how to use the
+            application:
+          </p>
 
           <div
             style={{
@@ -97,7 +100,8 @@ const HelpPage = () => {
     },
     {
       id: "5",
-      question: "How can I get online access? / मुझे ऑनलाइन एक्सेस कैसे मिलेगा?",
+      question:
+        "How can I get online access? / मुझे ऑनलाइन एक्सेस कैसे मिलेगा?",
       answer: (
         <div
           style={{
@@ -112,55 +116,101 @@ const HelpPage = () => {
             Access to this application is restricted to members of the Rajput
             Chhipa Samaj. Please follow the steps below to get online access.
           </p>
-          <p><strong>Step 1: Send Email Request</strong></p>
-          <p><strong>Option 1: </strong></p>
           <p>
-            Send an email to <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
+            <strong>Step 1: Send Email Request</strong>
+          </p>
+          <p>
+            <strong>Option 1: </strong>
+          </p>
+          <p>
+            Send an email to{" "}
+            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
             to add your family to the system.
           </p>
 
-          <p><strong>Family Details:</strong></p>
+          <p>
+            <strong>Family Details:</strong>
+          </p>
           <ul>
-            <li>(Required) Family Name, Gotra, Head of Family, Family Address, Mobile Number</li>
+            <li>
+              (Required) Family Name, Gotra, Head of Family, Family Address,
+              Mobile Number
+            </li>
           </ul>
 
-          <p><strong>For Each Member:</strong></p>
+          <p>
+            <strong>For Each Member:</strong>
+          </p>
           <ul>
-            <li>(Required) First Name, Gender, Marital Status, Date of Birth</li>
+            <li>
+              (Required) First Name, Gender, Marital Status, Date of Birth
+            </li>
             <li>(Optional) Educational Details, Occupation </li>
             <li>Mobile Number (required for online access)</li>
             <li>Email ID (If available)</li>
             <li>Address (If different from family address)</li>
           </ul>
-          <p>⚠️ Each member must have a unique mobile number. Without a mobile number, the member will not be able to access the application.</p>
-
-          <p><strong>Option 2: </strong></p>
           <p>
-            You may send an email to <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> the page number from the यथार्थ book where your family is listed.
-            Along with this, please provide the mobile number or email ID for each member to enable online access.
+            ⚠️ Each member must have a unique mobile number. Without a mobile
+            number, the member will not be able to access the application.
           </p>
-          <p><strong>Step 2: Register</strong></p>
+
+          <p>
+            <strong>Option 2: </strong>
+          </p>
+          <p>
+            You may send an email to{" "}
+            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> the page
+            number from the यथार्थ book where your family is listed. Along with
+            this, please provide the mobile number or email ID for each member
+            to enable online access.
+          </p>
+          <p>
+            <strong>Step 2: Register</strong>
+          </p>
           <p>
             After your family is added, use the{" "}
-            <a href="/signup" style={{ color: "#A42502", textDecoration: "none" }}>
+            <a
+              href="/signup"
+              style={{ color: "#A42502", textDecoration: "none" }}
+            >
               Sign Up
             </a>{" "}
-            option to register for online access using your mobile number or email ID.
+            option to register for online access using your mobile number or
+            email ID.
           </p>
-          <p>After completing Sign Up, you can log in anytime using your mobile number/email ID and your chosen password.</p>
+          <p>
+            After completing Sign Up, you can log in anytime using your mobile
+            number/email ID and your chosen password.
+          </p>
 
           <hr />
-          <p><strong>Step 1: अपने परिवार को सिस्टम में जोड़ने के लिए अनुरोध भेजें</strong></p>
-          <p><strong>Option 1: </strong></p>
           <p>
-            ऑनलाइन एक्सेस प्राप्त करने के लिए पहले आपके परिवार का विवरण सिस्टम में जोड़ा जाना आवश्यक है।
-            कृपया नीचे दी गई जानकारी के साथ <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> पर ईमेल भेजें:
+            <strong>
+              Step 1: अपने परिवार को सिस्टम में जोड़ने के लिए अनुरोध भेजें
+            </strong>
           </p>
-          <p><strong>परिवार की जानकारी:</strong></p>
+          <p>
+            <strong>Option 1: </strong>
+          </p>
+          <p>
+            ऑनलाइन एक्सेस प्राप्त करने के लिए पहले आपके परिवार का विवरण सिस्टम
+            में जोड़ा जाना आवश्यक है। कृपया नीचे दी गई जानकारी के साथ{" "}
+            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> पर ईमेल
+            भेजें:
+          </p>
+          <p>
+            <strong>परिवार की जानकारी:</strong>
+          </p>
           <ul>
-            <li>परिवार का नाम, गोत्र, परिवार के मुखिया का नाम, परिवार का पता, mobile नंबर</li>
+            <li>
+              परिवार का नाम, गोत्र, परिवार के मुखिया का नाम, परिवार का पता,
+              mobile नंबर
+            </li>
           </ul>
-          <p><strong>प्रत्येक सदस्य की जानकारी:</strong></p>
+          <p>
+            <strong>प्रत्येक सदस्य की जानकारी:</strong>
+          </p>
           <ul>
             <li>(अनिवार्य) पहला नाम, लिंग, वैवाहिक स्थिति, जन्म तिथि</li>
             <li>(optional) शिक्षा, व्यवसाय</li>
@@ -168,16 +218,29 @@ const HelpPage = () => {
             <li>ईमेल ID (यदि हो)</li>
             <li>पता (यदि परिवार के पते से अलग हो)</li>
           </ul>
-          <p>⚠️ प्रत्येक सदस्य का मोबाइल नंबर अलग-अलग होना आवश्यक है। मोबाइल नंबर दिए बिना सदस्य को application का एक्सेस नहीं मिल सकेगा।</p>
-
-          <p><strong>Option 2: </strong></p>
           <p>
-            आप <b>यथार्थ</b> पुस्तक में आपके परिवार का जो पेज नंबर है, वह भी <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> email pe भेज सकते हैं। इसके साथ प्रत्येक सदस्य का मोबाइल नंबर या ईमेल आईडी अवश्य दें, ताकि उन्हें ऑनलाइन एक्सेस दिया जा सके।
+            ⚠️ प्रत्येक सदस्य का मोबाइल नंबर अलग-अलग होना आवश्यक है। मोबाइल नंबर
+            दिए बिना सदस्य को application का एक्सेस नहीं मिल सकेगा।
           </p>
-          <p><strong>Step 2: रजिस्टर करें</strong></p>
+
+          <p>
+            <strong>Option 2: </strong>
+          </p>
+          <p>
+            आप <b>यथार्थ</b> पुस्तक में आपके परिवार का जो पेज नंबर है, वह भी{" "}
+            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> email pe भेज
+            सकते हैं। इसके साथ प्रत्येक सदस्य का मोबाइल नंबर या ईमेल आईडी अवश्य
+            दें, ताकि उन्हें ऑनलाइन एक्सेस दिया जा सके।
+          </p>
+          <p>
+            <strong>Step 2: रजिस्टर करें</strong>
+          </p>
           <p>
             परिवार जुड़ने के बाद{" "}
-            <a href="/signup" style={{ color: "#A42502", textDecoration: "none" }}>
+            <a
+              href="/signup"
+              style={{ color: "#A42502", textDecoration: "none" }}
+            >
               Sign Up
             </a>{" "}
             करके रजिस्टर करें।
@@ -200,8 +263,8 @@ const HelpPage = () => {
           className="faq-content"
         >
           <p>
-            Some families may not want their information published online without
-            their consent.
+            Some families may not want their information published online
+            without their consent.
           </p>
           <p>
             Requesting families to send an email ensures that we have their
@@ -211,8 +274,8 @@ const HelpPage = () => {
           <hr />
 
           <p>
-            कुछ परिवार अपनी जानकारी बिना अनुमति के इंटरनेट पर प्रकाशित नहीं
-            करना चाहते।
+            कुछ परिवार अपनी जानकारी बिना अनुमति के इंटरनेट पर प्रकाशित नहीं करना
+            चाहते।
           </p>
           <p>
             Email द्वारा अनुरोध मंगवाने का उद्देश्य यह सुनिश्चित करना है कि
@@ -225,63 +288,64 @@ const HelpPage = () => {
       ),
     },
     {
-  id: "7",
-  question:
-    "Why can’t I access the application without adding my family first? / परिवार जोड़े बिना मैं application का उपयोग क्यों नहीं कर सकता?",
-  answer: (
-    <div
-      style={{
-        backgroundColor: "#E8E8E8",
-        padding: "16px",
-        borderRadius: 6,
-        lineHeight: "1.6",
-      }}
-      className="faq-content"
-    >
-      <p>
-        This application is exclusively for the Rajput Chhipa Samaj community.
-      </p>
-      <p>
-        If open registration were allowed, anyone could create an account and
-        view community profiles.
-      </p>
-      <p>
-        To ensure privacy and restrict access only to verified families:
-      </p>
-      <ul>
-        <li>Your family must first be added to the system.</li>
-        <li>
-          You must register using a valid mobile number linked to your family.
-        </li>
-      </ul>
-      <p>
-        This process keeps the platform secure and limited to community members only.
-      </p>
+      id: "7",
+      question:
+        "Why can’t I access the application without adding my family first? / परिवार जोड़े बिना मैं application का उपयोग क्यों नहीं कर सकता?",
+      answer: (
+        <div
+          style={{
+            backgroundColor: "#E8E8E8",
+            padding: "16px",
+            borderRadius: 6,
+            lineHeight: "1.6",
+          }}
+          className="faq-content"
+        >
+          <p>
+            This application is exclusively for the Rajput Chhipa Samaj
+            community.
+          </p>
+          <p>
+            If open registration were allowed, anyone could create an account
+            and view community profiles.
+          </p>
+          <p>
+            To ensure privacy and restrict access only to verified families:
+          </p>
+          <ul>
+            <li>Your family must first be added to the system.</li>
+            <li>
+              You must register using a valid mobile number linked to your
+              family.
+            </li>
+          </ul>
+          <p>
+            This process keeps the platform secure and limited to community
+            members only.
+          </p>
 
-      <hr />
+          <hr />
 
-      <p>
-        यह एप्लिकेशन केवल राजपूत छीपा समाज के सदस्यों के लिए बनाई गई है।
-      </p>
-      <p>
-        यदि खुली रजिस्ट्रेशन की अनुमति दी जाए, तो कोई भी व्यक्ति रजिस्टर
-        करके समाज की जानकारी देख सकता है।
-      </p>
-      <p>सुरक्षा और गोपनीयता बनाए रखने के लिए:</p>
-      <ul>
-        <li>पहले आपके परिवार का विवरण सिस्टम में जोड़ा जाता है।</li>
-        <li>
-          फिर आप अपने registered मोबाइल नंबर से Sign Up कर सकते हैं।
-        </li>
-      </ul>
-      <p>
-        इस प्रक्रिया से application का उपयोग केवल प्रमाणित समाज के सदस्य ही
-        कर सकते हैं।
-      </p>
-    </div>
-  ),
-},
-{
+          <p>
+            यह एप्लिकेशन केवल राजपूत छीपा समाज के सदस्यों के लिए बनाई गई है।
+          </p>
+          <p>
+            यदि खुली रजिस्ट्रेशन की अनुमति दी जाए, तो कोई भी व्यक्ति रजिस्टर
+            करके समाज की जानकारी देख सकता है।
+          </p>
+          <p>सुरक्षा और गोपनीयता बनाए रखने के लिए:</p>
+          <ul>
+            <li>पहले आपके परिवार का विवरण सिस्टम में जोड़ा जाता है।</li>
+            <li>फिर आप अपने registered मोबाइल नंबर से Sign Up कर सकते हैं।</li>
+          </ul>
+          <p>
+            इस प्रक्रिया से application का उपयोग केवल प्रमाणित समाज के सदस्य ही
+            कर सकते हैं।
+          </p>
+        </div>
+      ),
+    },
+    {
       id: "2",
       question: "How can I add a member to my family?",
       answer: (
@@ -354,97 +418,92 @@ const HelpPage = () => {
         </div>
       ),
     },
-{
-  id: "8",
-  question:
-    "Why does each member need a unique mobile number? / प्रत्येक सदस्य के लिए अलग मोबाइल नंबर क्यों आवश्यक है?",
-  answer: (
-    <div
-      style={{
-        backgroundColor: "#E8E8E8",
-        padding: "16px",
-        borderRadius: 6,
-        lineHeight: "1.6",
-      }}
-      className="faq-content"
-    >
-      <p>
-        Each member has their own separate login and password.
-      </p>
-      <p>
-        To uniquely identify every user and maintain account security, each
-        member must have a unique mobile number.
-      </p>
-      <p>
-        Sharing the same mobile number between multiple members is not allowed.
-      </p>
-      <hr />
-      <p>
-        प्रत्येक सदस्य का अलग लॉगिन और पासवर्ड होता है।
-      </p>
-      <p>
-        सुरक्षा और पहचान के लिए हर सदस्य का एक यूनिक (अलग) मोबाइल नंबर
-        होना आवश्यक है।
-      </p>
-      <p>
-        एक ही मोबाइल नंबर से कई सदस्यों को रजिस्टर करने की अनुमति नहीं है।
-      </p>
-    </div>
-  ),
-},
-{
-  id: "9",
-  question:
-    "Why can’t I add my family myself? / मैं अपना परिवार स्वयं क्यों नहीं जोड़ सकता?",
-  answer: (
-    <div
-      style={{
-        backgroundColor: "#E8E8E8",
-        padding: "16px",
-        borderRadius: 6,
-        lineHeight: "1.6",
-      }}
-      className="faq-content"
-    >
-      <p>
-        Since this is a new application, allowing self-registration for
-        families may lead to:
-      </p>
-      <ul>
-        <li>Duplicate entries</li>
-        <li>Incorrect information</li>
-        <li>Data inconsistencies</li>
-      </ul>
-      <p>
-        To maintain accuracy and avoid confusion, only the admin can add new
-        families.
-      </p>
-      <p>
-        Once your family is added, members can update and manage their own
-        profiles.
-      </p>
+    {
+      id: "8",
+      question:
+        "Why does each member need a unique mobile number? / प्रत्येक सदस्य के लिए अलग मोबाइल नंबर क्यों आवश्यक है?",
+      answer: (
+        <div
+          style={{
+            backgroundColor: "#E8E8E8",
+            padding: "16px",
+            borderRadius: 6,
+            lineHeight: "1.6",
+          }}
+          className="faq-content"
+        >
+          <p>Each member has their own separate login and password.</p>
+          <p>
+            To uniquely identify every user and maintain account security, each
+            member must have a unique mobile number.
+          </p>
+          <p>
+            Sharing the same mobile number between multiple members is not
+            allowed.
+          </p>
+          <hr />
+          <p>प्रत्येक सदस्य का अलग लॉगिन और पासवर्ड होता है।</p>
+          <p>
+            सुरक्षा और पहचान के लिए हर सदस्य का एक यूनिक (अलग) मोबाइल नंबर होना
+            आवश्यक है।
+          </p>
+          <p>
+            एक ही मोबाइल नंबर से कई सदस्यों को रजिस्टर करने की अनुमति नहीं है।
+          </p>
+        </div>
+      ),
+    },
+    {
+      id: "9",
+      question:
+        "Why can’t I add my family myself? / मैं अपना परिवार स्वयं क्यों नहीं जोड़ सकता?",
+      answer: (
+        <div
+          style={{
+            backgroundColor: "#E8E8E8",
+            padding: "16px",
+            borderRadius: 6,
+            lineHeight: "1.6",
+          }}
+          className="faq-content"
+        >
+          <p>
+            Since this is a new application, allowing self-registration for
+            families may lead to:
+          </p>
+          <ul>
+            <li>Duplicate entries</li>
+            <li>Incorrect information</li>
+            <li>Data inconsistencies</li>
+          </ul>
+          <p>
+            To maintain accuracy and avoid confusion, only the admin can add new
+            families.
+          </p>
+          <p>
+            Once your family is added, members can update and manage their own
+            profiles.
+          </p>
 
-      <hr />
+          <hr />
 
-      <p>
-        यह एक नया एप्लिकेशन है। यदि सभी को स्वयं परिवार जोड़ने की अनुमति दी
-        जाए तो:
-      </p>
-      <ul>
-        <li>Duplicate एंट्री हो सकती है</li>
-        <li>गलत जानकारी दर्ज हो सकती है</li>
-        <li>डेटा में भ्रम उत्पन्न हो सकता है</li>
-      </ul>
-      <p>
-        इसी कारण से केवल admin को नया परिवार जोड़ने की अनुमति है।
-      </p>
-      <p>
-        एक बार परिवार जुड़ जाने के बाद, सदस्य अपनी प्रोफ़ाइल और परिवार की
-        जानकारी अपडेट कर सकते हैं।
-      </p>
-    </div>
-  ),
-},
+          <p>
+            यह एक नया एप्लिकेशन है। यदि सभी को स्वयं परिवार जोड़ने की अनुमति दी
+            जाए तो:
+          </p>
+          <ul>
+            <li>Duplicate एंट्री हो सकती है</li>
+            <li>गलत जानकारी दर्ज हो सकती है</li>
+            <li>डेटा में भ्रम उत्पन्न हो सकता है</li>
+          </ul>
+          <p>इसी कारण से केवल admin को नया परिवार जोड़ने की अनुमति है।</p>
+          <p>
+            एक बार परिवार जुड़ जाने के बाद, सदस्य अपनी प्रोफ़ाइल और परिवार की
+            जानकारी अपडेट कर सकते हैं।
+          </p>
+        </div>
+      ),
+    },
     {
       id: "10",
       question: "How do I reset my password?",
