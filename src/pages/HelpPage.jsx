@@ -61,44 +61,6 @@ const HelpPage = () => {
       ),
     },
     {
-      id: "4",
-      question: "How do I update my profile picture?",
-      answer: (
-        <div
-          style={{
-            backgroundColor: "#E8E8E8",
-            padding: "12px",
-            borderRadius: 6,
-          }}
-        >
-          <p>There are two ways to update your profile picture:</p>
-          <ol>
-            <li>
-              <strong>If you are a registered member:</strong> Log in to the
-              application, go to{" "}
-              <a
-                href="/myProfile"
-                style={{ color: "#A42502", textDecoration: "none" }}
-              >
-                <em>My Profile</em>
-              </a>
-              . On your profile page, use the <em>Edit Image</em> option
-              displayed just below your profile image to upload a new picture.
-            </li>
-            <li>
-              <strong>
-                If you are not registered or cannot access your account:
-              </strong>{" "}
-              Ask any registered family member to log in, go to{" "}
-              <em>My Family</em>, click your profile, and use the{" "}
-              <em>Edit Image</em> option (below the profile image) to upload or
-              update your picture on your behalf.
-            </li>
-          </ol>
-        </div>
-      ),
-    },
-    {
       id: "5",
       question:
         "How can I get online access? / मुझे ऑनलाइन एक्सेस कैसे मिलेगा?",
@@ -413,6 +375,44 @@ const HelpPage = () => {
               <em>My Family</em>, click your profile, and use the{" "}
               <em>Edit Profile</em> option to update your information on your
               behalf.
+            </li>
+          </ol>
+        </div>
+      ),
+    },
+    {
+      id: "4",
+      question: "How do I update my profile picture?",
+      answer: (
+        <div
+          style={{
+            backgroundColor: "#E8E8E8",
+            padding: "12px",
+            borderRadius: 6,
+          }}
+        >
+          <p>There are two ways to update your profile picture:</p>
+          <ol>
+            <li>
+              <strong>If you are a registered member:</strong> Log in to the
+              application, go to{" "}
+              <a
+                href="/myProfile"
+                style={{ color: "#A42502", textDecoration: "none" }}
+              >
+                <em>My Profile</em>
+              </a>
+              . On your profile page, use the <em>Edit Image</em> option
+              displayed just below your profile image to upload a new picture.
+            </li>
+            <li>
+              <strong>
+                If you are not registered or cannot access your account:
+              </strong>{" "}
+              Ask any registered family member to log in, go to{" "}
+              <em>My Family</em>, click your profile, and use the{" "}
+              <em>Edit Image</em> option (below the profile image) to upload or
+              update your picture on your behalf.
             </li>
           </ol>
         </div>
