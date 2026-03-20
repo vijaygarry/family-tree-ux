@@ -88,6 +88,16 @@ const HeaderWithoutMenu = () => {
             </li>
             <li className="nav-item">
               <NavLink
+                to="/registerFamilyrequest"
+                className={({ isActive }) =>
+                  "nav-link" + (isActive ? " active" : "")
+                }
+              >
+                Register Family
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
                 to="/helpWithoutMenu"
                 className={({ isActive }) =>
                   "nav-link" + (isActive ? " active" : "")
@@ -154,7 +164,17 @@ const HeaderWithoutMenu = () => {
                 <li>
                   <hr className="dropdown-divider" />
                 </li>
-
+                <li className="nav-item">
+                  <NavLink
+                    to="/registerFamilyrequest"
+                    className={({ isActive }) =>
+                      "nav-link" + (isActive ? " active" : "")
+                    }
+                    onClick={() => closeOffcanvas()}
+                  >
+                    Register Family
+                  </NavLink>
+                </li>
                 <li className="nav-item">
                   <NavLink
                     to="/signup"

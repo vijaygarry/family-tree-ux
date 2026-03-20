@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // List of pages to ignore 401 redirect
-const IGNORE_401_PAGES = new Set(["/login", "/forgotpassword", "/signup"]);
+const IGNORE_401_PAGES = new Set(["/login", "/forgotpassword", "/signup", "/addfamilyrequest"]);
 
 // For prod remove the proxy in package.json. For local development enable proxy in package.json
 // "proxy": "http://rajputchhipa.com", -- For remote API server

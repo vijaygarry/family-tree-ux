@@ -20,6 +20,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import AddMember from "./pages/AddMember";
 import ManageRelationship from "./pages/ManageRelationship";
 import MemberSearch from "./pages/MemberSearch";
+import RegisterFamilyRequest from "./pages/RegisterFamilyRequest";
 
 //import UserDetails from "./pages/UserDetails";
 
@@ -31,6 +32,14 @@ const App = () => (
       element={
         <LoginLayout>
           <Login />
+        </LoginLayout>
+      }
+    />
+    <Route
+      path="/registerFamilyrequest"
+      element={
+        <LoginLayout>
+          <RegisterFamilyRequest />
         </LoginLayout>
       }
     />
