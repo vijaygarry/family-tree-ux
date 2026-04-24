@@ -1,17 +1,46 @@
+import { useEffect, useState } from "react";
+import api from "../api/axiosInstance";
 import AnimatedCounter from "./AnimatedCounter";
 
-const stats = [
-  {"label": "Number of registered families", "value": 31}, 
-  {"label": "Number of registered Members", "value": 192}, 
-  {"label": "Registered Users", "value": 24}, 
-  {"label": "Number of Males", "value": 109}, 
-  {"label": "Number of Females", "value": 83}, 
-  {"label": "Kids (Under 20)", "value": 36}, 
-  {"label": "Single Girls (Above 20)", "value": 7}, 
-  {"label": "Single Boys (Above 20)", "value": 16}
-]
-
 export default function StatsCounterSection() {
+  const [stats, setStats] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await api.post("/family/getSamajStats", { samajId: 1 });
+        if (response.data && response.data.statistics) {
+          setStats(response.data.statistics);
+        }
+      } catch (err) {
+        console.error("Failed to fetch samaj stats:", err);
+        setError("Failed to load statistics");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: "center", padding: "24px" }}>
+        Loading statistics...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ textAlign: "center", padding: "24px", color: "#dc3545" }}>
+        {error}
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
@@ -24,7 +53,7 @@ export default function StatsCounterSection() {
     >
       {stats.map((s, i) => (
         <div
-          key={i}
+          key={s.key || i}
           style={{
             padding: "16px",
             borderRadius: "16px",
