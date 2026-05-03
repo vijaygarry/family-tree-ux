@@ -15,8 +15,8 @@ export const isValidPhoneNumber = (phoneNumber) => {
   if (!phoneNumber) return true;
   const stripped = stripPhoneFormatting(phoneNumber.trim());
   if (stripped.startsWith('+')) {
-    return /^\+[1-9]\d{6,14}$/.test(stripped);
+    return /^\+\d{11,15}$/.test(stripped);
   }
-  return /^\d{7,15}$/.test(stripped);
+  return /^\d{10,15}$/.test(stripped);
 };
 

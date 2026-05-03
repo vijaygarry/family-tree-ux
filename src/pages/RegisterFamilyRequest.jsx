@@ -75,7 +75,7 @@ const RegisterFamilyRequest = () => {
     if (!isValidEmail(familyForm.email))
       return "Invalid email address.";
     if (!isValidPhoneNumber(familyForm.phone))
-      return "Invalid phone number. Use international format e.g. +91XXXXXXXXXX.";
+      return "Invalid phone number.";
     return "";
   };
 
