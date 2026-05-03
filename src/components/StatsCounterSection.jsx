@@ -67,7 +67,7 @@ export default function StatsCounterSection() {
               duration={1500}
               startOnView={true}
               once={true}
-              suffix="" // e.g., "+" if you want "579+"
+              suffix=""
               decimals={0}
             />
           </div>

@@ -10,6 +10,7 @@ import {
 import { countryOptions, indiaStates } from "../constants/addressOptions";
 import AutoSuggest from "../components/AutoSuggest";
 import { SuccessBanner, FailureBanner } from "../components/AlertBanners";
+import { isValidEmail, isValidPhoneNumber } from "../utils/validationUtils";
 
 const RegisterFamilyRequest = () => {
   // wizard step ("family" -> collect family details, "members" -> add members)
@@ -71,6 +72,10 @@ const RegisterFamilyRequest = () => {
       return "Postal Code is required.";
     if (!familyForm.familyAddress?.country?.trim())
       return "Country is required.";
+    if (!isValidEmail(familyForm.email))
+      return "Invalid email address.";
+    if (!isValidPhoneNumber(familyForm.phone))
+      return "Invalid phone number. Use international format e.g. +91XXXXXXXXXX.";
     return "";
   };
 
@@ -126,6 +131,8 @@ const RegisterFamilyRequest = () => {
         return "Related member is required.";
     }
 
+    if (!isValidPhoneNumber(currentMember.phoneNumber))
+      return "Invalid phone number.";
     const trimmedPhone = currentMember.phoneNumber?.trim();
     if (trimmedPhone) {
       const duplicatePhone = members.some(
@@ -136,6 +143,8 @@ const RegisterFamilyRequest = () => {
       if (duplicatePhone) return "Phone number must be unique for every member.";
     }
 
+    if (!isValidEmail(currentMember.email))
+      return "Invalid email address.";
     const trimmedEmail = currentMember.email?.trim();
     if (trimmedEmail) {
       const duplicateEmail = members.some(
