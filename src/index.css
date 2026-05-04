@@ -110,19 +110,30 @@ ul.nav.nav-tabs button.active {
 .pagination li.page-item {
     margin: 0 5px;
 }
-.pagination li.page-item a.page-link,.pagination li.page-item span.page-link{
+.pagination li.page-item a.page-link,
+.pagination li.page-item button.page-link,
+.pagination li.page-item span.page-link {
   border-radius: 0;
 }
-.pagination li.page-item a.page-link,.pagination li.page-item.disabled span.page-link{
+.pagination li.page-item a.page-link,
+.pagination li.page-item button.page-link,
+.pagination li.page-item.disabled span.page-link {
   background: #A42502;
   color: #fff;
   font-weight: 600;
 }
-.pagination li.page-item.active span.page-link{
+.pagination li.page-item.active button.page-link,
+.pagination li.page-item.active span.page-link {
   background: #E8E8E8;
   color: #000;
   border-color: #E8E8E8;
-    font-weight: 600;
+  font-weight: 600;
+}
+.pagination li.page-item.disabled button.page-link {
+  background: #A42502;
+  color: #fff;
+  font-weight: 600;
+  opacity: 0.65;
 }
 
 table thead tr th, table thead tr th, table.table.table-bordered.table-striped.family-members thead.table-light tr th {
@@ -331,6 +342,18 @@ button.btn.btn-secondary {
   }
    table.family-members td::before {
     color: #000;
+  }
+
+  ul.pagination {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  ul.pagination li.page-item button.page-link {
+    min-width: 40px;
+    min-height: 40px;
+    font-size: 14px;
+    padding: 8px 10px;
   }
 
 }

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../api/axiosInstance";
 import ERROR_MESSAGES from "../constants/messages";
 
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 20;
 
 const FamilySearch = () => {
   const [searchString, setSearchString] = useState("");
