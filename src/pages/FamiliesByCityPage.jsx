@@ -116,8 +116,6 @@ const FamiliesByCityPage = () => {
           <thead className="table-light">
             <tr>
               <th>City</th>
-              <th>State</th>
-              <th>Country</th>
               <th>Families</th>
             </tr>
           </thead>
@@ -128,15 +126,14 @@ const FamiliesByCityPage = () => {
                 style={{ cursor: "pointer" }}
                 className={
                   selectedCity?.cityName === city.cityName &&
-                  selectedCity?.stateName === city.stateName
+                  selectedCity?.stateName === city.stateName &&
+                  selectedCity?.country === city.country
                     ? "table-active"
                     : ""
                 }
                 onClick={() => handleCityClick(city)}
               >
-                <td>{city.cityName}</td>
-                <td>{city.stateName}</td>
-                <td>{city.country || "-"}</td>
+                <td>{city.cityName}, {city.stateName}, {city.country || ""}</td>
                 <td>{city.familyCount}</td>
               </tr>
             ))}
@@ -166,8 +163,6 @@ const FamiliesByCityPage = () => {
                   <th>Head Of Family</th>
                   <th>Family Name</th>
                   <th>Gotra</th>
-                  <th>Phone</th>
-                  <th>Region</th>
                 </tr>
               </thead>
               <tbody>
@@ -187,8 +182,6 @@ const FamiliesByCityPage = () => {
                       {family.familyNameInHindi && ` (${family.familyNameInHindi})`}
                     </td>
                     <td>{family.gotra}</td>
-                    <td>{family.phone}</td>
-                    <td>{family.region}</td>
                   </tr>
                 ))}
               </tbody>
