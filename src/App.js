@@ -21,6 +21,7 @@ import AddMember from "./pages/AddMember";
 import ManageRelationship from "./pages/ManageRelationship";
 import MemberSearch from "./pages/MemberSearch";
 import RegisterFamilyRequest from "./pages/RegisterFamilyRequest";
+import FamiliesByCityPage from "./pages/FamiliesByCityPage";
 
 //import UserDetails from "./pages/UserDetails";
 
@@ -216,6 +217,16 @@ const App = () => (
         <PrivateRoute>
           <MainLayout>
             <ChangePassword />
+          </MainLayout>
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/families-by-city"
+      element={
+        <PrivateRoute>
+          <MainLayout>
+            <FamiliesByCityPage />
           </MainLayout>
         </PrivateRoute>
       }

@@ -55,6 +55,17 @@ const FamilySearch = () => {
     <div className="container p-4 bg-white rounded mt-4">
       <h2 className="mb-4">Search Family</h2>
       <form onSubmit={handleSearch} className="mb-3">
+        <div className="mb-2">
+          <small>
+            <a
+              href="#"
+              className="text-muted"
+              onClick={(e) => { e.preventDefault(); navigate("/families-by-city"); }}
+            >
+              View families by city
+            </a>
+          </small>
+        </div>
         <div className="row g-3">
           <div className="col-md-4">
             <input
