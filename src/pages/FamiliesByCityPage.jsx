@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from "../api/axiosInstance";
 import AnimatedCounter from "../components/AnimatedCounter";
@@ -13,6 +13,7 @@ const FamiliesByCityPage = () => {
   const [familiesLoading, setFamiliesLoading] = useState(false);
   const [familiesError, setFamiliesError] = useState(null);
   const navigate = useNavigate();
+  const familiesRef = useRef(null);
 
   useEffect(() => {
     fetchCityStats();
@@ -49,6 +50,7 @@ const FamiliesByCityPage = () => {
       setFamiliesError(err.response?.data?.operationMessage || ERROR_MESSAGES.DEFAULT);
     } finally {
       setFamiliesLoading(false);
+      setTimeout(() => familiesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
     }
   };
 
@@ -143,7 +145,7 @@ const FamiliesByCityPage = () => {
 
       {/* Families for selected city */}
       {selectedCity && (
-        <div className="mt-4">
+        <div className="mt-4" ref={familiesRef}>
           <h5>
             Families in {selectedCity.cityName}
             {selectedCity.stateName ? `, ${selectedCity.stateName}` : ""}
