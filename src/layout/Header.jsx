@@ -156,7 +156,18 @@ const Header = () => {
                 </NavLink>
               </li>
             )}
-
+            {user?.operationAllowed?.includes("ADD_MEMBER_TO_ANY_FAMILY") && (
+              <li className="nav-item">
+                <NavLink
+                  to="/addmember"
+                  className={({ isActive }) =>
+                    "nav-link" + (isActive ? " active" : "")
+                  }
+                >
+                  Add Member
+                </NavLink>
+              </li>
+            )}
             {/* Family Dropdown */}
             {/* <li className="nav-item dropdown">
               <span
@@ -363,7 +374,19 @@ const Header = () => {
                     </NavLink>
                   </li>
                 )}
-
+                {user?.operationAllowed?.includes("ADD_MEMBER_TO_ANY_FAMILY") && (
+                  <li className="nav-item">
+                    <NavLink
+                      to="/addmember"
+                      className={({ isActive }) =>
+                        "nav-link" + (isActive ? " active" : "")
+                      }
+                      onClick={() => closeOffcanvas()}
+                    >
+                      Add Member
+                    </NavLink>
+                  </li>
+                )}
                 <li>
                   <hr className="dropdown-divider" />
                 </li>
