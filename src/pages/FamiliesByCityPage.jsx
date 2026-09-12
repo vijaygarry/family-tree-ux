@@ -55,6 +55,7 @@ const FamiliesByCityPage = () => {
   };
 
   const getTotalFamilies = () => cityStats.reduce((sum, city) => sum + city.familyCount, 0);
+  const getTotalMembers = () => cityStats.reduce((sum, city) => sum + (city.memberCount || 0), 0);
   const getTotalCities = () => cityStats.length;
 
   if (loading) {
@@ -108,6 +109,22 @@ const FamiliesByCityPage = () => {
           </div>
           <div style={{ color: "#000", fontWeight: 600, fontSize: "18px" }}>Total Families</div>
         </div>
+        <div
+          style={{
+            padding: "20px",
+            borderRadius: "16px",
+            boxShadow: "0 6px 20px rgba(0,0,0,0.08)",
+            background: "#fff",
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
+          }}
+        >
+          <div style={{ fontSize: 40, fontWeight: 800, color: "#A42502" }}>
+            <AnimatedCounter target={getTotalMembers()} duration={1500} startOnView={true} once={true} suffix="" decimals={0} />
+          </div>
+          <div style={{ color: "#000", fontWeight: 600, fontSize: "18px" }}>Total Members</div>
+        </div>
       </div>
 
       {/* City Stats Table */}
@@ -119,6 +136,7 @@ const FamiliesByCityPage = () => {
             <tr>
               <th>City</th>
               <th>Families</th>
+              <th>Members</th>
             </tr>
           </thead>
           <tbody>
@@ -137,6 +155,7 @@ const FamiliesByCityPage = () => {
               >
                 <td>{city.cityName}, {city.stateName}, {city.country || ""}</td>
                 <td>{city.familyCount}</td>
+                <td>{city.memberCount ?? 0}</td>
               </tr>
             ))}
           </tbody>
