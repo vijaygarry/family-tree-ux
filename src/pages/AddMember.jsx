@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import api from "../api/axiosInstance";
 import ERROR_MESSAGES from "../constants/messages";
 import { SuccessBanner, FailureBanner } from "../components/AlertBanners";
@@ -7,43 +7,113 @@ import {
   maritalStatusOptions,
   monthOptions,
   dayOptions,
-  relationshipTypeOptions,
 } from "../constants/DropdownConstants";
-import { countryOptions, indiaStates } from "../constants/addressOptions";
-import AutoSuggest from "../components/AutoSuggest";
+
+const relationshipsByGender = {
+  Male: [
+    { value: "", label: "Select Relationship" },
+    { value: "Father", label: "Father" },
+    { value: "Mother", label: "Mother" },
+    { value: "Son", label: "Son" },
+    { value: "Daughter", label: "Daughter" },
+    { value: "Wife", label: "Wife" },
+  ],
+  Female: [
+    { value: "", label: "Select Relationship" },
+    { value: "Father", label: "Father" },
+    { value: "Mother", label: "Mother" },
+    { value: "Son", label: "Son" },
+    { value: "Daughter", label: "Daughter" },
+    { value: "Husband", label: "Husband" },
+  ],
+};
+
+const genderByRelationship = {
+  Father: "Male",
+  Mother: "Female",
+  Son: "Male",
+  Daughter: "Female",
+  Wife: "Female",
+  Husband: "Male",
+};
 
 const AddMember = () => {
+  const [memberIdInput, setMemberIdInput] = useState("");
+  const [relatedMember, setRelatedMember] = useState(null);
+  const [lookupError, setLookupError] = useState("");
+  const [lookupLoading, setLookupLoading] = useState(false);
+  const [selectedRelationship, setSelectedRelationship] = useState("");
   const [memberForm, setMemberForm] = useState({});
   const [addError, setAddError] = useState("");
   const [addSuccess, setAddSuccess] = useState("");
 
-  useEffect(() => {
+  const handleLookup = async () => {
+    if (!memberIdInput) return;
+    setLookupError("");
+    setRelatedMember(null);
+    setSelectedRelationship("");
     setMemberForm({});
-    setAddSuccess("");
-  }, []);
-
-  const handleFormChange = (e) => {
-    const { name, value } = e.target;
-    if (name.startsWith("memberAddress.")) {
-      setMemberForm((prev) => ({
-        ...prev,
-        memberAddress: {
-          ...prev.memberAddress,
-          [name.replace("memberAddress.", "")]: value,
-        },
-      }));
+    setAddError("");
+    setLookupLoading(true);
+    try {
+      const res = await api.post("/family/getmemberprofile", {
+        memberId: parseInt(memberIdInput),
+      });
+      const profile = res.data?.memberProfile;
+      if (!profile) {
+        setLookupError("Member not found.");
+      } else {
+        setRelatedMember(profile);
+      }
+    } catch (err) {
+      if (err.response?.data?.operationMessage) {
+        setLookupError(err.response.data.operationMessage);
+      } else {
+        setLookupError("Member not found.");
+      }
+    } finally {
+      setLookupLoading(false);
     }
-    if (name.startsWith("relationship.")) {
+  };
+
+  const handleMemberIdKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleLookup();
+    }
+  };
+
+  const resetLookup = () => {
+    setRelatedMember(null);
+    setSelectedRelationship("");
+    setMemberForm({});
+    setLookupError("");
+    setAddError("");
+  };
+
+  const handleRelationshipChange = (e) => {
+    const rel = e.target.value;
+    setSelectedRelationship(rel);
+    if (rel) {
+      const impliedGender = genderByRelationship[rel] || "";
       setMemberForm((prev) => ({
         ...prev,
+        gender: impliedGender,
+        familyId: relatedMember?.familyId || prev.familyId || "",
         relationship: {
-          ...prev.relationship,
-          [name.replace("relationship.", "")]: value,
+          memberId: relatedMember?.memberId,
+          memberName: relatedMember?.firstName || "",
+          relationshipType: rel,
         },
       }));
     } else {
-      setMemberForm((prev) => ({ ...prev, [name]: value }));
+      setMemberForm({});
     }
+  };
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setMemberForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const validateForm = () => {
@@ -52,16 +122,6 @@ const AddMember = () => {
     if (!memberForm.maritalStatus?.trim()) return "Marital Status is required.";
     if (!memberForm.birthMonth?.trim()) return "Birth month is required.";
     if (!memberForm.birthYear) return "Birth year is required.";
-    if (!memberForm.addressSameAsFamily) {
-      if (!memberForm.memberAddress?.addressLine1?.trim())
-        return "Address Line 1 is required.";
-      if (!memberForm.memberAddress?.city?.trim()) return "City is required.";
-      if (!memberForm.memberAddress?.state?.trim()) return "State is required.";
-      if (!memberForm.memberAddress?.postalCode?.trim())
-        return "Postal Code is required.";
-      if (!memberForm.memberAddress?.country?.trim())
-        return "Country is required.";
-    }
     return "";
   };
 
@@ -74,114 +134,105 @@ const AddMember = () => {
       setAddError(validationMsg);
       return;
     }
-
     try {
-      const response = await api.post("/family/addFamilyMember", {
-        ...memberForm,
-      });
+      const response = await api.post("/family/addFamilyMember", { ...memberForm, addressSameAsFamily: true });
       setMemberForm({});
-      if (response?.data?.operationMessage) {
-        setAddSuccess(response?.data?.operationMessage);
-      } else {
-        setAddSuccess("Member profile added successfully.");
-      }
+      setAddSuccess(response?.data?.operationMessage || "Member profile added successfully.");
     } catch (err) {
-      if (err.response?.data?.operationMessage) {
-        // API returned an error in payload
-        setAddError(err.response?.data?.operationMessage);
-      } else {
-        setAddError(ERROR_MESSAGES.DEFAULT);
-      }
+      setAddError(err.response?.data?.operationMessage || ERROR_MESSAGES.DEFAULT);
     }
   };
 
-  const addMemberForm = (
-    <form onSubmit={handleSave}>
-      {/* Member Profile Section */}
-      <div className="row">
-        <h5 className="mb-3 float-start">
-          {(() => {
-            const rel = memberForm.relationship?.relationshipType || "";
-            const name =
-              memberForm.relationship?.memberName || "Related Member";
-            if (!rel) return `Add a member to ${name}`;
-            // use lowercase for relationship in sentence, but keep label casing for options like 'Son'
-            return `Add ${name}'s ${rel.toLowerCase()}`;
-          })()}
-        </h5>
+  const relatedMemberName = relatedMember
+    ? [relatedMember.firstName, relatedMember.lastName].filter(Boolean).join(" ")
+    : "";
+
+  const availableRelationships =
+    relatedMember?.gender && relationshipsByGender[relatedMember.gender]
+      ? relationshipsByGender[relatedMember.gender]
+      : [
+          { value: "", label: "Select Relationship" },
+          ...Object.keys(genderByRelationship).map((r) => ({ value: r, label: r })),
+        ];
+
+  const showMainForm = !!relatedMember && !!selectedRelationship;
+
+  if (addSuccess) {
+    return (
+      <div className="container p-4 bg-white rounded mt-4">
+        <SuccessBanner message={addSuccess} />
       </div>
-      {addError && <FailureBanner message={addError} />}
-      <div className="card mb-5 p-4 bg-body-secondary border-0">
-        <div className="row">
-          <div className="col-sm-4">
+    );
+  }
+
+  return (
+    <div className="container p-4 bg-white rounded mt-4">
+      <form onSubmit={handleSave}>
+        {/* Step 1: Member ID lookup */}
+        <div className="row mb-3">
+          <div className="col-auto d-flex align-items-center gap-2">
+            <label className="fw-semibold text-nowrap">
+              Member ID: <span className="text-danger">*</span>
+            </label>
             <input
-              id="headOfFamily"
-              name="headOfFamily"
-              type="checkbox"
-              className="mb-1"
-              checked={!!memberForm.headOfFamily}
-              onChange={(e) =>
-                setMemberForm((prev) => ({
-                  ...prev,
-                  headOfFamily: e.target.checked,
-                }))
-              }
-              placeholder="Head Of Family"
+              value={memberIdInput}
+              onChange={(e) => {
+                setMemberIdInput(e.target.value);
+                if (relatedMember) resetLookup();
+              }}
+              onKeyDown={handleMemberIdKeyDown}
+              className="form-control"
+              style={{ width: "140px" }}
+              placeholder="Enter Member ID"
+              disabled={!!relatedMember}
+              type="number"
             />
-            <label className="fw-semibold ms-2">Head Of Family</label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">
-              Current Family Id: <span className="text-danger">*</span>
-            </span>
-            <input
-              name="familyId"
-              value={memberForm.familyId || ""}
-              onChange={handleFormChange}
-              className="form-control d-inline w-auto"
-              placeholder="Family Id"
-              required
-            />
-          </div>
-        </div>
-        {!memberForm.headOfFamily && (
-          <div className="row">
-            <div className="col-sm-4">
-              <span className="fw-semibold me-2">
-                Current Member Id: <span className="text-danger">*</span>
-              </span>
-              <input
-                name="relationship.memberId"
-                value={memberForm.relationship?.memberId || ""}
-                onChange={handleFormChange}
-                className="form-control d-inline w-auto"
-                placeholder="Related Member Id"
-                required
-              />
-            </div>
-            <div className="col-sm-4">
-              <span className="fw-semibold me-2">Selected Member Name </span>
-              <input
-                name="relationship.memberName"
-                value={memberForm.relationship?.memberName || ""}
-                onChange={handleFormChange}
-                className="form-control d-inline w-auto"
-                placeholder="Related Member First Name"
-              />
-            </div>
-            <div className="col-sm-4">
-              <span className="fw-semibold me-2">Relationship Type: </span>
-              <select
-                name="relationship.relationshipType"
-                value={memberForm.relationship?.relationshipType || ""}
-                onChange={handleFormChange}
-                className="form-select"
-                required
-                placeholder="Relationship Type"
+            {!relatedMember ? (
+              <button
+                type="button"
+                className="btn btn-outline-primary btn-sm"
+                onClick={handleLookup}
+                disabled={lookupLoading || !memberIdInput}
               >
-                {relationshipTypeOptions.map((opt) => (
+                {lookupLoading ? "Looking up..." : "Find Member"}
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-outline-secondary btn-sm"
+                onClick={resetLookup}
+              >
+                Change
+              </button>
+            )}
+          </div>
+        </div>
+
+        {lookupError && <FailureBanner message={lookupError} />}
+
+        {/* Step 2: Show member info + relationship dropdown */}
+        {relatedMember && (
+          <div className="row mb-3 align-items-center">
+            <div className="col-sm-3">
+              <span className="fw-semibold me-1">First Name:</span>
+              <span>{relatedMember.firstName}</span>
+            </div>
+            <div className="col-sm-3">
+              <span className="fw-semibold me-1">Last Name:</span>
+              <span>{relatedMember.lastName}</span>
+            </div>
+            <div className="col-sm-2">
+              <span className="fw-semibold me-1">Family ID:</span>
+              <span>{relatedMember.familyId}</span>
+            </div>
+            <div className="col-sm-4 d-flex align-items-center gap-2">
+              <span className="fw-semibold text-nowrap">Relationship:</span>
+              <select
+                value={selectedRelationship}
+                onChange={handleRelationshipChange}
+                className="form-select"
+              >
+                {availableRelationships.map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
                   </option>
@@ -190,354 +241,218 @@ const AddMember = () => {
             </div>
           </div>
         )}
-        <div className="row">
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">
-              First Name: <span className="text-danger">*</span>
-            </span>
-            <input
-              name="firstName"
-              value={memberForm.firstName || ""}
-              onChange={handleFormChange}
-              className="form-control d-inline w-auto"
-              placeholder="First Name"
-              required
-            />
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">First Name (Hindi): </span>
-            <input
-              name="firstNameInHindi"
-              value={memberForm.firstNameInHindi || ""}
-              onChange={handleFormChange}
-              className="form-control d-inline w-auto"
-              placeholder="First Name in Hindi"
-            />
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">Maiden Last Name: </span>
-            <input
-              name="maidenLastName"
-              value={memberForm.maidenLastName || ""}
-              onChange={handleFormChange}
-              className="form-control d-inline w-auto"
-              placeholder="Maiden Last Name"
-            />
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">Nick Name: </span>
-            <input
-              name="nickName"
-              value={memberForm.nickName || ""}
-              onChange={handleFormChange}
-              className="form-control d-inline w-auto"
-              placeholder="Nick Name"
-            />
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">Nick Name (Hindi): </span>
-            <input
-              name="nickNameInHindi"
-              value={memberForm.nickNameInHindi || ""}
-              onChange={handleFormChange}
-              className="form-control d-inline w-auto"
-              placeholder="Nick Name in Hindi"
-            />
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">Phone: </span>
-            <input
-              name="phone"
-              value={memberForm.phone || ""}
-              onChange={handleFormChange}
-              className="form-control d-inline w-auto"
-              placeholder="Phone"
-            />
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">
-              Gender: <span className="text-danger">*</span>
-            </span>
-            <select
-              name="gender"
-              value={memberForm.gender || ""}
-              onChange={handleFormChange}
-              className="form-select"
-              required
-              placeholder="Gender"
-            >
-              {genderOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">
-              Marital Status: <span className="text-danger">*</span>
-            </span>
-            <select
-              name="maritalStatus"
-              value={memberForm.maritalStatus || ""}
-              onChange={handleFormChange}
-              className="form-select"
-              required
-              placeholder="Marital Status"
-            >
-              {maritalStatusOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">Wedding Date: </span>
-            <input
-              name="weddingDate"
-              type="date"
-              value={memberForm.weddingDate || ""}
-              onChange={handleFormChange}
-              className="form-control d-inline w-auto"
-              placeholder="Wedding Date"
-            />
-          </div>
 
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">Birth Day: </span>
-            <select
-              name="birthDay"
-              value={memberForm.birthDay || ""}
-              onChange={handleFormChange}
-              className="form-select"
-              placeholder="Birth Day"
-            >
-              {dayOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">
-              Birth Month: <span className="text-danger">*</span>
-            </span>
-            <select
-              name="birthMonth"
-              value={memberForm.birthMonth || ""}
-              onChange={handleFormChange}
-              className="form-select"
-              required
-              placeholder="Birth Month"
-            >
-              {monthOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">
-              Birth Year: <span className="text-danger">*</span>
-            </span>
-            <input
-              name="birthYear"
-              type="number"
-              min="1900"
-              max={new Date().getFullYear()}
-              value={memberForm.birthYear || ""}
-              onChange={handleFormChange}
-              className="form-control d-inline w-auto"
-              required
-              placeholder="Birth Year"
-            />
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">Email: </span>
-            <input
-              name="email"
-              type="email"
-              value={memberForm.email || ""}
-              onChange={handleFormChange}
-              className="form-control d-inline w-auto"
-              placeholder="Email"
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">Education Details: </span>
-            <input
-              name="educationDetails"
-              value={memberForm.educationDetails || ""}
-              onChange={handleFormChange}
-              className="form-control d-inline w-auto"
-              placeholder="Education Details"
-            />
-          </div>
-          <div className="col-sm-4">
-            <span className="fw-semibold me-2">Occupation: </span>
-            <input
-              name="occupation"
-              value={memberForm.occupation || ""}
-              onChange={handleFormChange}
-              className="form-control d-inline w-auto"
-              placeholder="Occupation"
-            />
-          </div>
-        </div>
-
-        <div className="d-flex">
-          <span className="fw-semibold me-2">Member Address:</span>
-          <div className="row">
-            <div className="col-sm-4">
-              <input
-                type="checkbox"
-                id="addressSameAsFamily"
-                checked={memberForm.addressSameAsFamily || false}
-                onChange={(e) =>
-                  setMemberForm((prev) => ({
-                    ...prev,
-                    addressSameAsFamily: e.target.checked,
-                  }))
-                }
-                className="mb-1"
-                placeholder="Same as family address"
-              />
-              <label className="fw-semibold ms-2">
-                Member's address is same as family address
-              </label>
+        {/* Step 3: Full form after relationship selected */}
+        {showMainForm && (
+          <>
+            <div className="row">
+              <h5 className="mb-3">
+                Adding {relatedMemberName}&apos;s {selectedRelationship.toLowerCase()}
+              </h5>
             </div>
-          </div>
-          {!memberForm.addressSameAsFamily && (
-            <div className="d-flex">
+            {addError && <FailureBanner message={addError} />}
+            <div className="card mb-5 p-4 bg-body-secondary border-0">
               <div className="row">
-                <div className="col-sm-4">
-                  <span className="fw-semibold me-2">
-                    Address Line 1: <span className="text-danger">*</span>
-                  </span>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">
+                    First Name: <span className="text-danger">*</span>
+                  </label>
                   <input
-                    name="memberAddress.addressLine1"
-                    value={memberForm.memberAddress?.addressLine1 || ""}
+                    name="firstName"
+                    value={memberForm.firstName || ""}
                     onChange={handleFormChange}
-                    className="form-control mb-1"
-                    placeholder="Address Line 1"
+                    className="form-control"
+                    placeholder="First Name"
+                    required
                   />
                 </div>
-                <div className="col-sm-4">
-                  <span className="fw-semibold me-2">Address Line 2: </span>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">First Name (Hindi):</label>
                   <input
-                    name="memberAddress.addressLine2"
-                    value={memberForm.memberAddress?.addressLine2 || ""}
+                    name="firstNameInHindi"
+                    value={memberForm.firstNameInHindi || ""}
                     onChange={handleFormChange}
-                    className="form-control mb-1"
-                    placeholder="Address Line 2"
+                    className="form-control"
+                    placeholder="First Name in Hindi"
                   />
                 </div>
-                <div className="col-sm-4">
-                  <span className="fw-semibold me-2">Address Line 3: </span>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">Maiden Last Name:</label>
                   <input
-                    name="memberAddress.addressLine3"
-                    value={memberForm.memberAddress?.addressLine3 || ""}
+                    name="maidenLastName"
+                    value={memberForm.maidenLastName || ""}
                     onChange={handleFormChange}
-                    className="form-control mb-1"
-                    placeholder="Address Line 3"
+                    className="form-control"
+                    placeholder="Maiden Last Name"
                   />
                 </div>
-                <div className="col-sm-4">
-                  <span className="fw-semibold me-2">District: </span>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">Nick Name:</label>
                   <input
-                    name="memberAddress.district"
-                    value={memberForm.memberAddress?.district || ""}
+                    name="nickName"
+                    value={memberForm.nickName || ""}
                     onChange={handleFormChange}
-                    className="form-control mb-1"
-                    placeholder="District"
+                    className="form-control"
+                    placeholder="Nick Name"
                   />
                 </div>
-                <div className="col-sm-4">
-                  <span className="fw-semibold me-2">
-                    City: <span className="text-danger">*</span>
-                  </span>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">Nick Name (Hindi):</label>
                   <input
-                    name="memberAddress.city"
-                    value={memberForm.memberAddress?.city || ""}
+                    name="nickNameInHindi"
+                    value={memberForm.nickNameInHindi || ""}
                     onChange={handleFormChange}
-                    className="form-control mb-1"
-                    placeholder="City"
+                    className="form-control"
+                    placeholder="Nick Name in Hindi"
                   />
                 </div>
-                <div className="col-sm-4">
-                  <span className="fw-semibold me-2">
-                    State: <span className="text-danger">*</span>
-                  </span>
-                  <AutoSuggest
-                    name="memberAddress.state"
-                    value={memberForm.memberAddress?.state || ""}
-                    onChange={handleFormChange}
-                    suggestions={indiaStates}
-                    placeholder="State"
-                    ariaLabel="State"
-                  />
-                </div>
-                <div className="col-sm-4">
-                  <span className="fw-semibold me-2">
-                    Postal Code: <span className="text-danger">*</span>
-                  </span>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">Phone:</label>
                   <input
-                    name="memberAddress.postalCode"
-                    value={memberForm.memberAddress?.postalCode || ""}
+                    name="phone"
+                    value={memberForm.phone || ""}
                     onChange={handleFormChange}
-                    className="form-control mb-1"
-                    placeholder="Postal Code"
+                    className="form-control"
+                    placeholder="Phone"
                   />
                 </div>
-                <div className="col-sm-4">
-                  <span className="fw-semibold me-2">
-                    Country: <span className="text-danger">*</span>
-                  </span>
-                  <AutoSuggest
-                    name="memberAddress.country"
-                    value={memberForm.memberAddress?.country || ""}
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">
+                    Gender: <span className="text-danger">*</span>
+                  </label>
+                  <select
+                    name="gender"
+                    value={memberForm.gender || ""}
                     onChange={handleFormChange}
-                    suggestions={countryOptions}
-                    placeholder="Country"
-                    ariaLabel="Country"
+                    className="form-select"
+                    required
+                    disabled
+                  >
+                    {genderOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">
+                    Marital Status: <span className="text-danger">*</span>
+                  </label>
+                  <select
+                    name="maritalStatus"
+                    value={memberForm.maritalStatus || ""}
+                    onChange={handleFormChange}
+                    className="form-select"
+                    required
+                  >
+                    {maritalStatusOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">Wedding Date:</label>
+                  <input
+                    name="weddingDate"
+                    type="date"
+                    value={memberForm.weddingDate || ""}
+                    onChange={handleFormChange}
+                    className="form-control"
+                  />
+                </div>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">Birth Day:</label>
+                  <select
+                    name="birthDay"
+                    value={memberForm.birthDay || ""}
+                    onChange={handleFormChange}
+                    className="form-select"
+                  >
+                    {dayOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">
+                    Birth Month: <span className="text-danger">*</span>
+                  </label>
+                  <select
+                    name="birthMonth"
+                    value={memberForm.birthMonth || ""}
+                    onChange={handleFormChange}
+                    className="form-select"
+                    required
+                  >
+                    {monthOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">
+                    Birth Year: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    name="birthYear"
+                    type="number"
+                    min="1900"
+                    max={new Date().getFullYear()}
+                    value={memberForm.birthYear || ""}
+                    onChange={handleFormChange}
+                    className="form-control"
+                    required
+                    placeholder="Birth Year"
+                  />
+                </div>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">Email:</label>
+                  <input
+                    name="email"
+                    type="email"
+                    value={memberForm.email || ""}
+                    onChange={handleFormChange}
+                    className="form-control"
+                    placeholder="Email"
+                  />
+                </div>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">Education Details:</label>
+                  <input
+                    name="educationDetails"
+                    value={memberForm.educationDetails || ""}
+                    onChange={handleFormChange}
+                    className="form-control"
+                    placeholder="Education Details"
+                  />
+                </div>
+                <div className="col-sm-4 mb-3">
+                  <label className="fw-semibold d-block mb-1">Occupation:</label>
+                  <input
+                    name="occupation"
+                    value={memberForm.occupation || ""}
+                    onChange={handleFormChange}
+                    className="form-control"
+                    placeholder="Occupation"
                   />
                 </div>
               </div>
+              <div className="mt-3 text-end">
+                <button className="btn btn-primary fw-bold me-2" type="submit">
+                  Save
+                </button>
+              </div>
             </div>
-          )}
-        </div>
-        <div className="mt-3 text-end">
-          <button className="btn btn-primary fw-bold me-2" type="submit">
-            Save
-          </button>
-          {/* <button className="btn btn-outline-primary btn-sm" type="button" onClick={handleCancelEdit}>Cancel</button> */}
-        </div>
-      </div>
-    </form>
-  );
-
-  const showSuccessMsg = (
-    <div>
-      <SuccessBanner message={addSuccess} />
-    </div>
-  );
-
-  return (
-    <div className="container p-4 bg-white rounded mt-4">
-      <div
-        className="card-body d-flex flex-wrap align-items-start p-0"
-        style={{ gap: "1rem" }}
-      >
-        {addSuccess ? showSuccessMsg : addMemberForm}
-      </div>
+          </>
+        )}
+      </form>
     </div>
   );
 };
