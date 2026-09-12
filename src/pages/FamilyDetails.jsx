@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getFormattedPhoneDisplay } from "../utils/phoneUtils";
 import "./TreeNode.css";
@@ -18,6 +18,24 @@ const FamilyDetails = () => {
   const [editMode, setEditMode] = useState(false);
   const [showImageEdit, setShowImageEdit] = useState(false);
   const [form, setForm] = useState({});
+  const [treeZoom, setTreeZoom] = useState(1);
+  const [fitZoom, setFitZoom] = useState(1);
+  const treeContainerRef = useRef(null);
+  const treeContentRef = useRef(null);
+
+  useLayoutEffect(() => {
+    if (!family?.familyRoot || !treeContainerRef.current || !treeContentRef.current) return;
+    const containerWidth = treeContainerRef.current.clientWidth;
+    const contentWidth = treeContentRef.current.scrollWidth;
+    if (containerWidth && contentWidth > containerWidth) {
+      const zoom = Math.max(0.3, +(containerWidth / contentWidth).toFixed(2));
+      setFitZoom(zoom);
+      setTreeZoom(zoom);
+    } else {
+      setFitZoom(1);
+      setTreeZoom(1);
+    }
+  }, [family?.familyRoot]);
   const [editError, setEditError] = useState("");
   const [editSuccess, setEditSuccess] = useState("");
   const { familyId } = useParams();
@@ -466,17 +484,58 @@ const FamilyDetails = () => {
         {/* Tree View */}
         {family.familyRoot && (
           <div>
-            <h5 className="mb-3">Family Tree</h5>
+            <div className="d-flex align-items-center justify-content-between mb-3">
+              <h5 className="mb-0">Family Tree</h5>
+              <div className="d-flex align-items-center gap-2">
+                <button
+                  className="btn btn-outline-secondary btn-sm"
+                  onClick={() => setTreeZoom((z) => Math.max(0.3, +(z - 0.1).toFixed(1)))}
+                  title="Zoom Out"
+                >
+                  −
+                </button>
+                <span style={{ minWidth: "44px", textAlign: "center", fontSize: "0.85rem" }}>
+                  {Math.round(treeZoom * 100)}%
+                </span>
+                <button
+                  className="btn btn-outline-secondary btn-sm"
+                  onClick={() => setTreeZoom((z) => Math.min(2, +(z + 0.1).toFixed(1)))}
+                  title="Zoom In"
+                >
+                  +
+                </button>
+                <button
+                  className="btn btn-outline-secondary btn-sm"
+                  onClick={() => setTreeZoom(fitZoom)}
+                  title="Reset to fit"
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
             <div
+              ref={treeContainerRef}
               className="tree-container"
               style={{
                 width: "100%",
                 minHeight: "600px",
-                overflow: "auto",
+                overflowX: treeZoom > fitZoom ? "auto" : "hidden",
+                overflowY: "auto",
                 padding: "10px",
               }}
             >
-              <FamilyTree familyTreeRoot={family.familyRoot} />
+              <div
+                ref={treeContentRef}
+                style={{
+                  transform: `scale(${treeZoom})`,
+                  transformOrigin: "top left",
+                  transition: "transform 0.2s ease",
+                  display: "inline-block",
+                  minWidth: "100%",
+                }}
+              >
+                <FamilyTree familyTreeRoot={family.familyRoot} />
+              </div>
             </div>
             <div className="mb-5">
               {/* This div added just to add space before table.*/}

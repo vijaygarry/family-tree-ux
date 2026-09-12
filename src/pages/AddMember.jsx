@@ -157,10 +157,43 @@ const AddMember = () => {
 
   const showMainForm = !!relatedMember && !!selectedRelationship;
 
+  const handleAddAnotherRelated = () => {
+    setSelectedRelationship("");
+    setMemberForm({});
+    setAddSuccess("");
+    setAddError("");
+  };
+
+  const handleAddOtherMember = () => {
+    setMemberIdInput("");
+    setRelatedMember(null);
+    setSelectedRelationship("");
+    setMemberForm({});
+    setAddSuccess("");
+    setAddError("");
+    setLookupError("");
+  };
+
   if (addSuccess) {
     return (
       <div className="container p-4 bg-white rounded mt-4">
         <SuccessBanner message={addSuccess} />
+        <div className="d-flex gap-2 mt-3">
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            onClick={handleAddAnotherRelated}
+          >
+            Add another related member
+          </button>
+          <button
+            type="button"
+            className="btn btn-outline-secondary"
+            onClick={handleAddOtherMember}
+          >
+            Add other member
+          </button>
+        </div>
       </div>
     );
   }
