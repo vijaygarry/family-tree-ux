@@ -168,6 +168,18 @@ const Header = () => {
                 </NavLink>
               </li>
             )}
+            {user?.operationAllowed?.includes("MARK_AS_DECEASED") && (
+              <li className="nav-item">
+                <NavLink
+                  to="/markasdeceased"
+                  className={({ isActive }) =>
+                    "nav-link" + (isActive ? " active" : "")
+                  }
+                >
+                  Mark as Deceased
+                </NavLink>
+              </li>
+            )}
             {/* Family Dropdown */}
             {/* <li className="nav-item dropdown">
               <span
@@ -384,6 +396,19 @@ const Header = () => {
                       onClick={() => closeOffcanvas()}
                     >
                       Add Member
+                    </NavLink>
+                  </li>
+                )}
+                {user?.operationAllowed?.includes("MARK_AS_DECEASED") && (
+                  <li className="nav-item">
+                    <NavLink
+                      to="/markasdeceased"
+                      className={({ isActive }) =>
+                        "nav-link" + (isActive ? " active" : "")
+                      }
+                      onClick={() => closeOffcanvas()}
+                    >
+                      Mark as Deceased
                     </NavLink>
                   </li>
                 )}

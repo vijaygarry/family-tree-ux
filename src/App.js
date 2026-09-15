@@ -18,6 +18,7 @@ import SignUp from "./pages/SignUp";
 import HelpPage from "./pages/HelpPage";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import AddMember from "./pages/AddMember";
+import MarkAsDeceased from "./pages/MarkAsDeceased";
 import ManageRelationship from "./pages/ManageRelationship";
 import MemberSearch from "./pages/MemberSearch";
 import RegisterFamilyRequest from "./pages/RegisterFamilyRequest";
@@ -177,6 +178,16 @@ const App = () => (
         <PrivateRoute>
           <MainLayout>
             <AddMember />
+          </MainLayout>
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/markasdeceased"
+      element={
+        <PrivateRoute>
+          <MainLayout>
+            <MarkAsDeceased />
           </MainLayout>
         </PrivateRoute>
       }
