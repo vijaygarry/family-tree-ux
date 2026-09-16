@@ -19,6 +19,7 @@ import HelpPage from "./pages/HelpPage";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import AddMember from "./pages/AddMember";
 import MarkAsDeceased from "./pages/MarkAsDeceased";
+import SetHeadOfFamily from "./pages/SetHeadOfFamily";
 import ManageRelationship from "./pages/ManageRelationship";
 import MemberSearch from "./pages/MemberSearch";
 import RegisterFamilyRequest from "./pages/RegisterFamilyRequest";
@@ -188,6 +189,16 @@ const App = () => (
         <PrivateRoute>
           <MainLayout>
             <MarkAsDeceased />
+          </MainLayout>
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/setheadoffamily"
+      element={
+        <PrivateRoute>
+          <MainLayout>
+            <SetHeadOfFamily />
           </MainLayout>
         </PrivateRoute>
       }

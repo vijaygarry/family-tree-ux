@@ -9,6 +9,8 @@ const Header = () => {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
   const offcanvasRef = useRef(null);
 
   const handleLogout = async () => {
@@ -33,6 +35,7 @@ const Header = () => {
     if (offcanvasEl) {
       offcanvasRef.current = new bootstrap.Offcanvas(offcanvasEl);
     }
+
 
     const handleHidden = () => {
       document.body.style.overflow = "";
@@ -75,6 +78,13 @@ const Header = () => {
       navLinks.forEach((link) => link.removeEventListener("click", () => {}));
     };
   }, []);
+
+  useEffect(() => {
+    if (!adminOpen && !userOpen) return;
+    const handler = () => { setAdminOpen(false); setUserOpen(false); };
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, [adminOpen, userOpen]);
 
   return (
     <header
@@ -145,39 +155,64 @@ const Header = () => {
               </NavLink>
             </li>
             {user?.operationAllowed?.includes("ADD_FAMILY") && (
-              <li className="nav-item">
-                <NavLink
-                  to="/addfamily"
-                  className={({ isActive }) =>
-                    "nav-link" + (isActive ? " active" : "")
-                  }
+              <li className="nav-item dropdown">
+                <span
+                  className="nav-link dropdown-toggle"
+                  role="button"
+                  aria-expanded={adminOpen}
+                  onClick={(e) => { e.stopPropagation(); setAdminOpen((o) => !o); }}
                 >
-                  Add Family
-                </NavLink>
-              </li>
-            )}
-            {user?.operationAllowed?.includes("ADD_MEMBER_TO_ANY_FAMILY") && (
-              <li className="nav-item">
-                <NavLink
-                  to="/addmember"
-                  className={({ isActive }) =>
-                    "nav-link" + (isActive ? " active" : "")
-                  }
+                  Admin
+                </span>
+                <ul
+                  className="dropdown-menu"
+                  style={{ display: adminOpen ? "block" : "none" }}
                 >
-                  Add Member
-                </NavLink>
-              </li>
-            )}
-            {user?.operationAllowed?.includes("MARK_AS_DECEASED") && (
-              <li className="nav-item">
-                <NavLink
-                  to="/markasdeceased"
-                  className={({ isActive }) =>
-                    "nav-link" + (isActive ? " active" : "")
-                  }
-                >
-                  Mark as Deceased
-                </NavLink>
+                  {user?.operationAllowed?.includes("ADD_FAMILY") && (
+                    <li>
+                      <NavLink
+                        className={() => "dropdown-item"}
+                        to="/addfamily"
+                        onClick={(e) => { e.stopPropagation(); setAdminOpen(false); }}
+                      >
+                        Add Family
+                      </NavLink>
+                    </li>
+                  )}
+                  {user?.operationAllowed?.includes("ADD_MEMBER_TO_ANY_FAMILY") && (
+                    <li>
+                      <NavLink
+                        className={() => "dropdown-item"}
+                        to="/addmember"
+                        onClick={(e) => { e.stopPropagation(); setAdminOpen(false); }}
+                      >
+                        Add Member
+                      </NavLink>
+                    </li>
+                  )}
+                  {user?.operationAllowed?.includes("SET_HEAD_OF_FAMILY") && (
+                    <li>
+                      <NavLink
+                        className={() => "dropdown-item"}
+                        to="/setheadoffamily"
+                        onClick={(e) => { e.stopPropagation(); setAdminOpen(false); }}
+                      >
+                        Set Head Of Family
+                      </NavLink>
+                    </li>
+                  )}
+                  {user?.operationAllowed?.includes("MARK_AS_DECEASED") && (
+                    <li>
+                      <NavLink
+                        className={() => "dropdown-item"}
+                        to="/markasdeceased"
+                        onClick={(e) => { e.stopPropagation(); setAdminOpen(false); }}
+                      >
+                        Mark as Deceased
+                      </NavLink>
+                    </li>
+                  )}
+                </ul>
               </li>
             )}
             {/* Family Dropdown */}
@@ -213,10 +248,9 @@ const Header = () => {
               <a
                 href="#!"
                 className="nav-link dropdown-toggle d-flex align-items-center"
-                id="userDropdown"
                 role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
+                aria-expanded={userOpen}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setUserOpen((o) => !o); }}
               >
                 <span className="me-2">
                   {user?.firstName} {user?.lastName}
@@ -232,18 +266,25 @@ const Header = () => {
               </a>
               <ul
                 className="dropdown-menu dropdown-menu-end"
-                aria-labelledby="userDropdown"
+                style={{ display: userOpen ? "block" : "none" }}
               >
                 <li>
-                  <Link className="dropdown-item" to="/changepassword">
+                  <NavLink
+                    className={() => "dropdown-item"}
+                    to="/changepassword"
+                    onClick={(e) => { e.stopPropagation(); setUserOpen(false); }}
+                  >
                     Change Password
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
                   <hr className="dropdown-divider" />
                 </li>
                 <li>
-                  <button className="dropdown-item" onClick={handleLogout}>
+                  <button
+                    className="dropdown-item"
+                    onClick={(e) => { e.stopPropagation(); setUserOpen(false); handleLogout(); }}
+                  >
                     Logout
                   </button>
                 </li>
@@ -396,6 +437,19 @@ const Header = () => {
                       onClick={() => closeOffcanvas()}
                     >
                       Add Member
+                    </NavLink>
+                  </li>
+                )}
+                {user?.operationAllowed?.includes("SET_HEAD_OF_FAMILY") && (
+                  <li className="nav-item">
+                    <NavLink
+                      to="/setheadoffamily"
+                      className={({ isActive }) =>
+                        "nav-link" + (isActive ? " active" : "")
+                      }
+                      onClick={() => closeOffcanvas()}
+                    >
+                      Set Head Of Family
                     </NavLink>
                   </li>
                 )}
