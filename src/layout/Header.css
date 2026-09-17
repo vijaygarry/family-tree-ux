@@ -67,3 +67,16 @@
   color: #fff !important;
   border-radius: 6px; /* optional for rounded look */
 }
+
+/* Dropdown items match main nav style */
+.dropdown-menu .dropdown-item {
+  color: #a42502;
+  font-weight: 600;
+  padding: 10px 20px;
+}
+
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+  color: #ffffff;
+  background-color: #a42502;
+}

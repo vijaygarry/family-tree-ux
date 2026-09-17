@@ -190,6 +190,17 @@ const Header = () => {
                       </NavLink>
                     </li>
                   )}
+                  {user?.operationAllowed?.includes("ADD_MEMBER_TO_ANY_FAMILY") && (
+                    <li>
+                      <NavLink
+                        className={() => "dropdown-item"}
+                        to="/addheadoffamily"
+                        onClick={(e) => { e.stopPropagation(); setAdminOpen(false); }}
+                      >
+                        Add Head Of Family
+                      </NavLink>
+                    </li>
+                  )}
                   {user?.operationAllowed?.includes("SET_HEAD_OF_FAMILY") && (
                     <li>
                       <NavLink
@@ -437,6 +448,19 @@ const Header = () => {
                       onClick={() => closeOffcanvas()}
                     >
                       Add Member
+                    </NavLink>
+                  </li>
+                )}
+                {user?.operationAllowed?.includes("ADD_MEMBER_TO_ANY_FAMILY") && (
+                  <li className="nav-item">
+                    <NavLink
+                      to="/addheadoffamily"
+                      className={({ isActive }) =>
+                        "nav-link" + (isActive ? " active" : "")
+                      }
+                      onClick={() => closeOffcanvas()}
+                    >
+                      Add Head Of Family
                     </NavLink>
                   </li>
                 )}

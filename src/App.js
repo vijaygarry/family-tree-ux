@@ -24,6 +24,7 @@ import ManageRelationship from "./pages/ManageRelationship";
 import MemberSearch from "./pages/MemberSearch";
 import RegisterFamilyRequest from "./pages/RegisterFamilyRequest";
 import FamiliesByCityPage from "./pages/FamiliesByCityPage";
+import AddHeadOfFamily from "./pages/AddHeadOfFamily";
 
 //import UserDetails from "./pages/UserDetails";
 
@@ -209,6 +210,16 @@ const App = () => (
         <PrivateRoute>
           <MainLayout>
             <ManageRelationship />
+          </MainLayout>
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/addheadoffamily"
+      element={
+        <PrivateRoute>
+          <MainLayout>
+            <AddHeadOfFamily />
           </MainLayout>
         </PrivateRoute>
       }
