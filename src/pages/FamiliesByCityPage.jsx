@@ -12,6 +12,7 @@ const FamiliesByCityPage = () => {
   const [families, setFamilies] = useState(null);
   const [familiesLoading, setFamiliesLoading] = useState(false);
   const [familiesError, setFamiliesError] = useState(null);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const navigate = useNavigate();
   const familiesRef = useRef(null);
 
@@ -57,6 +58,37 @@ const FamiliesByCityPage = () => {
   const getTotalFamilies = () => cityStats.reduce((sum, city) => sum + city.familyCount, 0);
   const getTotalMembers = () => cityStats.reduce((sum, city) => sum + (city.memberCount || 0), 0);
   const getTotalCities = () => cityStats.length;
+
+  const handleSort = (key) => {
+    setSortConfig((prev) =>
+      prev.key === key
+        ? { key, direction: prev.direction === "asc" ? "desc" : "asc" }
+        : { key, direction: "asc" }
+    );
+  };
+
+  const sortedCityStats = [...cityStats].sort((a, b) => {
+    if (!sortConfig.key) return 0;
+    let aVal, bVal;
+    if (sortConfig.key === "city") {
+      aVal = `${a.cityName} ${a.stateName} ${a.country || ""}`.toLowerCase();
+      bVal = `${b.cityName} ${b.stateName} ${b.country || ""}`.toLowerCase();
+    } else if (sortConfig.key === "families") {
+      aVal = a.familyCount;
+      bVal = b.familyCount;
+    } else {
+      aVal = a.memberCount ?? 0;
+      bVal = b.memberCount ?? 0;
+    }
+    if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1;
+    if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1;
+    return 0;
+  });
+
+  const SortIcon = ({ colKey }) => {
+    if (sortConfig.key !== colKey) return <span style={{ color: "#aaa", marginLeft: 4 }}>⇅</span>;
+    return <span style={{ marginLeft: 4 }}>{sortConfig.direction === "asc" ? "↑" : "↓"}</span>;
+  };
 
   if (loading) {
     return <div style={{ textAlign: "center", padding: "24px" }}>Loading city statistics...</div>;
@@ -134,13 +166,19 @@ const FamiliesByCityPage = () => {
         <table className="table table-bordered table-hover">
           <thead className="table-light">
             <tr>
-              <th>City</th>
-              <th>Families</th>
-              <th>Members</th>
+              <th style={{ cursor: "pointer", userSelect: "none" }} onClick={() => handleSort("city")}>
+                City <SortIcon colKey="city" />
+              </th>
+              <th style={{ cursor: "pointer", userSelect: "none" }} onClick={() => handleSort("families")}>
+                Families <SortIcon colKey="families" />
+              </th>
+              <th style={{ cursor: "pointer", userSelect: "none" }} onClick={() => handleSort("members")}>
+                Members <SortIcon colKey="members" />
+              </th>
             </tr>
           </thead>
           <tbody>
-            {cityStats.map((city, index) => (
+            {sortedCityStats.map((city, index) => (
               <tr
                 key={city.cityName + index}
                 style={{ cursor: "pointer" }}
