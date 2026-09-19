@@ -223,6 +223,17 @@ const Header = () => {
                       </NavLink>
                     </li>
                   )}
+                  {user?.operationAllowed?.includes("GET_FAMILY_REGISTRATION_LIST") && (
+                    <li>
+                      <NavLink
+                        className={() => "dropdown-item"}
+                        to="/family-registration-management"
+                        onClick={(e) => { e.stopPropagation(); setAdminOpen(false); }}
+                      >
+                        Family Registration Management
+                      </NavLink>
+                    </li>
+                  )}
                 </ul>
               </li>
             )}
@@ -487,6 +498,19 @@ const Header = () => {
                       onClick={() => closeOffcanvas()}
                     >
                       Mark as Deceased
+                    </NavLink>
+                  </li>
+                )}
+                {user?.operationAllowed?.includes("GET_FAMILY_REGISTRATION_LIST") && (
+                  <li className="nav-item">
+                    <NavLink
+                      to="/family-registration-management"
+                      className={({ isActive }) =>
+                        "nav-link" + (isActive ? " active" : "")
+                      }
+                      onClick={() => closeOffcanvas()}
+                    >
+                      Family Registration Management
                     </NavLink>
                   </li>
                 )}
