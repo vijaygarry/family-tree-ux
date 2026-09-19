@@ -248,6 +248,22 @@ const SignUp = () => {
         ) : (
             <small>To get your OTP, send the following message through WhatsApp to <br />
               <a
+                href="https://wa.me/917396358265?text=Rajput%20Chhipa%20App%20Admin,%20please%20send%20my%20Sign-Up%20OTP."
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Rohit Rajput (+91 73963 58265)
+              </a>
+              <br />
+              <a
+                href="https://wa.me/918317059394?text=Rajput%20Chhipa%20App%20Admin,%20please%20send%20my%20Sign-Up%20OTP."
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Veru Bajnawale (+91 83170 59394)
+              </a>
+              <br />
+              <a
                 href="https://wa.me/15714843763?text=Rajput%20Chhipa%20App%20Admin,%20please%20send%20my%20Sign-Up%20OTP."
                 target="_blank"
                 rel="noopener noreferrer"
@@ -255,14 +271,6 @@ const SignUp = () => {
                 Vijay (+1 571-484-3763)
               </a>
               <br />
-
-              <a
-                href="https://wa.me/919545727818?text=Rajput%20Chhipa%20App%20Admin,%20please%20send%20my%20Sign-Up%20OTP."
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Nikhil (+91 954-572-7818)
-              </a>
               <br /><br />
               "<i>Rajput Chhipa App Admin, please send my Sign-Up OTP.</i>" <br /><br />
               Admin will provide your OTP to your WhatsApp number directly. <br />
