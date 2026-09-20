@@ -17,6 +17,122 @@ const HelpPage = () => {
   // Answers can be strings or React nodes (JSX). Use JSX to add multiple lines, formatting or images.
   const faqs = [
     {
+      id: "11",
+      question: "How do I contact support? / सहायता के लिए मैं कैसे संपर्क करूं?",
+      answer: (
+        <div
+          style={{
+            backgroundColor: "#E8E8E8",
+            padding: "12px",
+            borderRadius: 6,
+            lineHeight: "1.6",
+          }}
+        >
+          <p>
+            Reach out to one of the local volunteers in your area:
+          </p>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              fontSize: "0.9rem",
+            }}
+          >
+            <thead>
+              <tr style={{ backgroundColor: "#c8c8c8" }}>
+                <th style={{ border: "1px solid #aaa", padding: "6px 10px" }}>#</th>
+                <th style={{ border: "1px solid #aaa", padding: "6px 10px" }}>Name</th>
+                <th style={{ border: "1px solid #aaa", padding: "6px 10px" }}>City</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { name: "Rohit Alekar", city: "Todi Fatehpur" },
+                { name: "Vijay Garothaya", city: "Amravati" },
+                { name: "Rohit Rajput", city: "Amravati" },
+                { name: "CA Nikhil Malaiya", city: "Amravati" },
+                { name: "Dushyant Chhipa", city: "Mumbai" },
+                { name: "Hemchandra Vaidya (Babu)", city: "Mumbai" },
+                { name: "Kalpana Tomar", city: "Nagpur" },
+                { name: "Hemant Dularya", city: "Mahoba" },
+                { name: "Aryan Alekar", city: "Banda" },
+                { name: "Sunil Dularya", city: "Maidwara" },
+                { name: "Parshuram Lachurya", city: "Garautha" },
+                { name: "Tarendra Chhatpuriya", city: "Belatal" },
+                { name: "Abhishek Vaidya", city: "Sujunwa" },
+                { name: "Neelesh Kutraya", city: "Mauaranipur" },
+                { name: "Veeru Bajnawale", city: "Mauaranipur" },
+              ].map((v, i) => (
+                <tr
+                  key={i}
+                  style={{ backgroundColor: i % 2 === 0 ? "#f0f0f0" : "#e0e0e0" }}
+                >
+                  <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>{i + 1}</td>
+                  <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>{v.name}</td>
+                  <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>{v.city}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p>
+            OR you can contact support by emailing <strong>{SUPPORT_EMAIL}</strong>.
+          </p>
+
+          <hr />
+
+          <p>
+            आप अपने क्षेत्र के किसी स्थानीय स्वयंसेवक से संपर्क कर सकते हैं:
+          </p>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              fontSize: "0.9rem",
+            }}
+          >
+            <thead>
+              <tr style={{ backgroundColor: "#c8c8c8" }}>
+                <th style={{ border: "1px solid #aaa", padding: "6px 10px" }}>क्र.</th>
+                <th style={{ border: "1px solid #aaa", padding: "6px 10px" }}>नाम</th>
+                <th style={{ border: "1px solid #aaa", padding: "6px 10px" }}>शहर</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { name: "श्री रोहित आलेकर", city: "टोड़ी फतेहपुर" },
+                { name: "श्री विजय गरौठया", city: "अमरावती" },
+                { name: "श्री रोहित राजपुत", city: "अमरावती" },
+                { name: "श्री सीए निखिल मलैया", city: "अमरावती" },
+                { name: "श्री दुष्यंत जी छीपा", city: "मुम्बई" },
+                { name: "श्री हेमचंद्र जी वैद्य (बाबू)", city: "मुम्बई" },
+                { name: "श्रीमती कल्पना तोमर", city: "नागपुर" },
+                { name: "श्री हेमन्त दुलारया", city: "महोवा" },
+                { name: "श्री आर्यन आलेकर", city: "बाँदा" },
+                { name: "श्री सुनील दुलारया", city: "मैदवारा" },
+                { name: "श्री परशुराम लचुरया", city: "गरौठा" },
+                { name: "श्री तारेन्द्र छतपुरिया", city: "बेलाताल" },
+                { name: "श्री अभिषेक वैद्य", city: "सुजुंवा" },
+                { name: "श्री नीलेश कुटरया", city: "मऊरानीपुर" },
+                { name: "श्री वीरू बजनावाले", city: "मऊरानीपुर" },
+              ].map((v, i) => (
+                <tr
+                  key={i}
+                  style={{ backgroundColor: i % 2 === 0 ? "#f0f0f0" : "#e0e0e0" }}
+                >
+                  <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>{i + 1}</td>
+                  <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>{v.name}</td>
+                  <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>{v.city}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p>
+            या आप सहायता के लिए <strong>{SUPPORT_EMAIL}</strong> पर ईमेल कर सकते हैं।
+          </p>
+        </div>
+      ),
+    },
+    {
       id: "1",
       question: "How to use this application?",
       answer: (
@@ -75,138 +191,216 @@ const HelpPage = () => {
           className="faq-content"
         >
           <p>
-            Access to this application is restricted to members of the Rajput
-            Chhipa Samaj. Please follow the steps below to get online access.
+            <strong>Before you begin</strong>
           </p>
-          <p>
-            <strong>Step 1: Send Email Request</strong>
-          </p>
-          <p>
-            <strong>Option 1: </strong>
-          </p>
-          <p>
-            Send an email to{" "}
-            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
-            to add your family to the system.
-          </p>
-
-          <p>
-            <strong>Family Details:</strong>
-          </p>
+          <p>Check the following before registering:</p>
           <ul>
             <li>
-              (Required) Family Name, Gotra, Head of Family, Family Address,
-              Mobile Number
+              <strong>Your family must be registered in the system.</strong> If
+              your family and members are not yet added, you will not be able to
+              use the App. Contact a volunteer or email{" "}
+              <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> to get
+              your family added.
+            </li>
+            <li>
+              <strong>
+                Your member profile must have the correct WhatsApp mobile
+                number.
+              </strong>
             </li>
           </ul>
 
           <p>
-            <strong>For Each Member:</strong>
+            <strong>Register for Online Access (only once)</strong>
           </p>
-          <ul>
+          <ol>
             <li>
-              (Required) First Name, Gender, Marital Status, Date of Birth
+              Open the Rajput Chhipa App:{" "}
+              <a
+                href="https://www.rajputchhipa.com"
+                style={{ color: "#A42502", textDecoration: "none" }}
+              >
+                www.rajputchhipa.com
+              </a>
             </li>
-            <li>(Optional) Educational Details, Occupation </li>
-            <li>Mobile Number (required for online access)</li>
-            <li>Email ID (If available)</li>
-            <li>Address (If different from family address)</li>
-          </ul>
+            <li>
+              Click the{" "}
+              <a
+                href="/signup"
+                style={{ color: "#A42502", textDecoration: "none" }}
+              >
+                Sign Up
+              </a>{" "}
+              link on the login page.
+            </li>
+            <li>
+              Enter your mobile number and click{" "}
+              <strong>Request Sign Up OTP</strong>.
+            </li>
+            <li>
+              Contact any of the following volunteers on WhatsApp to receive
+              your OTP:
+              <table
+                style={{
+                  margin: "8px 0",
+                  borderCollapse: "collapse",
+                  fontSize: "0.9rem",
+                }}
+              >
+                <thead>
+                  <tr style={{ backgroundColor: "#c8c8c8" }}>
+                    <th style={{ border: "1px solid #aaa", padding: "5px 10px" }}>Volunteer</th>
+                    <th style={{ border: "1px solid #aaa", padding: "5px 10px" }}>WhatsApp / Phone</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style={{ backgroundColor: "#f0f0f0" }}>
+                    <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>Rohit</td>
+                    <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>+91 73963 58265</td>
+                  </tr>
+                  <tr style={{ backgroundColor: "#e0e0e0" }}>
+                    <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>Veeru</td>
+                    <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>+91 83170 59394</td>
+                  </tr>
+                  <tr style={{ backgroundColor: "#f0f0f0" }}>
+                    <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>Vijay</td>
+                    <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>+1 571 484 3763</td>
+                  </tr>
+                </tbody>
+              </table>
+              ⚠️ OTP must be used within <strong>24 hours</strong>.
+            </li>
+            <li>
+              Enter the OTP, choose your password, and click{" "}
+              <strong>Sign Up</strong> to complete registration.
+            </li>
+          </ol>
           <p>
-            ⚠️ Each member must have a unique mobile number. Without a mobile
-            number, the member will not be able to access the application.
+            💡 <strong>Tip:</strong> Registration is done only once. After
+            that, log in anytime using your mobile number and chosen password.
           </p>
 
           <p>
-            <strong>Option 2: </strong>
+            <strong>Login to Rajput Chhipa App</strong>
           </p>
-          <p>
-            You may send an email to{" "}
-            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> the page
-            number from the यथार्थ book where your family is listed. Along with
-            this, please provide the mobile number or email ID for each member
-            to enable online access.
-          </p>
-          <p>
-            <strong>Step 2: Register</strong>
-          </p>
-          <p>
-            After your family is added, use the{" "}
-            <a
-              href="/signup"
-              style={{ color: "#A42502", textDecoration: "none" }}
-            >
-              Sign Up
-            </a>{" "}
-            option to register for online access using your mobile number or
-            email ID.
-          </p>
-          <p>
-            After completing Sign Up, you can log in anytime using your mobile
-            number/email ID and your chosen password.
-          </p>
+          <ol>
+            <li>
+              Open:{" "}
+              <a
+                href="https://www.rajputchhipa.com"
+                style={{ color: "#A42502", textDecoration: "none" }}
+              >
+                www.rajputchhipa.com
+              </a>
+            </li>
+            <li>
+              Enter your mobile number and the password you set during
+              registration, then click <strong>Login</strong>.
+            </li>
+          </ol>
 
           <hr />
+
           <p>
-            <strong>
-              Step 1: अपने परिवार को सिस्टम में जोड़ने के लिए अनुरोध भेजें
-            </strong>
+            <strong>शुरू करने से पहले</strong>
           </p>
-          <p>
-            <strong>Option 1: </strong>
-          </p>
-          <p>
-            ऑनलाइन एक्सेस प्राप्त करने के लिए पहले आपके परिवार का विवरण सिस्टम
-            में जोड़ा जाना आवश्यक है। कृपया नीचे दी गई जानकारी के साथ{" "}
-            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> पर ईमेल
-            भेजें:
-          </p>
-          <p>
-            <strong>परिवार की जानकारी:</strong>
-          </p>
+          <p>Register करने से पहले ये चीज़ें check कर लें:</p>
           <ul>
             <li>
-              परिवार का नाम, गोत्र, परिवार के मुखिया का नाम, परिवार का पता,
-              mobile नंबर
+              <strong>आपकी family system में registered होनी चाहिए।</strong>{" "}
+              अगर आपकी family और family members registered नहीं हैं, तो आप App
+              use नहीं कर पाएंगे। किसी volunteer से या{" "}
+              <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> पर ईमेल
+              करके अपना परिवार जुड़वाएं।
+            </li>
+            <li>
+              <strong>
+                आपकी member profile में सही WhatsApp mobile number होना
+                चाहिए।
+              </strong>
             </li>
           </ul>
+
           <p>
-            <strong>प्रत्येक सदस्य की जानकारी:</strong>
+            <strong>Online Access के लिए Register करें (सिर्फ एक बार)</strong>
           </p>
-          <ul>
-            <li>(अनिवार्य) पहला नाम, लिंग, वैवाहिक स्थिति, जन्म तिथि</li>
-            <li>(optional) शिक्षा, व्यवसाय</li>
-            <li>मोबाइल नंबर (ऑनलाइन एक्सेस के लिए आवश्यक)</li>
-            <li>ईमेल ID (यदि हो)</li>
-            <li>पता (यदि परिवार के पते से अलग हो)</li>
-          </ul>
+          <ol>
+            <li>
+              इस link से Rajput Chhipa App खोलें:{" "}
+              <a
+                href="https://www.rajputchhipa.com"
+                style={{ color: "#A42502", textDecoration: "none" }}
+              >
+                www.rajputchhipa.com
+              </a>
+            </li>
+            <li>Login page पर Sign-up link पर click करें।</li>
+            <li>
+              अपना mobile number डालें और{" "}
+              <strong>Request Sign Up OTP</strong> पर click करें।
+            </li>
+            <li>
+              OTP लेने के लिए नीचे दिए गए किसी भी volunteer से WhatsApp पर
+              contact करें:
+              <table
+                style={{
+                  margin: "8px 0",
+                  borderCollapse: "collapse",
+                  fontSize: "0.9rem",
+                }}
+              >
+                <thead>
+                  <tr style={{ backgroundColor: "#c8c8c8" }}>
+                    <th style={{ border: "1px solid #aaa", padding: "5px 10px" }}>Volunteer</th>
+                    <th style={{ border: "1px solid #aaa", padding: "5px 10px" }}>WhatsApp / Phone</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style={{ backgroundColor: "#f0f0f0" }}>
+                    <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>Rohit</td>
+                    <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>+91 73963 58265</td>
+                  </tr>
+                  <tr style={{ backgroundColor: "#e0e0e0" }}>
+                    <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>Veeru</td>
+                    <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>+91 83170 59394</td>
+                  </tr>
+                  <tr style={{ backgroundColor: "#f0f0f0" }}>
+                    <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>Vijay</td>
+                    <td style={{ border: "1px solid #aaa", padding: "5px 10px" }}>+1 571 484 3763</td>
+                  </tr>
+                </tbody>
+              </table>
+              ⚠️ OTP को <strong>24 घंटे</strong> के अंदर use करना ज़रूरी है।
+            </li>
+            <li>
+              OTP डालें, अपना password चुनें, और registration पूरा करने के
+              लिए <strong>Sign Up</strong> पर click करें।
+            </li>
+          </ol>
           <p>
-            ⚠️ प्रत्येक सदस्य का मोबाइल नंबर अलग-अलग होना आवश्यक है।मोबाइल नंबर
-            दिए बिना सदस्य को application का एक्सेस नहीं मिल सकेगा।
+            💡 <strong>Tip:</strong> Registration सिर्फ एक बार करना होता है।
+            इसके बाद आप अपने mobile number और चुने हुए password से login
+            करेंगे।
           </p>
 
           <p>
-            <strong>Option 2: </strong>
+            <strong>Rajput Chhipa App में Login करें</strong>
           </p>
-          <p>
-            आप <b>यथार्थ</b> पुस्तक में आपके परिवार का जो पेज नंबर है, वह भी{" "}
-            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> email pe भेज
-            सकते हैं। इसके साथ प्रत्येक सदस्य का मोबाइल नंबर या ईमेल आईडी अवश्य
-            दें, ताकि उन्हें ऑनलाइन एक्सेस दिया जा सके।
-          </p>
-          <p>
-            <strong>Step 2: रजिस्टर करें</strong>
-          </p>
-          <p>
-            परिवार जुड़ने के बाद{" "}
-            <a
-              href="/signup"
-              style={{ color: "#A42502", textDecoration: "none" }}
-            >
-              Sign Up
-            </a>{" "}
-            करके रजिस्टर करें।
-          </p>
+          <ol>
+            <li>
+              Rajput Chhipa App खोलें:{" "}
+              <a
+                href="https://www.rajputchhipa.com"
+                style={{ color: "#A42502", textDecoration: "none" }}
+              >
+                www.rajputchhipa.com
+              </a>
+            </li>
+            <li>
+              अपना mobile number और registration के time चुना हुआ password
+              डालें, फिर <strong>Login</strong> पर click करें।
+            </li>
+          </ol>
         </div>
       ),
     },
@@ -533,27 +727,6 @@ const HelpPage = () => {
           <p className="small text-muted">
             If you don't receive the OTP email, check your spam folder or
             contact support.
-          </p>
-        </div>
-      ),
-    },
-    {
-      id: "11",
-      question: "How do I contact support?",
-      answer: (
-        <div
-          style={{
-            backgroundColor: "#E8E8E8",
-            padding: "12px",
-            borderRadius: 6,
-          }}
-        >
-          <p>
-            You can contact support by emailing <strong>{SUPPORT_EMAIL}</strong>
-            .
-          </p>
-          <p className="mb-0">
-            Typical response time: <strong>1-2 business days</strong>.
           </p>
         </div>
       ),

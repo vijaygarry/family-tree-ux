@@ -260,7 +260,7 @@ const SignUp = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Veru Bajnawale (+91 83170 59394)
+                Veeru Bajnawale (+91 83170 59394)
               </a>
               <br />
               <a
