@@ -17,6 +17,7 @@ import ImageUploadCropModal from "../components/ImageUploadCropModal";
 import { SuccessBanner, FailureBanner } from "../components/AlertBanners";
 import { countryOptions, indiaStates } from "../constants/addressOptions";
 import AutoSuggest from "../components/AutoSuggest";
+import { MdVerified } from "react-icons/md";
 
 const MemberProfile = () => {
   const { id } = useParams(); // from route: /member/:id
@@ -632,13 +633,21 @@ const MemberProfile = () => {
                     memberProfile.phone,
                     memberProfile.phoneWhatsappRegistered,
                   )}
+                  {memberProfile.phoneVerified && (
+                    <MdVerified style={{ color: '#a42502' }} className="ms-1" title="Phone verified" />
+                  )}
                 </span>
               </div>
             )}
             {memberProfile.email && (
               <div className="mb-2">
                 <span className="fw-semibold me-2">Email Id :</span>
-                <span className="text-secondary">✉️ {memberProfile.email}</span>
+                <span className="text-secondary">
+                  ✉️ {memberProfile.email}
+                  {memberProfile.emailVerified && (
+                    <MdVerified style={{ color: '#a42502' }} className="ms-1" title="Email verified" />
+                  )}
+                </span>
               </div>
             )}
             {memberProfile.educationDetails && (
