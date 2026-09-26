@@ -234,6 +234,17 @@ const Header = () => {
                       </NavLink>
                     </li>
                   )}
+                  {user?.operationAllowed?.includes("ADD_RELATIONSHIP") && (
+                    <li>
+                      <NavLink
+                        className={() => "dropdown-item"}
+                        to="/addRelationship"
+                        onClick={(e) => { e.stopPropagation(); setAdminOpen(false); }}
+                      >
+                        Add Relationship
+                      </NavLink>
+                    </li>
+                  )}
                 </ul>
               </li>
             )}
@@ -511,6 +522,19 @@ const Header = () => {
                       onClick={() => closeOffcanvas()}
                     >
                       Family Registration Management
+                    </NavLink>
+                  </li>
+                )}
+                {user?.operationAllowed?.includes("ADD_RELATIONSHIP") && (
+                  <li className="nav-item">
+                    <NavLink
+                      to="/addRelationship"
+                      className={({ isActive }) =>
+                        "nav-link" + (isActive ? " active" : "")
+                      }
+                      onClick={() => closeOffcanvas()}
+                    >
+                      Add Relationship
                     </NavLink>
                   </li>
                 )}
