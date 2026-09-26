@@ -2,6 +2,7 @@ import { useState } from "react";
 import api from "../api/axiosInstance";
 import ERROR_MESSAGES from "../constants/messages";
 import { SuccessBanner, FailureBanner } from "../components/AlertBanners";
+import MemberCard from "../components/MemberCard";
 
 const SetHeadOfFamily = () => {
   const [memberIdInput, setMemberIdInput] = useState("");
@@ -146,26 +147,11 @@ const SetHeadOfFamily = () => {
 
       {member && (
         <div className="card mb-4 p-4 bg-body-secondary border-0">
-          <div className="row mb-3">
-            <div className="col-sm-3 mb-2">
-              <span className="fw-semibold me-1">Member ID:</span>
-              <span>{member.memberId}</span>
-            </div>
-            <div className="col-sm-3 mb-2">
-              <span className="fw-semibold me-1">Name:</span>
-              <span>
-                {[member.firstName, member.lastName].filter(Boolean).join(" ")}
-              </span>
-            </div>
-            <div className="col-sm-3 mb-2">
-              <span className="fw-semibold me-1">Family ID:</span>
-              <span>{member.familyId}</span>
-            </div>
-          </div>
+          <MemberCard member={member} />
 
           {submitError && <FailureBanner message={submitError} />}
 
-          <div className="mt-2">
+          <div className="mt-3">
             <button
               className="btn btn-primary fw-bold"
               type="button"

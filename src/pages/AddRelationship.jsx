@@ -2,6 +2,7 @@ import { useState } from "react";
 import api from "../api/axiosInstance";
 import ERROR_MESSAGES from "../constants/messages";
 import { SuccessBanner, FailureBanner } from "../components/AlertBanners";
+import MemberCard from "../components/MemberCard";
 
 const RELATIONSHIP_OPTIONS_MALE = [
   { value: "", label: "Select Relationship" },
@@ -28,26 +29,6 @@ const getRelationshipOptions = (gender) => {
   if (gender === "Female") return RELATIONSHIP_OPTIONS_FEMALE;
   return RELATIONSHIP_OPTIONS_ALL;
 };
-
-const MemberCard = ({ member }) => (
-  <div className="d-flex align-items-center gap-3 mt-3 p-3 bg-white rounded border">
-    {member.profileImage && (
-      <img
-        src={member.profileImage}
-        alt={`${member.firstName} ${member.lastName}`}
-        style={{ width: 48, height: 48, borderRadius: "50%", objectFit: "cover" }}
-      />
-    )}
-    <div>
-      <div className="fw-bold">
-        {member.firstName} {member.lastName}
-      </div>
-      <div className="text-muted small">
-        ID: {member.memberId} &middot; {member.gender || "—"}
-      </div>
-    </div>
-  </div>
-);
 
 const AddRelationship = () => {
   const [memberIdInput, setMemberIdInput] = useState("");
