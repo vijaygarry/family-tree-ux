@@ -472,14 +472,14 @@ const RegisterFamilyRequest = () => {
     );
 
   const renderFamilySummary = () => (
-    <div className="card mb-4 p-3 bg-light">
+    <div className="card mb-4 p-3 bg-light position-relative">
       <h6 className="fw-semibold">Family Details: </h6>
       <div>
         Surname: {familyForm.surname}
-        {familyForm.surnameInHindi && 
+        {familyForm.surnameInHindi &&
           ` (${familyForm.surnameInHindi})`}{" "}
       </div>
-      
+
       {familyForm.gotra && <div>Gotra: {familyForm.gotra}</div>}
       {familyForm.email && <div>Email: {familyForm.email}</div>}
       {familyForm.phone && <div>Phone: {familyForm.phone}</div>}
@@ -489,6 +489,15 @@ const RegisterFamilyRequest = () => {
         {familyForm.familyAddress?.addressLine3 && `, ${familyForm.familyAddress.addressLine3}`}
         {familyForm.familyAddress?.district && `, ${familyForm.familyAddress.district}`}
         , {familyForm.familyAddress?.city}, {familyForm.familyAddress?.state}, {familyForm.familyAddress?.postalCode}, {familyForm.familyAddress?.country}
+      </div>
+      <div className="position-absolute" style={{ top: 8, right: 8 }}>
+        <button
+          type="button"
+          className="btn btn-sm btn-primary fw-bold"
+          onClick={() => setStep("family")}
+        >
+          <i className="bi bi-pencil-square"></i> Edit
+        </button>
       </div>
     </div>
   );
