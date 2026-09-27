@@ -562,6 +562,9 @@ const FamilyDetails = () => {
             </div>
         )}
       </div>
+      <div className="text-end mt-2">
+        <small className="text-muted" style={{ fontSize: "0.7rem" }}>Family ID: {familyDetails.familyId}</small>
+      </div>
     </div>
   );
 };

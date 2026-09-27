@@ -782,6 +782,9 @@ const MemberProfile = () => {
         membersList={memberData?.siblings}
         relationshipHeading="Siblings"
       />
+      <div className="text-end mt-2">
+        <small className="text-muted" style={{ fontSize: "0.7rem" }}>Family ID: {memberProfile.familyId} &nbsp;|&nbsp; Member ID: {memberProfile.memberId}</small>
+      </div>
     </div>
   );
 };
