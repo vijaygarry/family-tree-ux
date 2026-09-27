@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../api/axiosInstance";
 import ERROR_MESSAGES from "../constants/messages";
 import { SuccessBanner, FailureBanner } from "../components/AlertBanners";
@@ -18,9 +18,20 @@ const AddHeadOfFamily = () => {
   const [memberForm, setMemberForm] = useState({});
   const [addError, setAddError] = useState("");
   const [addSuccess, setAddSuccess] = useState("");
+  const [preselected, setPreselected] = useState(false);
 
-  const handleLookup = async () => {
-    if (!familyIdInput) return;
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const idFromUrl = params.get("familyId");
+    if (idFromUrl) {
+      setFamilyIdInput(idFromUrl);
+      setPreselected(true);
+      triggerLookup(idFromUrl);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const triggerLookup = async (id) => {
     setLookupError("");
     setFamilyDetails(null);
     setHasMembers(false);
@@ -29,17 +40,17 @@ const AddHeadOfFamily = () => {
     setLookupLoading(true);
     try {
       const res = await api.post("/family/getfamilydetails", {
-        familyId: parseInt(familyIdInput),
+        familyId: parseInt(id),
       });
       const family = res.data?.familyDetails || res.data;
+      const memberList = res.data?.memberList || [];
       if (!family) {
         setLookupError("Family not found.");
       } else {
         setFamilyDetails(family);
-        const members = family.members || [];
-        setHasMembers(members.length > 0);
-        if (members.length === 0) {
-          setMemberForm({ familyId: parseInt(familyIdInput) });
+        setHasMembers(memberList.length > 0);
+        if (memberList.length === 0) {
+          setMemberForm({ familyId: parseInt(id) });
         }
       }
     } catch (err) {
@@ -51,6 +62,11 @@ const AddHeadOfFamily = () => {
     } finally {
       setLookupLoading(false);
     }
+  };
+
+  const handleLookup = async () => {
+    if (!familyIdInput) return;
+    await triggerLookup(familyIdInput);
   };
 
   const handleFamilyIdKeyDown = (e) => {
@@ -110,6 +126,7 @@ const AddHeadOfFamily = () => {
     setAddSuccess("");
     setAddError("");
     setLookupError("");
+    setPreselected(false);
   };
 
   if (addSuccess) {
@@ -152,19 +169,21 @@ const AddHeadOfFamily = () => {
               type="number"
             />
             {!familyDetails ? (
-              <button
-                type="button"
-                className="btn btn-outline-primary btn-sm"
-                onClick={handleLookup}
-                disabled={lookupLoading || !familyIdInput}
-              >
-                {lookupLoading ? "Looking up..." : "Lookup"}
-              </button>
+              !preselected && (
+                <button
+                  type="button"
+                  className="btn btn-outline-primary btn-sm"
+                  onClick={handleLookup}
+                  disabled={lookupLoading || !familyIdInput}
+                >
+                  {lookupLoading ? "Looking up..." : "Lookup"}
+                </button>
+              )
             ) : (
               <button
                 type="button"
                 className="btn btn-outline-secondary btn-sm"
-                onClick={resetLookup}
+                onClick={() => { setPreselected(false); resetLookup(); }}
               >
                 Change
               </button>
@@ -199,7 +218,7 @@ const AddHeadOfFamily = () => {
         {/* Family already has members */}
         {familyDetails && hasMembers && (
           <div className="alert alert-warning mt-2">
-            This family already has members. Head of family cannot be added here.
+            This family already has a Head Of Family.
           </div>
         )}
 

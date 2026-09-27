@@ -273,6 +273,13 @@ const AddFamily = () => {
             </button>
             <button
               type="button"
+              className="btn btn-success fw-bold me-4"
+              onClick={() => (window.location.href = `/addheadoffamily?familyId=${familyId}`)}
+            >
+              Add Head Of Family
+            </button>
+            <button
+              type="button"
               className="btn btn-outline-primary fw-bold me-2"
               onClick={() => (window.location.href = `/addfamily`)}
             >

@@ -549,16 +549,7 @@ const FamilyDetails = () => {
           />
         ) : (
             <div>
-              <div className="alert alert-danger">Family members not added </div>
-              {family?.familyDetails?.canUpdateFamilyDetails && (
-                <button
-                  className="btn btn-primary"
-                  onClick=""
-                  title="Add Head Of Family"
-                >
-                  Add Head Of Family
-                </button>
-              )}              
+              <div className="alert alert-danger">Family members not added </div>              
             </div>
         )}
       </div>
