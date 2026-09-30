@@ -245,6 +245,17 @@ const Header = () => {
                       </NavLink>
                     </li>
                   )}
+                  {user?.operationAllowed?.includes("REGISTER_MARRIAGE") && (
+                    <li>
+                      <NavLink
+                        className={() => "dropdown-item"}
+                        to="/registerMarriage"
+                        onClick={(e) => { e.stopPropagation(); setAdminOpen(false); }}
+                      >
+                        Register Marriage
+                      </NavLink>
+                    </li>
+                  )}
                 </ul>
               </li>
             )}
@@ -535,6 +546,19 @@ const Header = () => {
                       onClick={() => closeOffcanvas()}
                     >
                       Add Relationship
+                    </NavLink>
+                  </li>
+                )}
+                {user?.operationAllowed?.includes("REGISTER_MARRIAGE") && (
+                  <li className="nav-item">
+                    <NavLink
+                      to="/registerMarriage"
+                      className={({ isActive }) =>
+                        "nav-link" + (isActive ? " active" : "")
+                      }
+                      onClick={() => closeOffcanvas()}
+                    >
+                      Register Marriage
                     </NavLink>
                   </li>
                 )}

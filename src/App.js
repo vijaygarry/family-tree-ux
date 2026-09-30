@@ -27,6 +27,7 @@ import FamiliesByCityPage from "./pages/FamiliesByCityPage";
 import AddHeadOfFamily from "./pages/AddHeadOfFamily";
 import FamilyRegistrationManagement from "./pages/FamilyRegistrationManagement";
 import AddRelationship from "./pages/AddRelationship";
+import RegisterMarriage from "./pages/RegisterMarriage";
 
 //import UserDetails from "./pages/UserDetails";
 
@@ -282,6 +283,16 @@ const App = () => (
         <PrivateRoute>
           <MainLayout>
             <AddRelationship />
+          </MainLayout>
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/registerMarriage"
+      element={
+        <PrivateRoute>
+          <MainLayout>
+            <RegisterMarriage />
           </MainLayout>
         </PrivateRoute>
       }
