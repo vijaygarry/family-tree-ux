@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import api from "../api/axiosInstance";
 import ERROR_MESSAGES from "../constants/messages";
 import { SuccessBanner, FailureBanner } from "../components/AlertBanners";
+import MemberCard from "../components/MemberCard";
 import {
   genderOptions,
   maritalStatusOptions,
@@ -264,25 +265,14 @@ const AddMember = () => {
 
         {/* Step 2: Show member info + relationship dropdown */}
         {relatedMember && (
-          <div className="row mb-3 align-items-center">
-            <div className="col-sm-3">
-              <span className="fw-semibold me-1">First Name:</span>
-              <span>{relatedMember.firstName}</span>
-            </div>
-            <div className="col-sm-3">
-              <span className="fw-semibold me-1">Last Name:</span>
-              <span>{relatedMember.lastName}</span>
-            </div>
-            <div className="col-sm-2">
-              <span className="fw-semibold me-1">Family ID:</span>
-              <span>{relatedMember.familyId}</span>
-            </div>
-            <div className="col-sm-4 d-flex align-items-center gap-2">
+          <div className="mb-3">
+            <MemberCard member={relatedMember} />
+            <div className="d-flex align-items-center gap-2 mt-3">
               <span className="fw-semibold text-nowrap">Relationship:</span>
               <select
                 value={selectedRelationship}
                 onChange={handleRelationshipChange}
-                className="form-select"
+                className="form-select w-auto"
               >
                 {availableRelationships.map((opt) => (
                   <option key={opt.value} value={opt.value}>
