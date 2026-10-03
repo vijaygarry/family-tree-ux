@@ -274,10 +274,10 @@ const RegisterFamilyRequest = () => {
       // Server should return surname and familyRegistrationId on success.
       if (response.data) {
         const surname = response.data.surname || familyForm.surname;
-        const familyRegistrationId =
-          response.data.familyRegistrationId;
+        const familyRegistrationId = response.data.familyRegistrationId;
+        const familyId = response.data.familyId || null;
         if (surname && familyRegistrationId) {
-          setSubmissionDetails({ surname, familyRegistrationId });
+          setSubmissionDetails({ surname, familyRegistrationId, familyId });
         } else if (response.data.operationMessage) {
           setSubmitSuccess(response.data.operationMessage);
         } else {
@@ -784,6 +784,16 @@ const RegisterFamilyRequest = () => {
               </div>
             </div>
           </div>
+          {submissionDetails.familyId && (
+            <div className="mt-3">
+              <button
+                className="btn btn-primary me-2"
+                onClick={() => (window.location.href = `/family/${submissionDetails.familyId}`)}
+              >
+                View {submissionDetails.surname} Family
+              </button>
+            </div>
+          )}
           <p className="mt-4 text-muted">
             Our admin team will review your request and add your family details to the application within the next couple of days.
           </p>
@@ -812,7 +822,7 @@ const RegisterFamilyRequest = () => {
               {m.phoneNumber && <div>Phone: {m.phoneNumber}</div>}
               {!m.headOfFamily && m.relationship && (
                 <div>
-                  Relationship: {m.relationship.relationshipType} to {members[m.relationship.memberIndex]?.firstName || "Unknown"}
+                  Relationship: {m.relationship.relationshipType} to {m.relationship.memberName || members[m.relationship.memberIndex]?.firstName || "Unknown"}
                 </div>
               )}
               <div>Gender: {m.gender}</div>

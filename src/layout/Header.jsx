@@ -169,15 +169,26 @@ const Header = () => {
                   style={{ display: adminOpen ? "block" : "none" }}
                 >
                   {user?.operationAllowed?.includes("ADD_FAMILY") && (
-                    <li>
-                      <NavLink
-                        className={() => "dropdown-item"}
-                        to="/addfamily"
-                        onClick={(e) => { e.stopPropagation(); setAdminOpen(false); }}
-                      >
-                        Add Family
-                      </NavLink>
-                    </li>
+                    <>
+                      <li>
+                        <NavLink
+                          className={() => "dropdown-item"}
+                          to="/addfamily"
+                          onClick={(e) => { e.stopPropagation(); setAdminOpen(false); }}
+                        >
+                          Add Family
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          className={() => "dropdown-item"}
+                          to="/registerFamily"
+                          onClick={(e) => { e.stopPropagation(); setAdminOpen(false); }}
+                        >
+                          Register Family
+                        </NavLink>
+                      </li>
+                    </>
                   )}
                   {user?.operationAllowed?.includes("ADD_MEMBER_TO_ANY_FAMILY") && (
                     <li>
@@ -459,17 +470,30 @@ const Header = () => {
                   </NavLink>
                 </li>
                 {user?.operationAllowed?.includes("ADD_FAMILY") && (
-                  <li className="nav-item">
-                    <NavLink
-                      to="/addfamily"
-                      className={({ isActive }) =>
-                        "nav-link" + (isActive ? " active" : "")
-                      }
-                      onClick={() => closeOffcanvas()}
-                    >
-                      Add Family
-                    </NavLink>
-                  </li>
+                  <>
+                    <li className="nav-item">
+                      <NavLink
+                        to="/addfamily"
+                        className={({ isActive }) =>
+                          "nav-link" + (isActive ? " active" : "")
+                        }
+                        onClick={() => closeOffcanvas()}
+                      >
+                        Add Family
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink
+                        to="/registerFamily"
+                        className={({ isActive }) =>
+                          "nav-link" + (isActive ? " active" : "")
+                        }
+                        onClick={() => closeOffcanvas()}
+                      >
+                        Register Family
+                      </NavLink>
+                    </li>
+                  </>
                 )}
                 {user?.operationAllowed?.includes("ADD_MEMBER_TO_ANY_FAMILY") && (
                   <li className="nav-item">

@@ -51,6 +51,16 @@ const App = () => (
       }
     />
     <Route
+      path="/registerFamily"
+      element={
+        <PrivateRoute>
+          <MainLayout>
+            <RegisterFamilyRequest />
+          </MainLayout>
+        </PrivateRoute>
+      }
+    />
+    <Route
       path="/forgotpassword"
       element={
         <LoginLayout>
