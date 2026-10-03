@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "../api/axiosInstance";
 import ERROR_MESSAGES from "../constants/messages";
 import { formatISODateToddMMMyyyy } from "../utils/formatUtils";
@@ -13,13 +13,14 @@ const PAGE_SIZE = 25;
 
 const MemberSearch = () => {
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [form, setForm] = useState({
-        searchString: "",
-        gender: "",
-        maritalStatus: "",
-        ageFrom: "",
-        ageTo: "",
+        searchString: searchParams.get("searchString") || "",
+        gender: searchParams.get("gender") || "",
+        maritalStatus: searchParams.get("maritalStatus") || "",
+        ageFrom: searchParams.get("ageFrom") || "",
+        ageTo: searchParams.get("ageTo") || "",
     });
 
     //const [members, setMembers] = useState([]);
@@ -43,11 +44,26 @@ const MemberSearch = () => {
         return Number.isNaN(n) ? null : n;
     };
 
+    useEffect(() => {
+        if (searchParams.toString()) {
+            handleSearch();
+        }
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
     const handleSearch = async (e) => {
         e?.preventDefault();
         setError(null);
         setLoading(true);
         setHasSearched(false);
+
+        const params = {};
+        if (form.searchString) params.searchString = form.searchString;
+        if (form.gender) params.gender = form.gender;
+        if (form.maritalStatus) params.maritalStatus = form.maritalStatus;
+        if (form.ageFrom) params.ageFrom = form.ageFrom;
+        if (form.ageTo) params.ageTo = form.ageTo;
+        setSearchParams(params, { replace: true });
+
         try {
             const body = {
                 searchString: form.searchString || "",

@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import api from "../api/axiosInstance";
 import AnimatedCounter from "./AnimatedCounter";
+
+const STAT_LINKS = {
+  single_boys: "/searchMember?gender=Male&maritalStatus=Single&ageFrom=21",
+  single_girls: "/searchMember?gender=Female&maritalStatus=Single&ageFrom=21",
+};
 
 export default function StatsCounterSection() {
   const [stats, setStats] = useState([]);
@@ -51,31 +57,42 @@ export default function StatsCounterSection() {
         padding: "24px",
       }}
     >
-      {stats.map((s, i) => (
-        <div
-          key={s.key || i}
-          style={{
-            padding: "16px",
-            borderRadius: "16px",
-            boxShadow: "0 6px 20px rgba(0,0,0,0.08)",
-            background: "#fff",
-          }}
-        >
-          <div style={{ fontSize: 40, fontWeight: 800, color: "#A42502" }}>
-            <AnimatedCounter
-              target={s.value}
-              duration={1500}
-              startOnView={true}
-              once={true}
-              suffix=""
-              decimals={0}
-            />
+      {stats.map((s, i) => {
+        const link = STAT_LINKS[s.key];
+        const card = (
+          <div
+            style={{
+              padding: "16px",
+              borderRadius: "16px",
+              boxShadow: "0 6px 20px rgba(0,0,0,0.08)",
+              background: "#fff",
+              cursor: link ? "pointer" : "default",
+            }}
+          >
+            <div style={{ fontSize: 40, fontWeight: 800, color: "#A42502" }}>
+              <AnimatedCounter
+                target={s.value}
+                duration={1500}
+                startOnView={true}
+                once={true}
+                suffix=""
+                decimals={0}
+              />
+            </div>
+            <div style={{ marginTop: 8, color: link ? "#A42502" : "#000", fontWeight: 600 }}>
+              {s.label}
+            </div>
           </div>
-          <div style={{ marginTop: 8, color: "#000", fontWeight: 600 }}>
-            {s.label}
-          </div>
-        </div>
-      ))}
+        );
+
+        return link ? (
+          <Link key={s.key || i} to={link} style={{ textDecoration: "none" }}>
+            {card}
+          </Link>
+        ) : (
+          <div key={s.key || i}>{card}</div>
+        );
+      })}
     </div>
   );
 }
