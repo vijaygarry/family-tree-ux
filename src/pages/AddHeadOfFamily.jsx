@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api/axiosInstance";
 import ERROR_MESSAGES from "../constants/messages";
 import { SuccessBanner, FailureBanner } from "../components/AlertBanners";
@@ -10,6 +11,7 @@ import {
 } from "../constants/DropdownConstants";
 
 const AddHeadOfFamily = () => {
+  const navigate = useNavigate();
   const [familyIdInput, setFamilyIdInput] = useState("");
   const [familyDetails, setFamilyDetails] = useState(null);
   const [hasMembers, setHasMembers] = useState(false);
@@ -18,6 +20,7 @@ const AddHeadOfFamily = () => {
   const [memberForm, setMemberForm] = useState({});
   const [addError, setAddError] = useState("");
   const [addSuccess, setAddSuccess] = useState("");
+  const [newMemberId, setNewMemberId] = useState(null);
   const [preselected, setPreselected] = useState(false);
 
   useEffect(() => {
@@ -111,6 +114,7 @@ const AddHeadOfFamily = () => {
       const { relationship, ...formWithoutRelationship } = memberForm;
       const payload = { ...formWithoutRelationship, headOfFamily: true, addressSameAsFamily: true };
       const response = await api.post("/family/addFamilyMember", payload);
+      setNewMemberId(response?.data?.memberId || null);
       setMemberForm({});
       setAddSuccess(response?.data?.operationMessage || "Head of family added successfully.");
     } catch (err) {
@@ -126,6 +130,7 @@ const AddHeadOfFamily = () => {
     setAddSuccess("");
     setAddError("");
     setLookupError("");
+    setNewMemberId(null);
     setPreselected(false);
   };
 
@@ -133,7 +138,16 @@ const AddHeadOfFamily = () => {
     return (
       <div className="container p-4 bg-white rounded mt-4">
         <SuccessBanner message={addSuccess} />
-        <div className="mt-3">
+        <div className="d-flex gap-2 mt-3">
+          {newMemberId && (
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => navigate(`/addMember?memberId=${newMemberId}`)}
+            >
+              Add more member to same family
+            </button>
+          )}
           <button
             type="button"
             className="btn btn-outline-primary"

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../api/axiosInstance";
 import ERROR_MESSAGES from "../constants/messages";
 import { SuccessBanner, FailureBanner } from "../components/AlertBanners";
@@ -46,9 +46,20 @@ const AddMember = () => {
   const [memberForm, setMemberForm] = useState({});
   const [addError, setAddError] = useState("");
   const [addSuccess, setAddSuccess] = useState("");
+  const [preselected, setPreselected] = useState(false);
 
-  const handleLookup = async () => {
-    if (!memberIdInput) return;
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const idFromUrl = params.get("memberId");
+    if (idFromUrl) {
+      setMemberIdInput(idFromUrl);
+      setPreselected(true);
+      triggerLookup(idFromUrl);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const triggerLookup = async (id) => {
     setLookupError("");
     setRelatedMember(null);
     setSelectedRelationship("");
@@ -57,7 +68,7 @@ const AddMember = () => {
     setLookupLoading(true);
     try {
       const res = await api.post("/family/getmemberprofile", {
-        memberId: parseInt(memberIdInput),
+        memberId: parseInt(id),
       });
       const profile = res.data?.memberProfile;
       if (!profile) {
@@ -74,6 +85,11 @@ const AddMember = () => {
     } finally {
       setLookupLoading(false);
     }
+  };
+
+  const handleLookup = async () => {
+    if (!memberIdInput) return;
+    await triggerLookup(memberIdInput);
   };
 
   const handleMemberIdKeyDown = (e) => {
@@ -172,6 +188,7 @@ const AddMember = () => {
     setAddSuccess("");
     setAddError("");
     setLookupError("");
+    setPreselected(false);
   };
 
   if (addSuccess) {
@@ -221,19 +238,21 @@ const AddMember = () => {
               type="number"
             />
             {!relatedMember ? (
-              <button
-                type="button"
-                className="btn btn-outline-primary btn-sm"
-                onClick={handleLookup}
-                disabled={lookupLoading || !memberIdInput}
-              >
-                {lookupLoading ? "Looking up..." : "Find Member"}
-              </button>
+              !preselected && (
+                <button
+                  type="button"
+                  className="btn btn-outline-primary btn-sm"
+                  onClick={handleLookup}
+                  disabled={lookupLoading || !memberIdInput}
+                >
+                  {lookupLoading ? "Looking up..." : "Find Member"}
+                </button>
+              )
             ) : (
               <button
                 type="button"
                 className="btn btn-outline-secondary btn-sm"
-                onClick={resetLookup}
+                onClick={() => { setPreselected(false); resetLookup(); }}
               >
                 Change
               </button>
