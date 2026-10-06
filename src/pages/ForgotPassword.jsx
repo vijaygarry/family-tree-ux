@@ -165,20 +165,29 @@ const ForgotPassword = () => {
         ) : (
             <small>To get your OTP, send the following message through WhatsApp to <br />
               <a
-                href="https://wa.me/15714843763?text=Rajput%20Chhipa%20App%20Admin,%20please%20send%20my%20Forget%20Password%20OTP."
+                href="https://wa.me/917396358265?text=Rajput%20Chhipa%20App%20Admin,%20please%20send%20my%20Forget%20Password%20OTP."
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Vijay (+1 571-484-3763)
+                Rohit Rajput (+91 73963 58265)
               </a>
               <br />
 
               <a
-                href="https://wa.me/919545727818?text=Rajput%20Chhipa%20App%20Admin,%20please%20send%20my%20Forget%20Password%20OTP."
+                href="https://wa.me/918317059394?text=Rajput%20Chhipa%20App%20Admin,%20please%20send%20my%20Forget%20Password%20OTP."
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Nikhil (+91 954-572-7818)
+                Veeru Bajnawale (+91 83170 59394)
+              </a>
+              <br />
+
+              <a
+                href="https://wa.me/15714843763?text=Rajput%20Chhipa%20App%20Admin,%20please%20send%20my%20Forget%20Password%20OTP."
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Vijay Garothaya (+1 571-484-3763)
               </a>
               <br /><br />
               "<i>Rajput Chhipa App Admin, please send my Forget Password OTP.</i>" <br /><br />

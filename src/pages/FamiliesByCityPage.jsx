@@ -67,22 +67,37 @@ const FamiliesByCityPage = () => {
     );
   };
 
-  const sortedCityStats = [...cityStats].sort((a, b) => {
-    if (!sortConfig.key) return 0;
-    let aVal, bVal;
-    if (sortConfig.key === "city") {
-      aVal = `${a.cityName} ${a.stateName} ${a.country || ""}`.toLowerCase();
-      bVal = `${b.cityName} ${b.stateName} ${b.country || ""}`.toLowerCase();
-    } else if (sortConfig.key === "families") {
-      aVal = a.familyCount;
-      bVal = b.familyCount;
-    } else {
-      aVal = a.memberCount ?? 0;
-      bVal = b.memberCount ?? 0;
+  const groupedByState = cityStats.reduce((acc, city) => {
+    const key = `${city.stateName || ""}||${city.country || ""}`;
+    if (!acc[key]) {
+      acc[key] = { stateKey: key, stateName: city.stateName || "", country: city.country || "", totalFamilies: 0, totalMembers: 0, cities: [] };
     }
+    acc[key].cities.push(city);
+    acc[key].totalFamilies += city.familyCount;
+    acc[key].totalMembers += city.memberCount ?? 0;
+    return acc;
+  }, {});
+
+  const compareVals = (aVal, bVal) => {
     if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1;
     if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1;
     return 0;
+  };
+
+  const sortCities = (cities) => [...cities].sort((a, b) => {
+    if (!sortConfig.key || sortConfig.key === "state") return (a.cityName || "").toLowerCase().localeCompare((b.cityName || "").toLowerCase());
+    if (sortConfig.key === "city") return compareVals((a.cityName || "").toLowerCase(), (b.cityName || "").toLowerCase());
+    if (sortConfig.key === "families") return compareVals(a.familyCount, b.familyCount);
+    return compareVals(a.memberCount ?? 0, b.memberCount ?? 0);
+  });
+
+  const sortedGroups = Object.values(groupedByState).sort((a, b) => {
+    const stateA = `${a.stateName} ${a.country}`.toLowerCase();
+    const stateB = `${b.stateName} ${b.country}`.toLowerCase();
+    if (!sortConfig.key || sortConfig.key === "city") return stateA < stateB ? -1 : stateA > stateB ? 1 : 0;
+    if (sortConfig.key === "state") return compareVals(stateA, stateB);
+    if (sortConfig.key === "families") return compareVals(a.totalFamilies, b.totalFamilies);
+    return compareVals(a.totalMembers, b.totalMembers);
   });
 
   const SortIcon = ({ colKey }) => {
@@ -178,23 +193,39 @@ const FamiliesByCityPage = () => {
             </tr>
           </thead>
           <tbody>
-            {sortedCityStats.map((city, index) => (
-              <tr
-                key={city.cityName + index}
-                style={{ cursor: "pointer" }}
-                className={
-                  selectedCity?.cityName === city.cityName &&
-                  selectedCity?.stateName === city.stateName &&
-                  selectedCity?.country === city.country
-                    ? "table-active"
-                    : ""
-                }
-                onClick={() => handleCityClick(city)}
-              >
-                <td>{city.cityName}, {city.stateName}, {city.country || ""}</td>
-                <td>{city.familyCount}</td>
-                <td>{city.memberCount ?? 0}</td>
-              </tr>
+            {sortedGroups.map((group) => (
+              <React.Fragment key={group.stateKey}>
+                <tr style={{ background: "#A42502", userSelect: "none" }}>
+                  <td style={{ fontWeight: 700, color: "#A42502" }}>
+                    {group.stateName || "Unknown State"}
+                    {group.country && (
+                      <span style={{ fontSize: "13px", fontWeight: 400, marginLeft: "8px" }}>
+                        {group.country}
+                      </span>
+                    )}
+                  </td>
+                  <td style={{ fontWeight: 600 }}>{group.totalFamilies}</td>
+                  <td style={{ fontWeight: 600 }}>{group.totalMembers}</td>
+                </tr>
+                {sortCities(group.cities).map((city, index) => (
+                  <tr
+                    key={city.cityName + index}
+                    style={{ cursor: "pointer" }}
+                    className={
+                      selectedCity?.cityName === city.cityName &&
+                      selectedCity?.stateName === city.stateName &&
+                      selectedCity?.country === city.country
+                        ? "table-active"
+                        : ""
+                    }
+                    onClick={() => handleCityClick(city)}
+                  >
+                    <td style={{ paddingLeft: "24px" }}>{city.cityName}</td>
+                    <td>{city.familyCount}</td>
+                    <td>{city.memberCount ?? 0}</td>
+                  </tr>
+                ))}
+              </React.Fragment>
             ))}
           </tbody>
         </table>

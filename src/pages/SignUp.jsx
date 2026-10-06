@@ -268,7 +268,7 @@ const SignUp = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Vijay (+1 571-484-3763)
+                Vijay Garothaya (+1 571-484-3763)
               </a>
               <br />
               <br /><br />
